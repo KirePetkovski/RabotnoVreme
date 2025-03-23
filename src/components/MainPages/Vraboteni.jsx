@@ -116,7 +116,7 @@ const Vraboteni = () => {
         </tbody>
       </table>
 
-      {/* Modal */}
+      {/* Modal - Tuka fali religija i sektorite treba da mi bidat ponudeni*/}
       {showModal && (
         <div className="modal-overlay">
           <div className="modal-content">

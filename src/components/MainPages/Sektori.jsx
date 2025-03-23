@@ -47,7 +47,7 @@ const Sektor = () => {
           </tr>
         </tbody>
       </table>
-
+{/* Vidi go css i proveri kako da se stavi vi poseben folder */}
       {isModalOpen && (
         <div className="modal-overlay">
           <div className="modal-content">
@@ -58,11 +58,6 @@ const Sektor = () => {
                 placeholder="Име на сектор"
                 required
               />
-              <input
-                type="number"
-                placeholder="Број на вработени"
-                required
-              />
               <textarea
                 placeholder="Опис на сектор"
                 rows="3"
@@ -70,14 +65,14 @@ const Sektor = () => {
               <div className="modal-buttons">
                 <button
                   type="button"
-                  className="add-employee-btn"
+                  className="btn-add"
                   onClick={closeModal}
                 >
                   Зачувај
                 </button>
                 <button
                   type="button"
-                  className="cancel-btn"
+                  className="btn-delete"
                   onClick={closeModal}
                 >
                   Откажи

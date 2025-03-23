@@ -1,13 +1,33 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
+import "./MainPages.css";
 
-const kontroleri = () => {
-    return (
-      <div>
-      <h2>Kontroleri</h2> 
-      <i>Pregled na dostapni kontroleri</i>
-      {/* MOZE I DA JA TRGNAM OVAA STRANA  */}
+const Kontroleri = () => {
+
+  return (
+    <div>
+      <div className="header">
+        <h2>Контролери</h2>
+        <button className="btn-add">
+          Додај контролер
+        </button>
+      </div>
+
+      <table className="main-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>IP Адреса</th>
+            <th>Активен</th>
+            <th>Овозможен</th>
+            <th>Избриши</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+        </tbody>
+      </table>
     </div>
-    );
-  };
-  
-  export default kontroleri;
+  );
+};
+
+export default Kontroleri;

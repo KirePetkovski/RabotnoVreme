@@ -4,7 +4,7 @@ import SidebarMenu from '../SideComponents/SidebarMenu';
 
 const HomePage = () => {
   return (
-    <div className="app-container">
+    <div>
       <p>HOME PAGE</p>
     </div>
   );
