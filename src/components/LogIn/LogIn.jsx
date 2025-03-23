@@ -48,7 +48,6 @@ const Login = () => {
         <button type="submit" className="login-button">Log In</button>
       </form>
       {errorMessage && <p className="error-message">{errorMessage}</p>}
-      <p className="small-text">Don't have an account? Contact your admin.</p>
     </div>
   );
 };

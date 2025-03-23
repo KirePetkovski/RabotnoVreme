@@ -1,5 +1,4 @@
-import { BrowserRouter as Routes, Route } from "react-router-dom";
-import { HashRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./components/LogIn/Login";
 import HomePage from "./components/SideComponents/home";
 import SidebarMenu from "./components/SideComponents/SidebarMenu";
