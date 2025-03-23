@@ -8,28 +8,28 @@ const SidebarMenu = () => {
         <a href="/RabotnoVreme/#/prisustva">
             <li>Присуства</li>
         </a> 
-        <a href="/RabotnoVreme/vraboteni">
+        <a href="/RabotnoVreme/#/vraboteni">
             <li>Вработени</li>
         </a>
-        <a href="/#/sektori">
+        <a href="/RabotnoVreme/#/sektori">
             <li>Сектори</li>
         </a>
-        <a href="/RabotnoVreme/izveshtai">
+        <a href="/RabotnoVreme/#/izveshtai">
             <li>Извештај</li>
         </a>
-        <a href="/RabotnoVreme/raspored">
+        <a href="/RabotnoVreme/#/raspored">
             <li>Распоред</li>
         </a>
-        <a href="/RabotnoVreme/kalendar">
+        <a href="/RabotnoVreme/#/kalendar">
             <li>Календар</li>
         </a>
-        <a href="/RabotnoVreme/otsustva">
+        <a href="/RabotnoVreme/#/otsustva">
             <li>Додади отсутство</li>
         </a>
-        <a href="/RabotnoVreme/kontroleri">
+        <a href="/RabotnoVreme/#/kontroleri">
             <li>Контролери</li>
         </a>
-        <a href="/RabotnoVreme/korisnici">
+        <a href="/RabotnoVreme/#/korisnici">
             <li>Корисници</li>
         </a>
       </ul>

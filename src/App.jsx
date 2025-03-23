@@ -14,11 +14,11 @@ import Korisnici from "./components/MainPages/Korisnici";
 
 function App() {
   return (
-    <Router>
+    <HashRouter>
       <Routes>
         <Route path="/" element={<Login />} />
         <Route
-          path="/#/home"
+          path="/home"
           element={
             <div className="app-container">
               <SidebarMenu />
@@ -29,7 +29,7 @@ function App() {
           }
         />
         <Route
-          path="/RabotnoVreme/#/prisustva"
+          path="/prisustva"
           element={
             <div className="app-container">
               <SidebarMenu />
@@ -40,7 +40,7 @@ function App() {
           }
         />
         <Route
-          path="/RabotnoVreme/vraboteni"
+          path="/vraboteni"
           element={
             <div className="app-container">
               <SidebarMenu />
@@ -51,7 +51,7 @@ function App() {
           }
         />
         <Route
-          path="/#/sektori"
+          path="/sektori"
           element={
             <div className="app-container">
               <SidebarMenu />
@@ -128,7 +128,7 @@ function App() {
           }
         />
       </Routes>
-    </Router>
+    </HashRouter>
   );
 }
 
