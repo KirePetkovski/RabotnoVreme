@@ -14,7 +14,7 @@ import Korisnici from "./components/MainPages/Korisnici";
 
 function App() {
   return (
-    <Router basename="/RabotnoVreme">
+    <BrowserRouter basename="/RabotnoVreme">
       <Routes>
         <Route path="/" element={<Login />} />
         <Route
@@ -128,7 +128,7 @@ function App() {
           }
         />
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 }
 
