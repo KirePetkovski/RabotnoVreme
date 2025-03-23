@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Routes, Route } from "react-router-dom";
 import { HashRouter as Router } from "react-router-dom";
 import Login from "./components/LogIn/Login";
 import HomePage from "./components/SideComponents/home";
@@ -15,7 +15,7 @@ import Korisnici from "./components/MainPages/Korisnici";
 
 function App() {
   return (
-    <BrowserRouter basename="/RabotnoVreme">
+    <Router basename="/RabotnoVreme">
       <Routes>
         <Route path="/" element={<Login />} />
         <Route
@@ -129,7 +129,7 @@ function App() {
           }
         />
       </Routes>
-    </BrowserRouter>
+    </Router>
   );
 }
 
