@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./components/LogIn/Login";
 import HomePage from "./components/SideComponents/home";
 import SidebarMenu from "./components/SideComponents/SidebarMenu";
@@ -14,11 +14,11 @@ import Korisnici from "./components/MainPages/Korisnici";
 
 function App() {
   return (
-    <Router basename="/RabotnoVreme">
+    <Router>
       <Routes>
         <Route path="/" element={<Login />} />
         <Route
-          path="/home"
+          path="/#/home"
           element={
             <div className="app-container">
               <SidebarMenu />
@@ -29,7 +29,7 @@ function App() {
           }
         />
         <Route
-          path="/prisustva"
+          path="/RabotnoVreme/#/prisustva"
           element={
             <div className="app-container">
               <SidebarMenu />
@@ -40,7 +40,7 @@ function App() {
           }
         />
         <Route
-          path="/vraboteni"
+          path="/RabotnoVreme/vraboteni"
           element={
             <div className="app-container">
               <SidebarMenu />
@@ -51,7 +51,7 @@ function App() {
           }
         />
         <Route
-          path="/sektori"
+          path="/#/sektori"
           element={
             <div className="app-container">
               <SidebarMenu />

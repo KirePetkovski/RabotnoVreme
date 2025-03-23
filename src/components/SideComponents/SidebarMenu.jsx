@@ -5,13 +5,13 @@ const SidebarMenu = () => {
   return (
     <div className="sidebar-menu">
       <ul>
-        <a href="/RabotnoVreme/prisustva">
+        <a href="/RabotnoVreme/#/prisustva">
             <li>Присуства</li>
         </a> 
         <a href="/RabotnoVreme/vraboteni">
             <li>Вработени</li>
         </a>
-        <a href="/RabotnoVreme/sektori">
+        <a href="/#/sektori">
             <li>Сектори</li>
         </a>
         <a href="/RabotnoVreme/izveshtai">
