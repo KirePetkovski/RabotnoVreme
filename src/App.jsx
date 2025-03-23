@@ -14,7 +14,7 @@ import Korisnici from "./components/MainPages/Korisnici";
 
 function App() {
   return (
-    <HashRouter>
+    <Router>
       <Routes>
         <Route path="/" element={<Login />} />
         <Route
@@ -128,7 +128,7 @@ function App() {
           }
         />
       </Routes>
-    </HashRouter>
+    </Router>
   );
 }
 
