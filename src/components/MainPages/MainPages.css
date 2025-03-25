@@ -222,3 +222,74 @@ h1, h2, h3, p {
     margin-right:15px;
   }
   
+
+  /* Filters Section */
+.filters-form {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.filter-group label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #000000;
+}
+
+.filter-group input,
+.filter-group select {
+  padding: 8px;
+  border: 1px solid #020202;
+  border-radius: 4px;
+}
+
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.checkbox-group input {
+  margin-right: 10px;
+}
+
+.apply-filters-btn:hover {
+  background-color: #0056b3;
+}
+.same-line{
+  display: inline-block;
+}
+.same-line input{
+  margin-right: 30px;
+}
+.report-type-multi {
+  display: flex;
+  flex-direction: column; 
+  gap: 8px; 
+  margin-top: 8px;
+}
+
+.report-type-multi label {
+  display: flex;
+  align-items: center; 
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.report-type-multi input[type="checkbox"] {
+  margin-right: 8px; 
+  transform: scale(1.2); 
+}
+
+.testCalendar{
+  color: black;
+}

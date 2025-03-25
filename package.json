@@ -1,5 +1,5 @@
 {
-  "homepage": "https://KirePetkovski.github.io/",  
+  "homepage": "https://KirePetkovski.github.io/",
   "name": "rabotnovreme",
   "private": true,
   "version": "0.0.0",
@@ -13,6 +13,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "date-fns": "^4.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.4.0"
