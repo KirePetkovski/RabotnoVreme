@@ -1,13 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
+import OsustvaModal from '../Modals/OsustvoModal';
 
 const osustva = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    
+      const openModal = () => {
+        setIsModalOpen(true);
+      };
   return (
     <div>
       <div>
         <div className="header">
           <h2>Осуства</h2>
           <p><i>Прифати и одби го гледа администратор. Копчето Побарај осуство го гледа вработениот</i></p>
-          <button className="btn-add">
+          <button className="btn-add" onClick={openModal}>
             Побарај осуство
           </button>
         </div>
@@ -30,6 +36,7 @@ const osustva = () => {
 
           </tbody>
         </table>
+        <OsustvaModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-h1, h2, h3, p {
+h1, h2, h3, p, label {
     color: black; 
   }
   /* Naslov na strana */
@@ -206,6 +206,7 @@ h1, h2, h3, p {
   }
 
   .modal-content form input,
+  .modal-content select,
   .modal-content textarea {
     display: block;
     width: 280px; 

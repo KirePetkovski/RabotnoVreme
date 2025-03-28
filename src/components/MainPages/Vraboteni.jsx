@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./MainPages.css"; 
+import VraboteniModal from "../Modals/VrabotenModal";
 
 const Vraboteni = () => {
   const [employees, setEmployees] = useState([
@@ -15,7 +16,7 @@ const Vraboteni = () => {
     },
   ]);
 
-  const [showModal, setShowModal] = useState(false);
+  
   const [newEmployee, setNewEmployee] = useState({
     name: "",
     nationality: "",
@@ -25,9 +26,6 @@ const Vraboteni = () => {
     cardNumber: "",
   });
 
-  const handleAddEmployeeClick = () => {
-    setShowModal(true);
-  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -50,15 +48,18 @@ const Vraboteni = () => {
     });
   };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
+  const [isModalOpen, setIsModalOpen] = useState(false);
+    
+      const openModal = () => {
+        setIsModalOpen(true);
+      };
+    
 
   return (
     <div className="vraboteni-page">
       <div className="header">
         <h2>Сите вработени</h2>
-        <button className="btn-add" onClick={handleAddEmployeeClick}>
+        <button className="btn-add" onClick={openModal}>
           Додај вработен
         </button>
       </div>
@@ -116,68 +117,7 @@ const Vraboteni = () => {
         </tbody>
       </table>
 
-      {/* Modal - Tuka fali religija i sektorite treba da mi bidat ponudeni*/}
-      {showModal && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h3>Додај Нов Вработен</h3>
-            <form onSubmit={handleFormSubmit}>
-              <input
-                type="text"
-                name="name"
-                placeholder="Име и Презиме"
-                value={newEmployee.name}
-                onChange={handleInputChange}
-                required
-              />
-              <input
-                type="text"
-                name="nacionality"
-                placeholder="Националност"
-                value={newEmployee.nacionality}
-                onChange={handleInputChange}
-                required
-              />
-              <input
-                type="text"
-                name="department"
-                placeholder="Сектор"
-                value={newEmployee.department}
-                onChange={handleInputChange}
-                required
-              />
-              <input
-                type="text"
-                name="schedule"
-                placeholder="Распоред"
-                value={newEmployee.schedule}
-                onChange={handleInputChange}
-                required
-              />
-              <input
-                type="text"
-                name="cardNumber"
-                placeholder="Број на карта"
-                value={newEmployee.cardNumber}
-                onChange={handleInputChange}
-                required
-              />
-              <div className="modal-buttons">
-                <button type="submit" className="add-employee-btn">
-                  Зачувај
-                </button>
-                <button
-                  type="button"
-                  className="cancel-btn"
-                  onClick={handleCloseModal}
-                >
-                  Откажи
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+      <VraboteniModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 };

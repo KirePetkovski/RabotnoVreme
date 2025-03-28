@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from "react";
-import "./MainPages.css"; // Ensure consistent styling
+import "./MainPages.css"
+import KorisniciModal from "../Modals/KorisniciModal";
 
 const Korisnici = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  
+    const openModal = () => {
+      setIsModalOpen(true);
+    };
+  
 
   return (
     <div>
       <div className="header">
         <h2>Корисници</h2>
-        <button className="btn-add">
+        <button className="btn-add"  onClick={openModal}>
           Додај корисник
         </button>
       </div>
@@ -25,7 +32,7 @@ const Korisnici = () => {
           
         </tbody>
       </table>
-
+      <KorisniciModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}/>
     </div>
   );
 };

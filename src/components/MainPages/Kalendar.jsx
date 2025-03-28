@@ -2,11 +2,17 @@ import React, { useState } from "react";
 import { format } from 'date-fns';
 import { mk } from 'date-fns/locale';
 import "./MainPages.css"; 
+import KalendarModal from "../Modals/KalendarModal";
 
 
 const Kalendar = () => {
   const [date, setDate] = useState(new Date());
   const [view, setView] = useState('month');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  
+    const openModal = () => {
+      setIsModalOpen(true);
+    };
 
   const daysOfWeek = ['Пон', 'Вто', 'Сре', 'Чет', 'Пет', 'Саб', 'Нед'];
 
@@ -151,13 +157,16 @@ const Kalendar = () => {
     <div>
       <div className="header">
       <h2>Календар</h2>
-      <button onClick={() => setShowModal(true)} className="btn-add">Додај нов празник</button>
+      <button className="btn-add" onClick={openModal}>Додај нов празник</button>
       </div>
     
       <button onClick={() => setView(view === 'month' ? 'year' : 'month')}>
         {view === 'month' ? 'Преглед на година' : 'Преглед на месец'}
       </button>
       {view === 'month' ? renderMonthView() : renderYearView()}
+
+      <KalendarModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+
     </div>
   );
  

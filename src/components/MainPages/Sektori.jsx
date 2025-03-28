@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./MainPages.css";
+import SectorModal from "../Modals/SectorModal";
 
 const Sektor = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -7,11 +8,7 @@ const Sektor = () => {
   const openModal = () => {
     setIsModalOpen(true);
   };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
+  
   return (
     <div>
       <div className="header">
@@ -47,41 +44,7 @@ const Sektor = () => {
           </tr>
         </tbody>
       </table>
-{/* Vidi go css i proveri kako da se stavi vi poseben folder */}
-      {isModalOpen && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h3>Додај нов сектор</h3>
-            <form>
-              <input
-                type="text"
-                placeholder="Име на сектор"
-                required
-              />
-              <textarea
-                placeholder="Опис на сектор"
-                rows="3"
-              />
-              <div className="modal-buttons">
-                <button
-                  type="button"
-                  className="btn-add"
-                  onClick={closeModal}
-                >
-                  Зачувај
-                </button>
-                <button
-                  type="button"
-                  className="btn-delete"
-                  onClick={closeModal}
-                >
-                  Откажи
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+      <SectorModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 };
