@@ -36,9 +36,9 @@ const RasporedModal = ({ isOpen, onClose, onSave }) => {
                         <tbody>
                             <tr>
                                 <td><label>Име на распоред:</label></td>
-                                <td className="raspored">
+                                <td>
                                     <input
-                                        style={{width: 200 + "px", float: "right"}}
+                                        style={{width: 150 + "px", float: "right"}}
                                         type="text"
                                         name="Name"
                                         placeholder="Име на Распоред"
