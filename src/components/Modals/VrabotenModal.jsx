@@ -20,7 +20,7 @@ const VraboteniModal = ({ isOpen, onClose, fetchVraboteni, sektori, rasporedi, v
       setNovVraboten({});
   }
   }, [vraboten, isOpen]);
-  const vraboteni_api = "http://rabotnovreme.infinityfreeapp.com/vraboteni_api.php";
+  const vraboteni_api = "https://rabotnovreme.infinityfreeapp.com/vraboteni_api.php";
 
   const handleChange = (e) => {
     setNovVraboten({ ...novVraboten, [e.target.name]: e.target.value || "" });
