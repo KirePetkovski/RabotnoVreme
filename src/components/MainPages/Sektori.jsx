@@ -1,19 +1,49 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./MainPages.css";
-import SectorModal from "../Modals/SectorModal";
+import SektorModal from "../Modals/SektorModal";
+import axios from "axios";
 
 const Sektor = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [IzmeniSektor, setIzmeniSektor] = useState(null);
+  const [sektori, setSektori] = useState([]);
 
-  const openModal = () => {
+  const sektori_api = "http://localhost/rabotnovremePHP/sektori_api.php";
+
+  useEffect(() => {
+    fetchSektori();
+  }, []);
+
+  const fetchSektori = async () => {
+    try {
+      const response = await axios.get(sektori_api);
+      setSektori(response.data);
+    } catch (error) {
+      console.error("Error fetching sectors:", error);
+    }
+  };
+
+  const IzmeniModal = (sektor) => {
+    setIzmeniSektor(sektor);
     setIsModalOpen(true);
   };
-  
+
+  const deleteSektor = async (id) => {
+    if (!window.confirm("Дали сте сигурни дека сакате да го избришете овој сектор?")) return;
+    
+    try {
+      await axios.delete(`${sektori_api}?id=${id}`);
+      setSektori(sektori.filter(sektor => sektor.SektorID !== id));
+    } catch (error) {
+      console.error("Error deleting sector:", error);
+    }
+  };
+
   return (
     <div>
       <div className="header">
         <h1>Сите сектори</h1>
-        <button className="btn-add" onClick={openModal}>
+        <button className="btn-add" onClick={() => { setIzmeniSektor(null); setIsModalOpen(true); }}>
           Додај сектор
         </button>
       </div>
@@ -30,21 +60,37 @@ const Sektor = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>ИТ</td>
-            <td>15</td>
-            <td>Одговорен за техничка поддршка</td>
-            <td>
-              <button className="btn-delete">Избриши</button>
-            </td>
-            <td>
-              <button className="btn-edit">Измени</button>
-            </td>
-          </tr>
+          {sektori.length > 0 ? (
+            sektori.map((sektor, index) => (
+              <tr key={sektor.SektorID}>
+                <td>{index + 1}</td>
+                <td>{sektor.SektorIme}</td>
+                <td>{sektor.BrojVraboteni}</td>
+                <td>{sektor.Opis}</td>
+                <td>
+                  <button className="btn-delete" onClick={() => deleteSektor(sektor.SektorID)}>
+                    Избриши
+                  </button>
+                </td>
+                <td>
+                  <button className="btn-edit" onClick={() => IzmeniModal(sektor)}>Измени</button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="6">Нема податоци</td>
+            </tr>
+          )}
         </tbody>
       </table>
-      <SectorModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+
+      <SektorModal 
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        fetchSektori={fetchSektori} 
+        sektor={IzmeniSektor}
+      />
     </div>
   );
 };

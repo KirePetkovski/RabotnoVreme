@@ -1,37 +1,85 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
-const RasporedModal = ({ isOpen, onClose, onSave }) => {
-    if (!isOpen) return null;
-
+const RasporedModal = ({ isOpen, onClose, fetchRasporedi, raspored }) => {    
     const [formData, setFormData] = useState({
-        Name: "",
-        Monday: "",
-        Tuesday: "",
-        Wednesday: "",
-        Thursday: "",
-        Friday: "",
-        Saturday: "",
-        WorkingTime: "",
-        BreakBegin: "",
-        BreakEnd: "",
-        BreakTime: "",
+        RasporedIme: "",
+        Ponedelnik: "",
+        Vtornik: "",
+        Sreda: "",
+        Cetvrtok: "",
+        Petok: "",
+        Sabota: "",
+        RabotnoVreme: "",
+        PauzaPocetok: "",
+        PauzaKraj: "",
+        PauzaVreme: "",
     });
 
+    const raspored_api = "http://localhost/rabotnovremePHP/raspored_api.php";
+
+    useEffect(() => {
+        if (raspored) {
+            setFormData({ ...raspored });
+        } else {
+            setFormData({});
+        }
+
+    }, [raspored, isOpen]);
+    
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        setFormData({ ...formData, [e.target.name]: e.target.value || "" });
     };
 
-    const handleSubmit = (e) => {
+    const handleDodadiRaspored = async(e) => {
         e.preventDefault();
-        onSave(formData);
-        onClose();
+        try {
+            const response = await axios.post(
+                raspored_api,
+                formData,
+                { headers: { "Content-Type": "application/json" } }
+            );
+            console.log(response.data);
+            fetchRasporedi();
+            onClose(); 
+        } catch (error) {
+            console.error("Error adding :", error);
+            alert("Грешка при додавање на распоред!"); 
+          }
     };
+
+    const handleIzmeniRaspored = async (e) => {
+        e.preventDefault();
+    
+        if (!raspored?.RasporedID) {
+            alert("Грешка: ID на распоред недостасува!");
+            return;
+        }
+    
+        console.log("FormData before update:", formData); // Debugging
+    
+        try {
+            await axios.put(`${raspored_api}?id=${raspored.RasporedID}`, formData, {
+                headers: { "Content-Type": "application/json" }
+            });
+    
+            alert("Распоредот е успешно изменет!");
+            fetchRasporedi();
+            onClose();
+        } catch (error) {
+            alert("Настана грешка при ажурирање: " + error.message);
+        }
+    };
+    
+    if (!isOpen) {
+        return null;
+      }
 
     return (
         <div className="modal-overlay">
             <div className="modal-content">
-                <h3>Додај Распоред</h3>
-                <form onSubmit={handleSubmit}>
+                <h3>{raspored ? "Измени Распоред" : "Додај Распоред"}</h3>
+                <form>
                     <table >
                         <tbody>
                             <tr>
@@ -40,37 +88,95 @@ const RasporedModal = ({ isOpen, onClose, onSave }) => {
                                     <input
                                         style={{width: 150 + "px", float: "right"}}
                                         type="text"
-                                        name="Name"
+                                        name="RasporedIme"
                                         placeholder="Име на Распоред"
-                                        value={formData.Name}
+                                        value={formData.RasporedIme || ""}
                                         onChange={handleChange}
                                         required
                                     />
                                 </td>
                             </tr>
-                            {["Понеделник", "Вторник", "Среда", "Четврток", "Петок", "Сабота"].map((day, index) => (
-                                <tr key={index}>
-                                    <td><label>{day}:</label></td>
-                                    <td>
-                                        <input
+                            <tr>
+                                <td><label>Понеделник: </label></td>
+                                <td>
+                                    <input
                                         style={{width: 100 + "px", float: "right"}}
-                                            className="raspored"
-                                            type="time"
-                                            name={day}
-                                            value={formData[day]}
-                                            onChange={handleChange}
-                                        />
-                                    </td>
-                                </tr>
-                            ))}
+                                        type="time"
+                                        name="Ponedelnik"
+                                        value={formData.Ponedelnik || ""}
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label>Вторник: </label></td>
+                                <td>
+                                    <input
+                                        style={{width: 100 + "px", float: "right"}}
+                                        type="time"
+                                        name="Vtornik"
+                                        value={formData.Vtornik || ""}
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label>Среда: </label></td>
+                                <td>
+                                    <input
+                                        style={{width: 100 + "px", float: "right"}}
+                                        type="time"
+                                        name="Sreda"
+                                        value={formData.Sreda || ""}
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label>Четврток: </label></td>
+                                <td>
+                                    <input
+                                        style={{width: 100 + "px", float: "right"}}
+                                        type="time"
+                                        name="Cetvrtok"
+                                        value={formData.Cetvrtok || ""}
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label>Петок: </label></td>
+                                <td>
+                                    <input
+                                        style={{width: 100 + "px", float: "right"}}
+                                        type="time"
+                                        name="Petok"
+                                        value={formData.Petok || ""}
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label>Сабота: </label></td>
+                                <td>
+                                    <input
+                                        style={{width: 100 + "px", float: "right"}}
+                                        type="time"
+                                        name="Sabota"
+                                        value={formData.Sabota || ""}
+                                        onChange={handleChange}
+                                    />
+                                </td>
+                            </tr>
+
                             <tr>
                                 <td><label>Работно време</label></td>
                                 <td>
                                     <input
                                         style={{width: 100 + "px", float: "right"}}
                                         type="time"
-                                        name="WorkingTime"
-                                        value={formData.WorkingTime}
+                                        name="RabotnoVreme"
+                                        value={formData.RabotnoVreme || ""}
                                         onChange={handleChange}
                                     />
                                 </td>
@@ -81,8 +187,8 @@ const RasporedModal = ({ isOpen, onClose, onSave }) => {
                                     <input
                                         style={{width: 100 + "px", float: "right"}}
                                         type="time"
-                                        name="BreakBegin"
-                                        value={formData.BreakBegin}
+                                        name="PauzaPocetok"
+                                        value={formData.PauzaPocetok || ""}
                                         onChange={handleChange}
                                     />
                                 </td>
@@ -93,8 +199,8 @@ const RasporedModal = ({ isOpen, onClose, onSave }) => {
                                     <input
                                         style={{width: 100 + "px", float: "right"}}
                                         type="time"
-                                        name="BreakEnd"
-                                        value={formData.BreakEnd}
+                                        name="PauzaKraj"
+                                        value={formData.PauzaKraj || ""}
                                         onChange={handleChange}
                                     />
                                 </td>
@@ -105,8 +211,8 @@ const RasporedModal = ({ isOpen, onClose, onSave }) => {
                                     <input
                                         style={{width: 100 + "px", float: "right"}}
                                         type="time"
-                                        name="BreakTime"
-                                        value={formData.BreakTime}
+                                        name="PauzaVreme"
+                                        value={formData.PauzaVreme|| ""}
                                         onChange={handleChange}
                                     />
                                 </td>
@@ -114,7 +220,7 @@ const RasporedModal = ({ isOpen, onClose, onSave }) => {
                         </tbody>
                     </table>
                     <div>
-                        <button type="submit" className="btn-add">Зачувај</button>
+                        <button type="submit" className="btn-add" onClick={raspored ? handleIzmeniRaspored : handleDodadiRaspored}>Зачувај</button>
                         <button type="button" className="btn-delete" onClick={onClose}>Откажи</button>
                     </div>
                 </form>

@@ -1,65 +1,86 @@
-import React, { useState } from "react";
-import "./MainPages.css"; 
+import React, { useState, useEffect } from "react";
+import "./MainPages.css";
 import VraboteniModal from "../Modals/VrabotenModal";
+import axios from "axios";
 
 const Vraboteni = () => {
-  const [employees, setEmployees] = useState([
-    {
-      id: 1,
-      name: "Иван Иванов",
-      dob: "1990-01-15",
-      department: "ИТ",
-      position: "Програмер",
-      schedule: "Пон-Пет, 9:00-17:00",
-      cardNumber: "123456",
-      active: true,
-    },
-  ]);
-
-  
-  const [newEmployee, setNewEmployee] = useState({
-    name: "",
-    nationality: "",
-    religion: "",
-    department: "",
-    schedule: "",
-    cardNumber: "",
-  });
-
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewEmployee({ ...newEmployee, [name]: value });
-  };
-
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    const newId = employees.length + 1;
-    setEmployees([...employees, { ...newEmployee, id: newId, active: true }]);
-    setShowModal(false);
-    setNewEmployee({
-      name: "",
-      dob: "",
-      nacionality: "",
-      religion: "",
-      department: "",
-      schedule: "",
-      cardNumber: "",
-    });
-  };
-
   const [isModalOpen, setIsModalOpen] = useState(false);
-    
-      const openModal = () => {
-        setIsModalOpen(true);
-      };
-    
+  const [IzmeniVraboteni, setIzmeniVraboteni] = useState(null);
+  const [vraboteni, setVraboteni] = useState([]);
+  const [sektori, setSektori] = useState([]);
+  const [rasporedi, setRasporedi] = useState([]);
+
+  const vraboteni_api = "http://localhost/rabotnovremePHP/vraboteni_api.php";
+  const sektori_api = "http://localhost/rabotnovremePHP/sektori_api.php";
+  const raspored_api = "http://localhost/rabotnovremePHP/raspored_api.php";
+
+  useEffect(() => {
+    fetchVraboteni();
+    fetchRasporedi();
+    fetchSektori();
+  }, []);
+
+  const fetchVraboteni = async () => {
+    try {
+      const response = await axios.get(vraboteni_api);
+      setVraboteni(response.data);
+    } catch (error) {
+      console.error("Error fetching vraboteni:", error);
+    }
+  };
+  const fetchSektori = async () => {
+    try {
+      const response = await axios.get(sektori_api);
+      setSektori(response.data);
+    } catch (error) {
+      console.error("Error fetching sectors:", error);
+    }
+  };
+  const fetchRasporedi = async () => {
+    try {
+      const response = await axios.get(raspored_api);
+      setRasporedi(response.data);
+    } catch (error) {
+      console.error("Error fetching rasporedi:", error);
+    }
+  };
+
+  const deleteVraboten = async (id) => {
+    if (!window.confirm("Дали сте сигурни дека сакате да го избришете овој вработен?")) return;
+
+    try {
+      await axios.delete(`${vraboteni_api}?id=${id}`);
+      setVraboteni(vraboteni.filter(vraboten => vraboten.VrabotenID !== id));
+    } catch (error) {
+      console.error("Error deleting employee:", error);
+    }
+  };
+
+  const handleDeaktiviraj = async (VrabotenID, Aktiven) => {
+    try {
+      console.log("DEAKTIVIRAJ");
+
+      const newStatus = Number(Aktiven) === 1 ? 0 : 1;
+      await axios.put(vraboteni_api, JSON.stringify({ id: VrabotenID, Aktiven: newStatus }), {
+        headers: { "Content-Type": "application/json" }
+      });
+      fetchVraboteni();
+    } catch (error) {
+      console.error("Error updating employee status:", error);
+    }
+  };
+
+  const IzmeniModal = (vraboten) => {
+    setIzmeniVraboteni(vraboten);
+    setIsModalOpen(true);
+  };
+
 
   return (
     <div className="vraboteni-page">
       <div className="header">
         <h2>Сите вработени</h2>
-        <button className="btn-add" onClick={openModal}>
+        <button className="btn-add" onClick={() => { setIzmeniVraboteni(null); setIsModalOpen(true); }}>
           Додај вработен
         </button>
       </div>
@@ -77,7 +98,7 @@ const Vraboteni = () => {
           <h2>Деактивирани</h2>
           <p>4</p>
         </div>
-       
+
       </div>
 
       <table className="main-table">
@@ -91,33 +112,55 @@ const Vraboteni = () => {
             <th>Распоред</th>
             <th>Број на карта</th>
             <th>Деактивирај</th>
+            <th>Измени</th>
             <th>Избриши</th>
           </tr>
         </thead>
         <tbody>
-          {employees.map((employee) => (
-            <tr key={employee.id}>
-              <td>{employee.id}</td>
-              <td>{employee.name}</td>
-              <td>{employee.nacionality}</td>
-              <td>{employee.religion}</td>
-              <td>{employee.department}</td>
-              <td>{employee.schedule}</td>
-              <td>{employee.cardNumber}</td>
-              <td>
-                <button className="btn-edit" disabled={!employee.active}>
-                  {employee.active ? "Деактивирај" : "Активирај"}
-                </button>
-              </td>
-              <td>
-                <button className="btn-delete">Избриши</button>
-              </td>
+          {vraboteni.length > 0 ? (
+            vraboteni.map((vraboten, index) => (
+              <tr key={vraboten.VrabotenID}>
+                <td>{index + 1}</td>
+                <td>{vraboten.ImePrezime}</td>
+                <td>{vraboten.Nacionalnost}</td>
+                <td>{vraboten.Religija}</td>
+                <td>
+                  {sektori.find(sektor => sektor.SektorID === vraboten.SektorID)?.SektorIme || "Неопределено"}
+                </td>
+                <td>
+                  {rasporedi.find(raspored => raspored.RasporedID === vraboten.RasporedID)?.RasporedIme || "Неопределено"}
+                </td>
+                <td>{vraboten.CardID}</td>
+                <td>
+                  <button className="btn-edit" 
+                  onClick={() => handleDeaktiviraj(vraboten.VrabotenID, vraboten.Aktiven)}>
+                    {vraboten.Aktiven ? "Деактивирај" : "Активирај"}
+                  </button>
+                </td>
+                <td>
+                <button className="btn-edit" onClick={() => IzmeniModal(vraboten)}>Измени</button>
+                </td>
+                <td>
+                  <button className="btn-delete" onClick={() => deleteVraboten(vraboten.VrabotenID)}>Избриши</button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="9">Нема податоци</td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
+      <VraboteniModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        fetchVraboteni={fetchVraboteni}
+        sektori={sektori}
+        rasporedi={rasporedi}
+        vraboten = {IzmeniVraboteni} 
+    />
 
-      <VraboteniModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 };

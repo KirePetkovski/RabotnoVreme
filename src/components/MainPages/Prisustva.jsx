@@ -1,7 +1,129 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import "./MainPages.css";
 
+
 function Prisustva() {
+  const [prisustva, setPrisustva] = useState([]);
+  const [filteredPrisustva, setFilteredPrisustva] = useState([]);
+  const [vraboteni, setVraboteni] = useState([]);
+  const [prebarajIme, setPrebarajIme] = useState("");
+  const [prebarajDatum, setPrebarajDatum] = useState("");
+
+  // Stats za momentalnata sostojba
+  const [vkupnoVraboteni, setVkupnoVraboteni] = useState(0);
+  const [prisutni, setPrisutni] = useState(0);
+  const [otsutni, setOsutni] = useState(0);
+  const [pauza, setPauza] = useState(0);
+
+  const prisustvo_api = "http://localhost/rabotnovremePHP/prisustvo_api.php";
+  const vraboteni_api = "http://localhost/rabotnovremePHP/vraboteni_api.php"
+
+  useEffect(() => {
+    const today = new Date().toISOString().split("T")[0];
+    setPrebarajDatum(today);
+
+    fetchPrisustvo();
+    fetchVraboteni();
+  }, []);
+
+  const fetchVraboteni = async () => {
+    try {
+      const response = await axios.get(vraboteni_api);
+      setVraboteni(response.data);
+    } catch (error) {
+      console.error("Error fetching vraboteni:", error);
+    }
+  };
+
+  const fetchPrisustvo = async () => {
+    axios.get(prisustvo_api)
+      .then(response => {
+        if (Array.isArray(response.data)) {
+          setPrisustva(response.data);
+          calculateStats(response.data);
+        } else {
+          console.error("Unexpected API response:", response.data);
+          setPrisustva([]);
+        }
+      })
+      .catch(error => {
+        console.error("Error fetching data:", error);
+        setPrisustva([]);
+      });
+  };
+
+  useEffect(() => {
+    if (prisustva.length > 0) {
+      const filtered = prisustva.filter(datum =>
+        datum.Vreme.startsWith(prebarajDatum)
+      );
+
+      calculateStats(filtered);
+    }
+    Prebaraj();
+  }, [prebarajDatum, prebarajIme, prisustva])
+
+
+  const Prebaraj = () => {
+    let filtered = prisustva.map(record => {
+      const vraboten = vraboteni.find(v => v.VrabotenID === record.VrabotenID);
+      return {
+        ...record,
+        ImePrezime: vraboten ? vraboten.ImePrezime : "Непознат"
+      };
+    });
+  
+    // Filter by name (if `prebarajIme` is not empty)
+    if (prebarajIme) {
+      filtered = filtered.filter(record =>
+        record.ImePrezime.toLowerCase().includes(prebarajIme.toLowerCase())
+      );
+    }
+    console.log("prisustva->", prisustva);
+
+    filtered = filtered.filter(datum =>
+      datum.Vreme.startsWith(prebarajDatum)
+    );
+
+    console.log(filtered);
+    setFilteredPrisustva(filtered);
+  };
+
+
+  //Function to calculate total employees, present, absent, and on break
+  const calculateStats = (data) => {
+    let BrojVraboteni = new Set();
+    let prisutniVraboteni = new Set();
+    let osutniVraboteni = new Set();
+    let pauzaVraboteni = new Set();
+    //let SluzbenoVraboteni = new Set();
+
+    data.forEach(record => {
+      const { VrabotenID, TipAkcija } = record;
+
+      BrojVraboteni.add(VrabotenID);
+      if (TipAkcija === "Vlez") {
+        prisutniVraboteni.add(VrabotenID);
+      }
+      if (TipAkcija === "Privaten_Izlez" && !prisutniVraboteni.has(VrabotenID)) {
+        osutniVraboteni.add(VrabotenID);
+      }
+      if (TipAkcija === "Pauza_Izlez") {
+        pauzaVraboteni.add(VrabotenID);
+      }
+      // if (TipAkcija === "Sluzben_Izlez") {
+      //   SluzbenoVraboteni.add(VrabotenID);
+      // }
+    });
+    setVkupnoVraboteni(BrojVraboteni.size);
+    setPrisutni(prisutniVraboteni.size);
+    setOsutni(osutniVraboteni.size);
+    setPauza(pauzaVraboteni.size);
+  };
+
+
+
   return (
     <div>
       <header className="header">
@@ -11,29 +133,40 @@ function Prisustva() {
       <div className="stats-container">
         <div className="stat-card">
           <h2>Број на вработени</h2>
-          <p>24</p>
+          <p>{vkupnoVraboteni}</p>
         </div>
         <div className="stat-card">
           <h2>Присутни</h2>
-          <p>16</p>
+          <p>{prisutni}</p>
         </div>
         <div className="stat-card">
           <h2>Отсуствa / приватни излези</h2>
-          <p>2</p>
+          <p>{otsutni}</p>
         </div>
         <div className="stat-card">
           <h2>Вкупно приватни излези</h2>
-          <p>9</p>
+          <p>{pauza}</p>
         </div>
       </div>
 
       <div className="search">
         <div className="search-container">
-          <input type="text" className="search-input" placeholder="Пребарај вработен" />
+          <input 
+            type="text" 
+            className="search-input" 
+            placeholder="Пребарај вработен"
+            value={prebarajIme} 
+            onChange={(e) => setPrebarajIme(e.target.value)}  />
         </div>
         <div className="date-range">
           <label htmlFor="date" className="date-label">Пребарај по датум </label>
-          <input type="date" id="date" className="date-input" />
+          <input
+            type="date"
+            id="date"
+            className="date-input"
+            value={prebarajDatum}
+            onChange={(e) => setPrebarajDatum(e.target.value)}
+          />
         </div>
       </div>
 
@@ -42,16 +175,52 @@ function Prisustva() {
           <tr>
             <th>Име и Презиме</th>
             <th>Влез</th>
-            <th>Пауза</th>
-            <th>Службен излез</th>
-            <th>Приватен излез</th>
+            <th colSpan="2">Пауза</th>
+            <th colSpan="2">Службен излез</th>
+            <th colSpan="2">Приватен излез</th>
             <th>Излез</th>
-            <th>Измени</th>
+          </tr>
+          <tr>
+            <th></th>
+            <th></th>
+            <th>Излез</th>
+            <th>Влез</th>
+            <th>Излез</th>
+            <th>Влез</th>
+            <th>Излез</th>
+            <th>Влез</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
-         
+          {Object.values(
+            filteredPrisustva.reduce((acc, record) => {
+              const vraboten = vraboteni.find(v => v.VrabotenID === record.VrabotenID);
+              const name = vraboten ? vraboten.ImePrezime : "Непознат";
+
+              if (!acc[name]) {
+                acc[name] = { ImePrezime: name };
+              }
+
+              acc[name][record.TipAkcija] = new Date(record.Vreme).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+
+              return acc;
+            }, {})
+          ).map((record, index) => (
+            <tr key={index}>
+              <td>{record.ImePrezime || ""}</td> 
+              <td>{record.Vlez || ""}</td>
+              <td>{record.Pauza_Izlez || ""}</td>
+              <td>{record.Pauza_Vlez || ""}</td>
+              <td>{record.Sluzben_Izlez || ""}</td>
+              <td>{record.Sluzben_Vlez || ""}</td>
+              <td>{record.Privaten_Izlez || ""}</td>
+              <td>{record.Privaten_Vlez || ""}</td>
+              <td>{record.Izlez || ""}</td>
+            </tr>
+          ))}
         </tbody>
+
       </table>
     </div>
   );

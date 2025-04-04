@@ -245,12 +245,17 @@ h1, h2, h3, p, label {
   margin-bottom: 5px;
   color: #000000;
 }
-
 .filter-group input,
 .filter-group select {
-  padding: 8px;
+
+  color: white;
+  padding: 10px;
+  margin: 5px 10px;
   border: 1px solid #020202;
   border-radius: 4px;
+}
+.filter-group td{
+  margin-left: 70px;
 }
 
 .checkbox-group label {
@@ -277,9 +282,11 @@ h1, h2, h3, p, label {
   flex-direction: column; 
   gap: 8px; 
   margin-top: 8px;
+  margin-left: 100px;
 }
 
 .report-type-multi label {
+
   display: flex;
   align-items: center; 
   font-size: 14px;
@@ -290,7 +297,7 @@ h1, h2, h3, p, label {
   margin-right: 8px; 
   transform: scale(1.2); 
 }
-
+/* 
 .testCalendar{
   color: black;
-}
+} */

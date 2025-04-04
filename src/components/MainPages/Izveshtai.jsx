@@ -51,104 +51,74 @@ const Izveshtai = () => {
 
       {showFilters && (
         <form className="filters-form">
-          <div className="filter-group same-line">
-            <label>Од датум:</label>
-            <input
-              type="date"
-              name="startDate"
-              onChange={handleFilterChange}
-            />
-            <label>До датум:</label>
-            <input
-              type="date"
-              name="endDate"
-              onChange={handleFilterChange}
-            />
-          </div>
+         <table className="filter-group">
+  <tbody>
+    <tr>
+      <td><label>Од датум:</label></td>
+      <td>
+        <input type="date" name="startDate" onChange={handleFilterChange} />
+      </td>
+      <td><label>До датум:</label></td>
+      <td>
+        <input type="date" name="endDate" onChange={handleFilterChange} />
+      </td>
+      <td rowSpan="7">
+        <div className="report-type-multi">
+        <label>Тип на извештај:</label>
+          <label>
+            <input type="checkbox" checked={showPrisustvo} onChange={() => handleReportTypeChange("prisustvo")} />
+            Присуство
+          </label>
+          <label>
+            <input type="checkbox" checked={showOtsustvo} onChange={() => handleReportTypeChange("otsustvo")} />
+            Осутни
+          </label>
+          <label>
+            <input type="checkbox" checked={showBrakeOut} onChange={() => handleReportTypeChange("brakeOut")} />
+            Пауза
+          </label>
+          <label>
+            <input type="checkbox" checked={showPrivateOut} onChange={() => handleReportTypeChange("privateOut")} />
+            Приватно излез
+          </label>
+          <label>
+            <input type="checkbox" checked={showBusinessOut} onChange={() => handleReportTypeChange("businessOut")} />
+            Службено излез
+          </label>
+          <label>
+            <input type="checkbox" checked={showWorkingHours} onChange={() => handleReportTypeChange("workingHours")} />
+            Работни часови
+          </label>
+          <label>
+            <input type="checkbox" checked={showOverTimeHours} onChange={() => handleReportTypeChange("overTime")} />
+            Преку времени часови
+          </label>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td><label>Вработен:</label></td>
+      <td colSpan="3">
+        <input type="text" name="employee" placeholder="Име на вработен" onChange={handleFilterChange} />
+      </td>
+    </tr>
+    <tr>
+      <td><label>Сектор:</label></td>
+      <td colSpan="3">
+        <select name="department" onChange={handleFilterChange}>
+          <option value="">-- Избери Сектор --</option>
+          <option>Информатички технологии</option>
+          <option>Човечки ресурси</option>
+        </select>
+      </td>
+    </tr>
+    <tr><td>" "</td><td>" "</td></tr>
+    <tr><td>" "</td><td>" "</td></tr>
+    <tr><td>" "</td><td>" "</td></tr>
+    <tr><td>" "</td><td>" "</td></tr>
+  </tbody>
+</table>
 
-          <div className="filter-group">
-            <label>Вработен:</label>
-            <input
-              type="text"
-              name="employee"
-              placeholder="Име на вработен"
-              onChange={handleFilterChange}
-            />
-          </div>
-
-          <div className="filter-group">
-            <label>Сектор:</label>
-            <select
-              name="department"
-              onChange={handleFilterChange}
-            >
-              <option value="">-- Избери Сектор --</option>
-              <option>Информатички технологии</option>
-              <option>Човечки ресурси</option>
-            </select>
-          </div>
-
-          <div className="filter-group">
-            <label>Тип на извештај:</label>
-            <div className="report-type-multi">
-              <label>
-                <input
-                  type="checkbox"
-                  checked={showPrisustvo}
-                  onChange={() => handleReportTypeChange("prisustvo")}
-                />
-                Присуство
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={showOtsustvo}
-                  onChange={() => handleReportTypeChange("otsustvo")}
-                />
-                Осутни
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={showBrakeOut}
-                  onChange={() => handleReportTypeChange("brakeOut")}
-                />
-                Пауза
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={showPrivateOut}
-                  onChange={() => handleReportTypeChange("privateOut")}
-                />
-                Приватно излез
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={showBusinessOut}
-                  onChange={() => handleReportTypeChange("businessOut")}
-                />
-                Службено излез
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={showWorkingHours}
-                  onChange={() => handleReportTypeChange("workingHours")}
-                />
-                Работни часови
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={showOverTimeHours}
-                  onChange={() => handleReportTypeChange("overTime")}
-                />
-                Преку времени часови
-              </label>
-            </div>
-          </div>
         </form>
       )}
 
