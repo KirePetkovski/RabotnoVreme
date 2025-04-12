@@ -10,9 +10,9 @@ const Vraboteni = () => {
   const [sektori, setSektori] = useState([]);
   const [rasporedi, setRasporedi] = useState([]);
 
-  const vraboteni_api = "http://localhost/rabotnovremePHP/vraboteni_api.php";
-  const sektori_api = "http://localhost/rabotnovremePHP/sektori_api.php";
-  const raspored_api = "http://localhost/rabotnovremePHP/raspored_api.php";
+  const vraboteni_api = "https://rabotnovreme.infinityfreeapp.com/php/vraboteni.php";
+  const sektori_api = "https://rabotnovreme.infinityfreeapp.com/php/sektori.php";
+  const raspored_api = "https://rabotnovreme.infinityfreeapp.com/php/raspored.php";
 
   useEffect(() => {
     fetchVraboteni();
@@ -49,7 +49,11 @@ const Vraboteni = () => {
     if (!window.confirm("Дали сте сигурни дека сакате да го избришете овој вработен?")) return;
 
     try {
-      await axios.delete(`${vraboteni_api}?id=${id}`);
+      //await axios.delete(`${vraboteni_api}?id=${id}`);
+      await axios.post(vraboteni_api, {
+        action: 'delete',
+        VrabotenID: id
+      });
       setVraboteni(vraboteni.filter(vraboten => vraboten.VrabotenID !== id));
     } catch (error) {
       console.error("Error deleting employee:", error);
@@ -61,9 +65,16 @@ const Vraboteni = () => {
       console.log("DEAKTIVIRAJ");
 
       const newStatus = Number(Aktiven) === 1 ? 0 : 1;
-      await axios.put(vraboteni_api, JSON.stringify({ id: VrabotenID, Aktiven: newStatus }), {
-        headers: { "Content-Type": "application/json" }
-      });
+      await axios.post(
+        vraboteni_api,
+        {
+          action: "update",
+          VrabotenID: VrabotenID, 
+          Aktiven: newStatus, 
+        },
+        {
+          headers: { "Content-Type": "application/json" }
+        });
       fetchVraboteni();
     } catch (error) {
       console.error("Error updating employee status:", error);

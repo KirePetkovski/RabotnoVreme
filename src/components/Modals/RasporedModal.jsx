@@ -16,7 +16,7 @@ const RasporedModal = ({ isOpen, onClose, fetchRasporedi, raspored }) => {
         PauzaVreme: "",
     });
 
-    const raspored_api = "http://localhost/rabotnovremePHP/raspored_api.php";
+    const raspored_api = "https://rabotnovreme.infinityfreeapp.com/php/raspored.php";
 
     useEffect(() => {
         if (raspored) {
@@ -34,13 +34,25 @@ const RasporedModal = ({ isOpen, onClose, fetchRasporedi, raspored }) => {
     const handleDodadiRaspored = async(e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(
-                raspored_api,
-                formData,
-                { headers: { "Content-Type": "application/json" } }
-            );
+            const response = await axios.post(raspored_api, {
+              ...formData,
+              action: "create"
+            }, {
+              headers: { "Content-Type": "application/json" }
+            });  
             console.log(response.data);
             fetchRasporedi();
+            setFormData({ 
+                Ponedelnik: "",
+                Vtornik: "",
+                Sreda: "",
+                Cetvrtok: "",
+                Petok: "",
+                Sabota: "",
+                RabotnoVreme: "",
+                PauzaPocetok: "",
+                PauzaKraj: "",
+                PauzaVreme: "",});
             onClose(); 
         } catch (error) {
             console.error("Error adding :", error);
@@ -55,11 +67,17 @@ const RasporedModal = ({ isOpen, onClose, fetchRasporedi, raspored }) => {
             alert("Грешка: ID на распоред недостасува!");
             return;
         }
+        
     
         console.log("FormData before update:", formData); // Debugging
     
         try {
-            await axios.put(`${raspored_api}?id=${raspored.RasporedID}`, formData, {
+            await axios.post(raspored_api,
+              {
+                ...formData,
+                action: "update",
+                RasporedID: raspored.RasporedID
+              }, {
                 headers: { "Content-Type": "application/json" }
             });
     

@@ -8,7 +8,7 @@ const Sektor = () => {
   const [IzmeniSektor, setIzmeniSektor] = useState(null);
   const [sektori, setSektori] = useState([]);
 
-  const sektori_api = "http://localhost/rabotnovremePHP/sektori_api.php";
+  const sektori_api = "https://rabotnovreme.infinityfreeapp.com/php/sektori.php";
 
   useEffect(() => {
     fetchSektori();
@@ -32,7 +32,11 @@ const Sektor = () => {
     if (!window.confirm("Дали сте сигурни дека сакате да го избришете овој сектор?")) return;
     
     try {
-      await axios.delete(`${sektori_api}?id=${id}`);
+      //await axios.delete(`${sektori_api}?id=${id}`);
+      await axios.post(sektori_api, {
+        action: 'delete',
+        SektorID: id
+      });
       setSektori(sektori.filter(sektor => sektor.SektorID !== id));
     } catch (error) {
       console.error("Error deleting sector:", error);

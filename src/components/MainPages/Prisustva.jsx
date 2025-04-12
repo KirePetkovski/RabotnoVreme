@@ -16,8 +16,8 @@ function Prisustva() {
   const [otsutni, setOsutni] = useState(0);
   const [pauza, setPauza] = useState(0);
 
-  const prisustvo_api = "http://localhost/rabotnovremePHP/prisustvo_api.php";
-  const vraboteni_api = "http://localhost/rabotnovremePHP/vraboteni_api.php"
+  const prisustvo_api = "https://rabotnovreme.infinityfreeapp.com/php/prisustvo.php";
+  const vraboteni_api = "https://rabotnovreme.infinityfreeapp.com/php/vraboteni.php"
 
   useEffect(() => {
     const today = new Date().toISOString().split("T")[0];

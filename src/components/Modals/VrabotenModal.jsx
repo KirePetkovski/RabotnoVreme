@@ -20,7 +20,7 @@ const VraboteniModal = ({ isOpen, onClose, fetchVraboteni, sektori, rasporedi, v
       setNovVraboten({});
   }
   }, [vraboten, isOpen]);
-  const vraboteni_api = "https://rabotnovreme.infinityfreeapp.com/vraboteni_api.php";
+  const vraboteni_api = "https://rabotnovreme.infinityfreeapp.com/php/vraboteni.php";
 
   const handleChange = (e) => {
     setNovVraboten({ ...novVraboten, [e.target.name]: e.target.value || "" });
@@ -32,12 +32,17 @@ const VraboteniModal = ({ isOpen, onClose, fetchVraboteni, sektori, rasporedi, v
     try {
       const response = await axios.post(
         vraboteni_api,
-        novVraboten,
-        { headers: { "Content-Type": "application/json" } }
+        {
+          ...novVraboten,
+          action: "create"
+        },
+        {
+          headers: { "Content-Type": "application/json" }
+        }
       );
       console.log(response.data);
       fetchVraboteni();
-      setNovVraboten({ // Reset form fields
+      setNovVraboten({ 
         CardID: "",
         ImePrezime: "",
         Nacionalnost: "",
@@ -52,6 +57,7 @@ const VraboteniModal = ({ isOpen, onClose, fetchVraboteni, sektori, rasporedi, v
       alert("Грешка при додавање на Vraboten!");
     }
   };
+  
   const handleIzmeniVrraboten = async (e) => {
     e.preventDefault();
 
@@ -63,9 +69,17 @@ const VraboteniModal = ({ isOpen, onClose, fetchVraboteni, sektori, rasporedi, v
     console.log("novVraboten before update:", novVraboten); 
 
     try {
-        await axios.put(`${vraboteni_api}?id=${vraboten.VrabotenID}`, novVraboten, {
+        await axios.post(
+          vraboteni_api,
+          {
+            ...novVraboten,
+            action: "update",
+            VrabotenID:vraboten.VrabotenID
+          },
+          {
             headers: { "Content-Type": "application/json" }
-        });
+          }
+        );
 
         alert("Вработен е успешно изменет!");
         fetchVraboteni();

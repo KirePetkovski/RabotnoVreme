@@ -8,7 +8,7 @@ const raspored = () => {
   const [IzmeniRaspored, setIzmeniRaspored] = useState(null);
   const [rasporedi, setRasporedi] = useState([]);
 
-  const raspored_api = "http://localhost/rabotnovremePHP/raspored_api.php";
+  const raspored_api = "https://rabotnovreme.infinityfreeapp.com/php/raspored.php";
 
   useEffect(() => {
     fetchRasporedi();
@@ -32,11 +32,15 @@ const raspored = () => {
   if (!window.confirm("Дали сте сигурни дека сакате да го избришете овој распоред?")) return;
     
   try {
-    await axios.delete(`${raspored_api}?id=${id}`);
+    await axios.post(raspored_api, {
+      action: 'delete',
+      RasporedID: id
+    });
     setRasporedi(rasporedi.filter(raspored => raspored.RasporedID !== id));
   } catch (error) {
     console.error("Error deleting raspored:", error);
   }
+  
  };
 
   return (

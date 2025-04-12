@@ -5,7 +5,7 @@ const SectorModal = ({ isOpen, onClose, fetchSektori, sektor }) => {
   const [SektorIme, setSektorIme] = useState("");
   const [Opis, setOpis] = useState("");
 
-  const sektori_api = "http://localhost/rabotnovremePHP/sektori_api.php";
+  const sektori_api = "https://rabotnovreme.infinityfreeapp.com/php/sektori.php";
   useEffect(() => {
     if (sektor) {
       setSektorIme(sektor.SektorIme || "");
@@ -23,8 +23,14 @@ const SectorModal = ({ isOpen, onClose, fetchSektori, sektor }) => {
     try {
       const response = await axios.post(
         sektori_api,
-        { SektorIme, Opis },
-        { headers: { "Content-Type": "application/json" } }
+        {
+          SektorIme,
+          Opis,
+          action: "create" 
+        },
+        {
+          headers: { "Content-Type": "application/json" } 
+        }
       );
 
       console.log(response.data);
@@ -45,12 +51,17 @@ const SectorModal = ({ isOpen, onClose, fetchSektori, sektor }) => {
     }
   
     try {
-      await axios.put(`${sektori_api}?id=${sektor.SektorID}`, {
-        SektorID: sektor.SektorID,
-        SektorIme: SektorIme, 
-        Opis: Opis,
-      });
-  
+      await axios.post(
+        sektori_api,
+        {
+          action:"update",
+          SektorID: sektor.SektorID,
+          SektorIme: SektorIme,
+          Opis: Opis,
+          headers: { "Content-Type": "application/json" } 
+        }
+      );
+      
       alert("Секторот е успешно изменет!");
       fetchSektori();
       onClose();

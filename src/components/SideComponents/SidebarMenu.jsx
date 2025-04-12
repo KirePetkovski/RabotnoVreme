@@ -5,31 +5,31 @@ const SidebarMenu = () => {
   return (
     <div className="sidebar-menu">
       <ul>
-        <a href="/RabotnoVreme/#/prisustva">
+        <a href="/#/prisustva">
             <li>Присуства</li>
         </a> 
-        <a href="/RabotnoVreme/#/vraboteni">
+        <a href="/#/vraboteni">
             <li>Вработени</li>
         </a>
-        <a href="/RabotnoVreme/#/sektori">
+        <a href="/#/sektori">
             <li>Сектори</li>
         </a>
-        <a href="/RabotnoVreme/#/izveshtai">
+        <a href="/#/izveshtai">
             <li>Извештај</li>
         </a>
-        <a href="/RabotnoVreme/#/raspored">
+        <a href="/#/raspored">
             <li>Распоред</li>
         </a>
-        <a href="/RabotnoVreme/#/kalendar">
+        <a href="/#/kalendar">
             <li>Календар</li>
         </a>
-        <a href="/RabotnoVreme/#/otsustva">
+        <a href="/#/otsustva">
             <li>Додади отсутство</li>
         </a>
-        <a href="/RabotnoVreme/#/kontroleri">
+        <a href="/#/kontroleri">
             <li>Контролери</li>
         </a>
-        <a href="/RabotnoVreme/#/korisnici">
+        <a href="/#/korisnici">
             <li>Корисници</li>
         </a>
       </ul>
