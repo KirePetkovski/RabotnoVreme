@@ -1,41 +1,70 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
 
-const KorisniciModal = ({ isOpen, onClose }) => {
+const KorisniciModal = ({ isOpen, onClose, KorisnikID }) => {
+    const [password, setPassword] = useState("");
+    const [confirm, setConfirm] = useState("");
+    const [error, setError] = useState("");
+
+    const korisnici_api = "https://rabotnovreme.infinityfreeapp.com/php/korisnici.php";
+
+
+    const handleZacuvaj = async (e, KorisnikID) => {
+        e.preventDefault();
+        if (password !== confirm) {
+            setError("Лозинките не се совпаѓаат.");
+            
+        } else {
+            try {
+                const response = await axios.post(
+                    korisnici_api,
+                    {
+                        action: "update",
+                        Lozinka: password,
+                        KorisnikID: KorisnikID
+                    },
+                    {
+                        headers: { "Content-Type": "application/json" }
+                    }
+                );
+
+                console.log(response.data);
+                setError("");
+                onClose();
+
+            } catch (error) {
+                //  console.error("Error adding sector:", error);
+                alert("Грешка при премена на лозинка!");
+            }
+        }
+    };
+
     if (!isOpen) return null;
 
     return (
         <div className="modal-overlay">
             <div className="modal-content">
-                <h3>Додај нов корисник</h3>
+                <h3>Промени лозинка</h3>
                 <form>
-                    <input
-                        type="text"
-                        name="username"
-                        placeholder="Корисничко име"
-                        required
-                    />
-                    <input
-                        type="email"
-                        name="email"
-                        placeholder="Е-пошта"
-                        required
-                    />
                     <input
                         type="password"
                         name="password"
                         placeholder="Лозинка"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                         required
                     />
-                    <select
-                        name="role"
+                    <input
+                        type="password"
+                        name="confirm"
+                        placeholder="Повтори ја лозинката"
+                        value={confirm}
+                        onChange={(e) => setConfirm(e.target.value)}
                         required
-                    >
-                        <option value="">Одберете улога</option>
-                        <option value="Admin">Администратор</option>
-                        <option value="User">Корисник</option>
-                    </select>
+                    />
+                    {error && <p style={{ color: "red" }}>{error}</p>}
                     <div>
-                        <button type="button" className="btn-add" onClick={onClose}>
+                        <button type="button" className="btn-add" onClick={(e) => handleZacuvaj(e, KorisnikID)}>
                             Зачувај
                         </button>
                         <button type="button" className="btn-delete" onClick={onClose}>
@@ -45,7 +74,6 @@ const KorisniciModal = ({ isOpen, onClose }) => {
                 </form>
             </div>
         </div>
-
     );
 };
 

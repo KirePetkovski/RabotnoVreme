@@ -7,11 +7,14 @@ const Sektor = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [IzmeniSektor, setIzmeniSektor] = useState(null);
   const [sektori, setSektori] = useState([]);
+  const [vraboteni, setVraboteni] = useState([]);
 
   const sektori_api = "https://rabotnovreme.infinityfreeapp.com/php/sektori.php";
+  const vraboteni_api = "https://rabotnovreme.infinityfreeapp.com/php/vraboteni.php";
 
   useEffect(() => {
     fetchSektori();
+    fetchVraboteni();
   }, []);
 
   const fetchSektori = async () => {
@@ -22,12 +25,24 @@ const Sektor = () => {
       console.error("Error fetching sectors:", error);
     }
   };
+  const fetchVraboteni = async () => {
+    try {
+      const response = await axios.get(vraboteni_api);
+      setVraboteni(response.data);
+    } catch (error) {
+      console.error("Error fetching vraboteni:", error);
+    }
+  };
 
   const IzmeniModal = (sektor) => {
     setIzmeniSektor(sektor);
     setIsModalOpen(true);
   };
 
+  const vraboteniPoSektor = (SektorID) =>{
+    return vraboteni.filter(v => v.SektorID === SektorID).length;
+  }
+  
   const deleteSektor = async (id) => {
     if (!window.confirm("Дали сте сигурни дека сакате да го избришете овој сектор?")) return;
     
@@ -69,7 +84,7 @@ const Sektor = () => {
               <tr key={sektor.SektorID}>
                 <td>{index + 1}</td>
                 <td>{sektor.SektorIme}</td>
-                <td>{sektor.BrojVraboteni}</td>
+                <td>{vraboteniPoSektor(sektor.SektorID)}</td>
                 <td>{sektor.Opis}</td>
                 <td>
                   <button className="btn-delete" onClick={() => deleteSektor(sektor.SektorID)}>

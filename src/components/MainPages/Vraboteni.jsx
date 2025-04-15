@@ -99,15 +99,15 @@ const Vraboteni = () => {
       <div className="stats-container">
         <div className="stat-card">
           <h2>Вкупен број</h2>
-          <p>24</p>
+          <p>{vraboteni.length}</p>
         </div>
         <div className="stat-card">
           <h2>Активни</h2>
-          <p>20</p>
+          <p>{vraboteni.filter((v) => !v.Aktiven).length}</p>
         </div>
         <div className="stat-card">
           <h2>Деактивирани</h2>
-          <p>4</p>
+          <p>{vraboteni.filter((v) => v.Aktiven).length}</p>
         </div>
 
       </div>
