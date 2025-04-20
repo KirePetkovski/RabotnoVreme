@@ -8,13 +8,16 @@ const KorisniciModal = ({ isOpen, onClose, KorisnikID }) => {
 
     const korisnici_api = "https://rabotnovreme.infinityfreeapp.com/php/korisnici.php";
 
+    console.log(KorisnikID);
 
     const handleZacuvaj = async (e, KorisnikID) => {
         e.preventDefault();
         if (password !== confirm) {
+            console.log(KorisnikID);
             setError("Лозинките не се совпаѓаат.");
             
         } else {
+            console.log(KorisnikID);
             try {
                 const response = await axios.post(
                     korisnici_api,

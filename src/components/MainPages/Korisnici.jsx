@@ -9,7 +9,7 @@ const Korisnici = () => {
   const [korisnici, setKorisnici] = useState([]);
   const [vraboteni, setVraboteni] = useState([]);
   const [id, setId] = useState();
-  const kontroleri_api = "https://rabotnovreme.infinityfreeapp.com/php/korisnici.php";
+  const korisnici_api = "https://rabotnovreme.infinityfreeapp.com/php/korisnici.php";
   const vraboteni_api = "https://rabotnovreme.infinityfreeapp.com/php/vraboteni.php"
 
 
@@ -29,7 +29,7 @@ const Korisnici = () => {
 
  const fetchKorisnici = async () => {
    try {
-     const response = await axios.get(kontroleri_api);
+     const response = await axios.get(korisnici_api);
      setKorisnici(response.data);
    } catch (error) {
      console.error("Error fetching korisnici:", error);
@@ -74,7 +74,7 @@ const Korisnici = () => {
                 <td>{korisnik.Email}</td>
                 <td>{korisnik.Uloga}</td>
                 <td>
-                    <button className="btn-delete" onClick={()=>{setIsModalOpen(true); setId(korisnik.KorisnikID)}}>
+                    <button className="btn-delete" onClick={()=>{setIsModalOpen(true); setId(korisnik.KorisnikID); console.log("Korisnik ", id)}}>
                        Промени
                     </button>
                 </td>
@@ -86,11 +86,11 @@ const Korisnici = () => {
             </tr>
           )}          
         </tbody>
-      </table>
+      </table>  
       <KorisniciModal
        isOpen={isModalOpen} 
         onClose={() => setIsModalOpen(false)} 
-        KorisnikId={id}
+        KorisnikID={id}
         />
     </div>
   );

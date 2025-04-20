@@ -1,24 +1,39 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
+import axios from 'axios'; 
 
 const Login = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [Email, setEmail] = useState('');
+  const [Lozinka, setLozinka] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const navigate = useNavigate(); // Hook to navigate to other pages
+  const navigate = useNavigate(); 
 
-  // Handle login logic
-  const handleLogin = (e) => {
+  const login_api = "https://rabotnovreme.infinityfreeapp.com/php/login.php";
+  const handleLogin = async(e) => {
     e.preventDefault();
-
-    // Check if the username and password are correct
-    if (username === 'admin' && password === 'admin') {
-      alert('Login successful!');
-      navigate('/home'); // Redirect to HomePage after successful login
-    } else {
-      setErrorMessage('Invalid username or password');
+    try {
+      const response = await axios.post(login_api, {
+        Lozinka,
+        Email,
+      });
+      if(response.data.success){
+        alert('Login successful!');
+        navigate('/home');
+      }else{
+        setErrorMessage("Погрешен маил или лозинка");
+      }
+      
+    } catch {
+      alert("Sign up failed.");
     }
+
+    // if (email === 'admin' && lozinka === 'admin') {
+    //   alert('Login successful!');
+    //   navigate('/home'); 
+    // } else {
+    //   setErrorMessage('Invalid email or lozinka');
+    // }
   };
 
   return (
@@ -26,26 +41,25 @@ const Login = () => {
       <h2 className="login-title">Login</h2>
       <form onSubmit={handleLogin}>
         <div className="form-group">
-          <label htmlFor="username">Username</label>
+          <label>Email</label>
           <input
             type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={Email}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>
         <div className="form-group">
-          <label htmlFor="password">Password</label>
+          <label>Лозинка</label>
           <input
             type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={Lozinka}
+            onChange={(e) => setLozinka(e.target.value)}
             required
           />
         </div>
         <button type="submit" className="login-button">Log In</button>
+        <a onClick={() => navigate('/SingUp')} >Направете регистрација</a>
       </form>
       {errorMessage && <p className="error-message">{errorMessage}</p>}
     </div>
