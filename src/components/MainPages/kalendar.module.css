@@ -1,0 +1,222 @@
+.calendarContainer {
+    color: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 80%;
+    margin: auto;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .monthHeader {
+    font-size: 24px;
+    font-weight: bold;
+    color: green;
+  }
+  
+  .navButton {
+    font-size: 16px;
+    padding: 10px 20px;
+    background-color: #76b947;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .navButton:hover {
+    background-color: #5a8f35;
+  }
+  
+  .calendarTable {
+    color: black;
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .dayHeader {
+    background-color: #c4e6c3;
+    color: #333;
+    text-align: center;
+    padding: 10px;
+    font-weight: bold;
+    border: 1px solid #ccc;
+  }
+  
+  .rowEven {
+    background-color: #f2fdf1;
+  }
+  
+  .rowOdd {
+    background-color: #ffffff;
+  }
+  
+  .cell {
+    color: black;
+    width: 14%;
+    height: 80px; /* Ensures all cells have the same height */
+    text-align: center;
+    vertical-align: top;
+    padding: 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    box-sizing: border-box; /* Ensures padding doesn't affect cell size */
+  }
+  
+  .cell:hover {
+    background-color: #d6f5d1;
+  }
+  
+  .selected {
+    background-color: #76b947;
+    color: white;
+    font-weight: bold;
+  }
+  .yearViewButton {
+    font-size: 16px;
+    padding: 10px 20px;
+    background-color: #76b947;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 20px;
+  }
+  
+  .yearViewButton:hover {
+    background-color: #5a8f35;
+  }
+  .yearView {
+    width: 100%;
+  }
+  
+  .yearGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }     
+
+  .cellSmall {
+    color: black;
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+  }
+  
+  thead .cellSmall {
+    font-weight: bold;
+    color: #333;
+    background-color: #c4e6c3;
+  }
+
+  .monthContainer {
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .monthContainer:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  .monthName {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+/* test.module.css */
+.cell {
+  position: relative;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.cell.selected {
+  background-color: #4caf50;
+  color: white;
+}
+
+.cell.holiday {
+  background-color: #ffffff;
+  color: black;
+}
+
+.cell.holiday::before {
+  content: '';
+  position: absolute;
+  bottom: 0;  /* Position at the bottom of the cell */
+  left: 0;
+  width: 100%;  /* Full width */
+  height: 50%;  /* Cover the bottom half */
+  background-color: #ff5733; /* Red color for bottom half */
+}
+
+.dayHeader {
+  font-weight: bold;
+}
+
+.navButton {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.monthHeader {
+  font-size: 20px;
+}
+
+.rowEven {
+  background-color: #f5f5f5;
+}
+
+.rowOdd {
+  background-color: #ffffff;
+}
+
+.calendarTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.calendarTable td, .calendarTable th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.yearViewButton {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
