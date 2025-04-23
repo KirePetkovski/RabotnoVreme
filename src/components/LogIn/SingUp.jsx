@@ -30,7 +30,8 @@ const SingUp = () => {
     }catch {
       setError("Something went wrong. Please try again.");
     }
-   if(prodolzi){
+   if(!prodolzi){
+    setFound(false);
     setError("Не вие прва најава. Доколку сте ја заборавиле лозинката, обратете се кај администраторот.");
    }else{
     try {
