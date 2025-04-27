@@ -22,10 +22,16 @@ function Prisustva() {
   useEffect(() => {
     const today = new Date().toISOString().split("T")[0];
     setPrebarajDatum(today);
-
-    fetchPrisustvo();
+  
     fetchVraboteni();
   }, []);
+  
+  useEffect(() => {
+    if (vraboteni.length > 0) {
+      fetchPrisustvo(); 
+    }
+  }, [vraboteni]);
+  
 
   const fetchVraboteni = async () => {
     try {
@@ -37,21 +43,21 @@ function Prisustva() {
   };
 
   const fetchPrisustvo = async () => {
-    axios.get(prisustvo_api)
-      .then(response => {
-        if (Array.isArray(response.data)) {
-          setPrisustva(response.data);
-          calculateStats(response.data);
-        } else {
-          console.error("Unexpected API response:", response.data);
-          setPrisustva([]);
-        }
-      })
-      .catch(error => {
-        console.error("Error fetching data:", error);
+    try {
+      const response = await axios.get(prisustvo_api);
+      if (Array.isArray(response.data)) {
+        setPrisustva(response.data);
+      } else {
+        console.error("Unexpected API response:", response.data);
         setPrisustva([]);
-      });
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setPrisustva([]);
+    }
   };
+  
+  
 
   useEffect(() => {
     if (prisustva.length > 0) {
@@ -60,38 +66,39 @@ function Prisustva() {
       );
 
       calculateStats(filtered);
+      //console.log("filtered pred Prebaraj", filtered)
     }
+
     Prebaraj();
   }, [prebarajDatum, prebarajIme, prisustva])
 
-
   const Prebaraj = () => {
-    let filtered = prisustva.map(record => {
-      const vraboten = vraboteni.find(v => v.VrabotenID === record.VrabotenID);
-      return {
-        ...record,
-        ImePrezime: vraboten ? vraboten.ImePrezime : "Непознат"
-      };
-    });
+    let filtered = prisustva;
+    //console.log("prisustva", prisustva);
   
-    // Filter by name (if `prebarajIme` is not empty)
     if (prebarajIme) {
+      const filteredVraboteni = vraboteni.filter(v =>
+        v.ImePrezime.toLowerCase().includes(prebarajIme.toLowerCase())
+      );
+  
+      const matchingCardIDs = filteredVraboteni.map(v => v.CardID);
+  
       filtered = filtered.filter(record =>
-        record.ImePrezime.toLowerCase().includes(prebarajIme.toLowerCase())
+        matchingCardIDs.includes(record.CardID)
       );
     }
-    console.log("prisustva->", prisustva);
-
-    filtered = filtered.filter(datum =>
-      datum.Vreme.startsWith(prebarajDatum)
+  
+  
+    filtered = filtered.filter(record =>
+      record.Vreme.startsWith(prebarajDatum)
     );
-
-    console.log(filtered);
+  
+    //console.log("filtered",filtered);
     setFilteredPrisustva(filtered);
   };
+  
 
 
-  //Function to calculate total employees, present, absent, and on break
   const calculateStats = (data) => {
     let BrojVraboteni = new Set();
     let prisutniVraboteni = new Set();
@@ -195,20 +202,23 @@ function Prisustva() {
         <tbody>
           {Object.values(
             filteredPrisustva.reduce((acc, record) => {
-              const vraboten = vraboteni.find(v => v.VrabotenID === record.VrabotenID);
+              //console.log("Vraboteni", vraboteni)
+              const vraboten = vraboteni.find(v => v.CardID === record.CardID);
               const name = vraboten ? vraboten.ImePrezime : "Непознат";
 
               if (!acc[name]) {
                 acc[name] = { ImePrezime: name };
               }
 
-              acc[name][record.TipAkcija] = new Date(record.Vreme).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+              acc[name][record.TipAkcija] = new Date(record.Vreme).toLocaleTimeString([], {
+                hour: '2-digit', minute: '2-digit', hour12: false
+              });
 
               return acc;
             }, {})
           ).map((record, index) => (
             <tr key={index}>
-              <td>{record.ImePrezime || ""}</td> 
+              <td>{record.ImePrezime || ""}</td>
               <td>{record.Vlez || ""}</td>
               <td>{record.Pauza_Izlez || ""}</td>
               <td>{record.Pauza_Vlez || ""}</td>
@@ -219,6 +229,7 @@ function Prisustva() {
               <td>{record.Izlez || ""}</td>
             </tr>
           ))}
+
         </tbody>
 
       </table>

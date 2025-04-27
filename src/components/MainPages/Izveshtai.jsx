@@ -1,24 +1,290 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import "./MainPages.css";
 
 const Izveshtai = () => {
+  const [Zapisi, setZapisi] = useState([]);
+  const [FiltriraniZapisi, setFiltriraniZapisi] = useState([]); // Vkupnite filtrirani zapisi
+  const [Sektori, setSektori] = useState([])
   const [showFilters, setShowFilters] = useState(true);
 
+  const sektori_api = "https://rabotnovreme.infinityfreeapp.com/php/sektori.php";
+  const vraboteni_api = "https://rabotnovreme.infinityfreeapp.com/php/vraboteni.php";
+  const raspored_api = "https://rabotnovreme.infinityfreeapp.com/php/raspored.php";
+  const prisustvo_api = "https://rabotnovreme.infinityfreeapp.com/php/prisustvo.php";
+
+  useEffect(() => {
+    const fetchAllData = async () => {
+      try {
+        const [prisustvoRes, vrabotenRes, sektoriRes, rasporedRes] = await Promise.all([
+          axios.get(prisustvo_api),
+          axios.get(vraboteni_api),
+          axios.get(sektori_api),
+          axios.get(raspored_api),
+        ]);
+  
+        const prisustvoData = prisustvoRes.data || [];
+        const vraboteniData = vrabotenRes.data || [];
+        const sektoriData = sektoriRes.data || [];
+        const rasporedData = rasporedRes.data || [];
+  
+        setSektori(sektoriData);
+  
+        // (0 = Sunday, ..., 6 = Saturday)
+        //const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        //Vo bazata za Raspored nemam za Nedela pa aplikacijata nema da raboti u nedela
+        const days = ["Ponedelnik", "Ponedelnik", "Vtornik", "Sreda", "Cetvrtok", "Petok", "Sabota"];
+        const todayName = days[new Date().getDay()];
+
+        const merged = prisustvoData.map((p) => {
+          const emp = vraboteniData.find((e) => e.CardID === p.CardID);
+          if (!emp) {
+            return {
+              ...p,
+              VrabotenID: null,
+              CardID: null,
+              SektorID: null,
+              RasporedID: null,
+              start_time: null,
+              end_time: null,
+              pauza_start: null,
+              pauza_end: null,
+              pauza_time: null
+            };
+          }
+  
+          const sektor = sektoriData.find((s) => s.SektorID === emp.SektorID); 
+          const raspored = rasporedData.find((r) => {
+            return String(r.RasporedID) === String(emp.RasporedID); 
+          });    
+          console.log("raspored", raspored);
+          console.log("todayName", todayName);
+          console.log("raspored[todayName]", raspored[todayName]);
+          console.log("raspored.RabotnoVreme",  raspored.RabotnoVreme)
+        
+          let start_time = raspored[todayName];
+          let end_time = RabotniSaatizaVraboten(raspored[todayName], raspored.RabotnoVreme);
+          let pauza_start = raspored["PauzaPocetok"];
+          let pauza_end = raspored["PauzaKraj"];
+          let pauza_time = raspored["PauzaVreme"];
+          
+          return {
+            ...p,
+            VrabotenID: emp.VrabotenID,
+            CardID: emp.CardID,
+            SektorID: sektor ? sektor.SektorID : null,
+            RasporedID: raspored ? raspored.RasporedID : null,
+            start_time,
+            end_time,
+            pauza_start,
+            pauza_end,
+            pauza_time,
+          };
+        });
+  
+        setZapisi(merged);
+        console.log(merged);
+      } catch (error) {
+        console.error("Error merging data:", error);
+      }
+    };
+  
+    fetchAllData();
+  }, []);
+
+
+  //Za chek polinjata
   const [filters, setFilters] = useState({
-    // startDate: "",
-    // endDate: "",
-    // employee: "",
-    // department: "",   
-    reportTypes: [],   
+    startDate: "",
+    endDate: "",
+    vraboten: "",
+    sektor: "",   
+    TipAkcija: [],   
   });
 
-  const showPrisustvo = filters.reportTypes.includes("prisustvo");
-  const showOtsustvo = filters.reportTypes.includes("otsustvo");
-  const showPrivateOut = filters.reportTypes.includes("privateOut");
-  const showBusinessOut = filters.reportTypes.includes("businessOut");
-  const showBrakeOut = filters.reportTypes.includes("brakeOut");
-  const showWorkingHours = filters.reportTypes.includes("workingHours");
-  const showOverTimeHours = filters.reportTypes.includes("overTime")
+  useEffect(() => {
+    if (filters.startDate && filters.endDate) {
+      FiltrirajZapisi();
+    }
+  }, [filters.startDate, filters.endDate, filters.sektor, filters.vraboten, filters.TipAkcija]);
+
+  const FiltrirajZapisi = () => {
+    if (!filters.startDate || !filters.endDate) return;
+
+    const startDateObj = new Date(filters.startDate);
+    const endDateObj = new Date(filters.endDate);
+    const dateList = [];
+    const tempDate = new Date(startDateObj);
+    while (tempDate <= endDateObj) {
+      dateList.push(tempDate.toISOString().split("T")[0]);
+      tempDate.setDate(tempDate.getDate() + 1);
+    }
+
+    const groupedData = {};
+
+
+    Zapisi.forEach((record) => {
+    
+      if (filters.sektor) {
+        if (parseInt(record.SektorID, 10) !== parseInt(filters.sektor, 10)) {
+          return; 
+        }
+      }
+      if (
+        filters.vraboten &&
+        !record.CardID.includes(filters.vraboten)
+      ) {
+        return; 
+      }
+      const datePart = record.Vreme.split(" ")[0]; 
+      if (datePart < filters.startDate || datePart > filters.endDate) {
+        return;
+      }
+
+      const id = record.CardID;
+      const time = new Date(record.Vreme).toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+
+      if (!groupedData[id]) groupedData[id] = {};
+      if (!groupedData[id][datePart]) groupedData[id][datePart] = {};
+      //console.log("TIPAKCIJA = >", record.TipAkcija);
+      groupedData[id][datePart][record.TipAkcija] = time;
+    });
+
+    setFiltriraniZapisi({ groupedData, dateList });
+  };
+
+
+  const getDeneshenRaspored = (cardID) => {
+    const vraboten = Zapisi.find((zapis) => zapis.CardID.toString() === cardID.toString());
+
+    //console.log("Raspored za vraboten: ", vraboten)
+    if (!vraboten) return null; // ako ne e najden 
+
+    return {
+        start_time: vraboten.start_time,
+        end_time: vraboten.end_time,
+        pauza_start: vraboten.pauza_start,
+        pauza_end: vraboten.pauza_end,
+        pauza_time: vraboten.pauza_time,
+
+    };
+};
+  function RabotniSaatizaVraboten(pocnuva, zavrshuva){
+
+    let [PocnuvaCasovi, PocnuvaMinuti] = pocnuva.split(":").map(Number);
+    let [RabotiCasovi, RabotiMinuti] = zavrshuva.split(":").map(Number);
+  
+    let VkupnoMinuti = PocnuvaCasovi * 60 + PocnuvaMinuti + RabotiCasovi * 60 + RabotiMinuti;
+  
+    let ZavrshuvaSaati = Math.floor(VkupnoMinuti / 60) % 24; 
+    let ZavrshuvaMinuti = VkupnoMinuti % 60;
+  
+    return `${String(ZavrshuvaSaati).padStart(2, '0')}:${String(ZavrshuvaMinuti).padStart(2, '0')}`;
+  }
+  
+  const VremeNaPrisustvo = (vraboten, date, pomZapis) => {
+    const vrabotenRaspored = getDeneshenRaspored(vraboten);
+    const dnevenZapis = pomZapis[date] || {};
+  
+    const vlegol = dnevenZapis.Vlez;
+    const izlegol = dnevenZapis.Izlez;
+    const pauzaIzlez = dnevenZapis.Pauza_Izlez;
+    const pauzaVlez = dnevenZapis.Pauza_Vlez;
+  
+    if (!vlegol || !izlegol) {
+      return { rabotel: "0:00", prekuvremeno: "0:00" };
+    }
+  
+    const VremeVlegol = new Date(`2025-01-01T${vlegol}`);
+    const VremeIzlegol = new Date(`2025-01-01T${izlegol}`);
+    const VremePauzaIzlez = new Date(`2025-01-01T${pauzaIzlez}`);
+    const VremePauzaVlez = new Date(`2025-01-01T${pauzaVlez}`);
+  
+    const RasporedPocetok = new Date(`2025-01-01T${vrabotenRaspored.start_time}`);
+    const RasporedKraj = new Date(`2025-01-01T${vrabotenRaspored.end_time}`);
+    const RasporedPauzaPocetok = new Date(`2025-01-01T${vrabotenRaspored.pauza_start}`);
+    const RasporedPauzaKraj = new Date(`2025-01-01T${vrabotenRaspored.pauza_end}`);
+  
+  
+    console.log("Vraboten:", vraboten);
+    console.log("Datum:", date);
+    console.log("Dneven zapis:", pomZapis);
+    console.log("Vlegol:", VremeVlegol);
+    console.log("Izlegol:", VremeIzlegol);
+    console.log("Pauza Izlez:", VremePauzaIzlez);
+    console.log("Pauza Vlez:", VremePauzaVlez);
+    console.log("Raspored za vraboteniot:", vrabotenRaspored);
+    console.log("Pocetok:", vlegol);
+    console.log("Kraj:", izlegol);
+  
+    const timeParts = vrabotenRaspored.pauza_time 
+    ? vrabotenRaspored.pauza_time.split(":") : ["0", "00"]; // ako nepostoi go stava 0
+    const dozvoleniMinitiPauza = parseInt(timeParts[0]) * 60 + parseInt(timeParts[1]);
+  
+    let rabotniSaati = (VremeIzlegol - VremeVlegol) / (1000 * 60 * 60); // Convert ms to hours
+    let vkupnoRabotniSaati = 0;
+    let vkupnoPrekuvremeniSaati = 0;
+  
+    if (VremeVlegol >= RasporedPocetok && VremeIzlegol <= RasporedKraj) {
+      vkupnoRabotniSaati = rabotniSaati;
+    } else {
+      vkupnoRabotniSaati = Math.min(rabotniSaati, (RasporedKraj - RasporedPocetok) / (1000 * 60 * 60));
+      vkupnoPrekuvremeniSaati = Math.max(0, rabotniSaati - (RasporedKraj - RasporedPocetok) / (1000 * 60 * 60));
+    }
+  
+    let minutiPredVreme = 0, minutiPosleVreme = 0, minutiPauzaZakasneti = 0;
+    let pauza = (pauzaIzlez - pauzaVlez) / 60000;
+    if(!pauza){
+      pauza =0;
+      console.log("Vreme od Pauza", pauza);
+    }
+    if (pauzaIzlez && pauzaVlez) { 
+      if (VremePauzaIzlez < RasporedPauzaPocetok) {
+        minutiPredVreme = Math.round((RasporedPauzaPocetok - VremePauzaIzlez) / (1000 * 60));
+        console.log(vraboten, "-minutiPredVreme: ", minutiPredVreme);
+      }
+  
+      if (VremePauzaVlez > RasporedPauzaKraj) {
+        minutiPosleVreme = Math.round((VremePauzaVlez - RasporedPauzaKraj) / (1000 * 60));
+        console.log(vraboten, "-minutiPosleVreme: ", minutiPosleVreme);
+  
+      }
+  
+      minutiPauzaZakasneti = Math.round((VremePauzaVlez - VremePauzaIzlez) / (1000 * 60));
+    }
+  
+    const povekjeMinutiodPauza = Math.max(0, pauza - dozvoleniMinitiPauza - minutiPosleVreme - minutiPredVreme);
+    //console.log(employee, "-povekjeMinutiodPauza: ", povekjeMinutiodPauza);
+  
+    let minutiPauza = minutiPredVreme + minutiPosleVreme + povekjeMinutiodPauza;
+  
+    vkupnoRabotniSaati -= minutiPauza / 60;
+  
+    vkupnoRabotniSaati = Math.max(0, vkupnoRabotniSaati); // Da se spreci negativen broj
+    
+    const formatHours = (decimalHours) => {
+      let hours = Math.floor(decimalHours);
+      let minutes = Math.round((decimalHours - hours) * 60);
+      return `${hours}:${String(minutes).padStart(2, '0')}`;
+    };
+  
+    return {
+      Saati: formatHours(vkupnoRabotniSaati),
+      PrekuvremeniSaati: formatHours(vkupnoPrekuvremeniSaati),
+    };
+  };
+  
+
+  const showPrisustvo = filters.TipAkcija.includes("prisustvo");
+  const showOtsustvo = filters.TipAkcija.includes("otsustvo");
+  const showPrivateOut = filters.TipAkcija.includes("privateOut");
+  const showBusinessOut = filters.TipAkcija.includes("businessOut");
+  const showBrakeOut = filters.TipAkcija.includes("brakeOut");
+  const showWorkingHours = filters.TipAkcija.includes("workingHours");
+  const showOverTimeHours = filters.TipAkcija.includes("overTime")
 
  
   const handleFilterChange = (e) => {
@@ -31,10 +297,10 @@ const Izveshtai = () => {
 
   const handleReportTypeChange = (type) => {
     setFilters((prev) => {
-      const reportTypes = prev.reportTypes.includes(type)
-        ? prev.reportTypes.filter((t) => t !== type)
-        : [...prev.reportTypes, type];
-      return { ...prev, reportTypes };
+      const TipAkcija = prev.TipAkcija.includes(type)
+        ? prev.TipAkcija.filter((t) => t !== type)
+        : [...prev.TipAkcija, type];
+      return { ...prev, TipAkcija };
     });
   };
 
@@ -56,11 +322,19 @@ const Izveshtai = () => {
     <tr>
       <td><label>Од датум:</label></td>
       <td>
-        <input type="date" name="startDate" onChange={handleFilterChange} />
+        <input 
+          type="date"
+          name="startDate"
+          value={filters.startDate}
+          onChange={handleFilterChange} />
       </td>
       <td><label>До датум:</label></td>
       <td>
-        <input type="date" name="endDate" onChange={handleFilterChange} />
+        <input 
+          type="date"
+          name="endDate"
+          value={filters.endDate}
+          onChange={handleFilterChange} />
       </td>
       <td rowSpan="7">
         <div className="report-type-multi">
@@ -99,16 +373,28 @@ const Izveshtai = () => {
     <tr>
       <td><label>Вработен:</label></td>
       <td colSpan="3">
-        <input type="text" name="employee" placeholder="Име на вработен" onChange={handleFilterChange} />
+        <input
+          type="text"
+          name="employee"
+          value={filters.vraboten}
+          placeholder="Име на вработен"
+          onChange={handleFilterChange} />
       </td>
     </tr>
     <tr>
       <td><label>Сектор:</label></td>
       <td colSpan="3">
-        <select name="department" onChange={handleFilterChange}>
+        <select 
+          name="sektor"
+          value={filters.sektor}
+          onChange={handleFilterChange}
+        >
           <option value="">-- Избери Сектор --</option>
-          <option>Информатички технологии</option>
-          <option>Човечки ресурси</option>
+          {Sektori.map((s) => (
+                <option key={s.SektorID} value={s.SektorID}>
+                  {s.SektorIme}
+                </option>
+              ))}
         </select>
       </td>
     </tr>
@@ -164,6 +450,63 @@ const Izveshtai = () => {
             </tr>
           </thead>
           <tbody>
+
+            {Object.keys(FiltriraniZapisi.groupedData || {}).length > 0 ? (
+              Object.keys(FiltriraniZapisi.groupedData).map((pom) => {
+                //console.log("FiltriraniZapisi.groupedData =>", FiltriraniZapisi.groupedData);
+                //console.log("pom =>", pom);
+                //console.log("pomZapis =>", FiltriraniZapisi.groupedData[pom]);
+                const pomZapis = FiltriraniZapisi.groupedData[pom] || {};
+
+                const pomData = FiltriraniZapisi.dateList.filter(
+                  (date) =>
+                    (pomZapis[date]?.Vlez && showPrisustvo) ||
+                    (!pomZapis[date]?.Vlez && showOtsustvo)
+                );
+                //console.log("pomData =>", pomData, " Lenght =>", pomData.length)
+
+                if (pomData.length === 0) return null;
+
+                return pomData.map((date, index) => {
+                 const { Saati, PrekuvremeniSaati } = VremeNaPrisustvo(pom, date, pomZapis);
+
+                  return (
+                    <tr key={`${pom}-${date}`}>
+                      {index === 0 && <td rowSpan={pomData.length}>{pom}</td>}
+                      <td>{date}</td>
+                      <td>{pomZapis[date]?.Vlez || "—"}</td>
+                      {showBrakeOut && (
+                        <>
+                          <td>{pomZapis[date]?.Pauza_Izlez || "—"}</td>
+                          <td>{pomZapis[date]?.Pauza_Vlez || "—"}</td>
+                        </>
+                      )}
+                      {showBusinessOut && (
+                        <>
+                          <td>{pomZapis[date]?.Sluzben_Izlez || "—"}</td>
+                          <td>{pomZapis[date]?.Sluzben_Vlez || "—"}</td>
+                        </>
+                      )}
+                      {showPrivateOut && (
+                        <>
+                          <td>{pomZapis[date]?.Privaten_Izlez || "—"}</td>
+                          <td>{pomZapis[date]?.Privaten_Vlez || "—"}</td>
+                        </>
+                      )}
+                      <td>{pomZapis[date]?.Izlez || "—"}</td>
+                      {showWorkingHours && <td>{Saati || "—"}</td>}
+                      {showOverTimeHours && <td>{PrekuvremeniSaati || "—"}</td>}
+                    
+                    </tr>
+                  );
+                });
+              })
+            ) : (
+              <tr>
+                <td colSpan="10">Нема податоци</td>
+              </tr>
+            )}
+          
            
           </tbody>
 
