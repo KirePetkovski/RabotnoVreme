@@ -5,6 +5,9 @@ const SidebarMenu = () => {
   return (
     <div className="sidebar-menu">
       <ul>
+      <a href="/#/home">
+            <li>Преглед</li>
+        </a> 
         <a href="/#/prisustva">
             <li>Присуства</li>
         </a> 
@@ -24,7 +27,7 @@ const SidebarMenu = () => {
             <li>Календар</li>
         </a>
         <a href="/#/otsustva">
-            <li>Додади отсутство</li>
+            <li>Отсутство</li>
         </a>
         <a href="/#/kontroleri">
             <li>Контролери</li>

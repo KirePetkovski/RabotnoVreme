@@ -1,7 +1,7 @@
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./components/LogIn/LogIn";
 import SingUp from "./components/LogIn/SingUp";
-import HomePage from "./components/SideComponents/home";
+import HomePage from "./components/MainPages/home";
 import SidebarMenu from "./components/SideComponents/SidebarMenu";
 import Prisustva from "./components/MainPages/Prisustva";
 import Vraboteni from "./components/MainPages/Vraboteni";
