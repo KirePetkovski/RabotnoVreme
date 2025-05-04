@@ -2,6 +2,16 @@ import React from 'react';
 import './SidebarMenu.css';
 
 const SidebarMenu = () => {
+
+    function LogOut(){
+        localStorage.removeItem('ImePrezime');
+        localStorage.removeItem('Religija');
+        localStorage.removeItem('Nacionalnost');
+        localStorage.removeItem('SektorID');
+        localStorage.removeItem('RasporedID');
+        localStorage.removeItem('CardID');
+
+    }
   return (
     <div className="sidebar-menu">
       <ul>
@@ -35,6 +45,10 @@ const SidebarMenu = () => {
         <a href="/#/korisnici">
             <li>Корисници</li>
         </a>
+        <h2>
+            {localStorage.getItem('ImePrezime')}
+            {/* <button onClick={LogOut()}>Одјавете се</button> */}
+        </h2>
       </ul>
     </div>
   );
