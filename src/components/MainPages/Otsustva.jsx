@@ -10,8 +10,12 @@ const osustva = () => {
 
   const osustva_api = "https://rabotnovreme.infinityfreeapp.com/php/osustva.php";
   const vraboteni_api = "https://rabotnovreme.infinityfreeapp.com/php/vraboteni.php";
+  
+  const localStorage_Aktiven = localStorage.getItem("Aktiven");
+  const localStorage_CardID = localStorage.getItem("CardID");
 
 
+  console.log("localStorage_Aktiven", localStorage_Aktiven);
   useEffect(() => {
     fetchOsustva();
     fetchVraboteni();
@@ -51,7 +55,7 @@ const osustva = () => {
   
 
   const getImePrezime = (id) => {
-    const vraboten = vraboteni.find(v => v.VrabotenID === id);
+    const vraboten = vraboteni.find(v => String(v.CardID) === id);
     return vraboten ? vraboten.ImePrezime : "Непознат";
   };
   
@@ -63,7 +67,7 @@ const osustva = () => {
     const pom = new Date(pocetok);
 
   while (pom <= kraj) {
-    const dayOfWeek = pom.getDay(); // 0 = Sunday, 6 = Saturday
+    const dayOfWeek = pom.getDay(); // 0 = Nedela, 6 = Sabota
     if (dayOfWeek !== 0 && dayOfWeek !== 6) {
       count++;
     }
@@ -71,6 +75,15 @@ const osustva = () => {
   }
   return count;
   };
+
+  const OdgovorStatus = (status) => {
+    console.log("Status = ", status)
+    if (String(status) === "1"){
+      return "Прифатено";
+    } else {
+      return "Одбиено";
+    }
+  } 
   
   // const deleteOsustva = async (id) => {
   //   if (!window.confirm("Дали сте сигурни дека сакате да го избришете барањето за осуство?")) return;
@@ -103,37 +116,47 @@ const osustva = () => {
               <th>Денови</th>
               <th>Причина</th>
               <th>Статус</th>
-              <th>Прифати</th>
-              <th>Одби</th>
+              {/* direktno od localStorage ide so string */}
+              { localStorage_Aktiven === "1" && <th>Прифати</th> }
+              { localStorage_Aktiven === "1" && <th>Одби</th> }
             </tr>
           </thead>
           <tbody>
-            {osustvo.length > 0 ? (
-              osustvo.map((osus, index) => (
+            {console.log("OSUSTVO",osustvo)}
+          {console.log("localStorage_CardID",localStorage_CardID)}
+          {osustvo.length > 0 ? (
+  osustvo
+    .filter(osus => localStorage_Aktiven === "1" || String(osus.CardID) === String(localStorage_CardID))
+    .map((osus, index) => (
+
                 <tr key={osus.OsustvoID}>
                   <td>{index + 1}</td>
-                  <td>{getImePrezime(osus.VrabotenID)}</td>
+                  <td>{getImePrezime(String(osus.CardID))}</td>
                   <td>{osus.OdDen}</td>
                   <td>{osus.DoDen}</td>
                   <td>{Denovi(osus.OdDen, osus.DoDen)}</td>
                   <td>{osus.Pricina}</td>
-                  <td>{osus.Status}</td>
+                  <td>{OdgovorStatus(osus.Status)}</td>
+                  { localStorage_Aktiven === "1" &&
                   <td>
                     <button
                       className="btn-edit"
-                      onClick={() => updateStatus(osus.OsustvoID, "Прифатено")}
+                      onClick={() => updateStatus(osus.OsustvoID, 1)}
                     >
                       Прифати
                     </button>
                   </td>
+                  }
+                  { localStorage_Aktiven=== "1" &&
                   <td>
                     <button
                       className="btn-delete"
-                      onClick={() => updateStatus(osus.OsustvoID, "Одбиено")}
+                      onClick={() => updateStatus(osus.OsustvoID, 0)}
                     >
                       Одби
                     </button>
                   </td>
+                  }
                 </tr>
               ))
             ) : (

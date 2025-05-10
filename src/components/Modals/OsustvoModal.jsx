@@ -5,7 +5,14 @@ const OsustvaModal = ({ isOpen, onClose, fetchOsustva, osustva }) => {
   const [OdDen, setOdDen] = useState("");
   const [DoDen, setDoDen] = useState("");
   const [Pricina, setPricina] = useState("");
+  const [CardID, setCardID] = useState("");
   const [VrabotenID, setVrabotenID] = useState("");
+
+  useEffect(() => {
+    setVrabotenID(localStorage.getItem("VrabotenID") || "");
+    setCardID(localStorage.getItem("CardID") || "");
+  }, []);
+  
 
   const osustva_api = "https://rabotnovreme.infinityfreeapp.com/php/osustva.php";
 
@@ -29,7 +36,7 @@ const OsustvaModal = ({ isOpen, onClose, fetchOsustva, osustva }) => {
     try {
       const response = await axios.post(
         osustva_api,
-        { OdDen, DoDen, Pricina, VrabotenID: "8" },
+        { OdDen, DoDen, Pricina, VrabotenID, CardID},
         { headers: { "Content-Type": "application/json" } }
       );
 

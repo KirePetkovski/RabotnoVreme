@@ -73,10 +73,10 @@ const SingUp = () => {
             VrabotenID,
             CardID,
           });
-          alert(response.data.message || "Sign up successful!");
-          navigate('/home');
+          alert(response.data.message || "Успешно сте регистрирани во системот. Најсвете се за да влезете во системот");
+          navigate('/');
         } catch {
-          alert("Sign up failed.");
+          alert("Грешка при регистрирањето");
         }
       }
     }

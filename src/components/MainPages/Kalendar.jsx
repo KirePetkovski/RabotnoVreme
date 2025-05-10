@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { format } from 'date-fns';
 import { mk } from 'date-fns/locale';
 import "./MainPages.css"; 
@@ -11,8 +11,12 @@ const Kalendar = () => {
   const [date, setDate] = useState(new Date());
   const [view, setView] = useState('month');
   const [holidays, setHolidays] = useState([]);
+  const [osustvo, setOsustvo] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const localStorage_Aktiven = localStorage.getItem("Aktiven");
+  const localStorage_CardID = localStorage.getItem("CardID");
 
+  const osustva_api = "https://rabotnovreme.infinityfreeapp.com/php/osustva.php";
   const praznici_api = "https://rabotnovreme.infinityfreeapp.com/php/praznici.php";
   
   const openModal = () => {
@@ -21,6 +25,7 @@ const Kalendar = () => {
   
   useEffect(() => {
     fetchHolidays();
+    fetchOsustva();
   }, []);
 
   const fetchHolidays = () => {
@@ -33,6 +38,35 @@ const Kalendar = () => {
       })
       .catch((error) => console.error('Failed to fetch holidays:', error));
   };
+
+  const fetchOsustva = async () => {
+    try {
+      const response = await axios.get(osustva_api);
+      setOsustvo(response.data);
+    } catch (error) {
+      console.error("Грешпа при зимање на осуства: ", error);
+    }
+  };
+
+  const absenceDates = useMemo(() => {
+    const filtered = osustvo.filter(o => String(o.CardID) === String(localStorage_CardID) && String(o.Status) === "1");
+  
+    return filtered.flatMap(item => {
+      const start = new Date(item.OdDen);
+      const end = new Date(item.DoDen);
+      const dates = [];
+  
+      for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+        dates.push({
+          Datum: format(new Date(d), 'yyyy-MM-dd'),
+          description: item.Pricina || "Одобрено отсуство",
+          type: "absence"
+        });
+      }
+      return dates;
+    });
+  }, [osustvo, localStorage_CardID]);
+  
 
   const daysOfWeek = ['Пон', 'Вто', 'Сре', 'Чет', 'Пет', 'Саб', 'Нед'];
 
@@ -75,7 +109,11 @@ const Kalendar = () => {
       const holidayDate = format(new Date(date.getFullYear(), date.getMonth(), day), 'yyyy-MM-dd');
       return holidays.find((holiday) => holiday.Datum === holidayDate);
     };
-  
+      
+    const getOsustvoDate = (day) => {
+      const dateStr = format(new Date(date.getFullYear(), date.getMonth(), day), 'yyyy-MM-dd');
+      return absenceDates.find(abs => abs.Datum === dateStr);
+    };
     return (
       <div>
         <div className={styles.header}>
@@ -101,14 +139,15 @@ const Kalendar = () => {
             {Array.from({ length: Math.ceil(days.length / 7) }).map((_, rowIndex) => (
               <tr key={rowIndex} className={rowIndex % 2 === 0 ? styles.rowEven : styles.rowOdd}>
                 {days.slice(rowIndex * 7, rowIndex * 7 + 7).map((day, colIndex) => {
-                  const holiday = day ? getHolidayForDate(day) : null;
+                  const holiday = (day ? getHolidayForDate(day) : null)||(day ? getOsustvoDate(day) : null);
   
                   return (
                     <td
                       key={colIndex}
                       className={`${styles.cell} ${day === date.getDate() ? styles.selected : ''} ${
-                        holiday ? styles.holiday : ''
+                        holiday?.type === 'absence' ? styles.absence : holiday ? styles.holiday : ''
                       }`}
+                      
                       title={holiday ? holiday.description : ''}
                       onClick={() => day && setDate(new Date(date.getFullYear(), date.getMonth(), day))}
                     >
@@ -186,10 +225,12 @@ const Kalendar = () => {
   return (
     <div className="KalendarTabela">
       <div className="header">
-      <h2>Календар</h2>
-      <button className="btn-add" onClick={openModal}>Додај нов празник</button>
+        <h2>Календар</h2>
+        {localStorage_Aktiven === "1" &&
+          <button className="btn-add" onClick={openModal}>Додај нов празник</button>
+        }
       </div>
-    
+
       <button onClick={() => setView(view === 'month' ? 'year' : 'month')}>
         {view === 'month' ? 'Преглед на година' : 'Преглед на месец'}
       </button>
@@ -199,7 +240,7 @@ const Kalendar = () => {
 
     </div>
   );
- 
+
 };
 
 export default Kalendar;

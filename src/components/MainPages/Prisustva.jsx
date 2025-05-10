@@ -9,6 +9,8 @@ function Prisustva() {
   const [vraboteni, setVraboteni] = useState([]);
   const [prebarajIme, setPrebarajIme] = useState("");
   const [prebarajDatum, setPrebarajDatum] = useState("");
+  const localStorage_Aktiven = localStorage.getItem("Aktiven");
+
 
   // Stats za momentalnata sostojba
   const [vkupnoVraboteni, setVkupnoVraboteni] = useState(0);
@@ -22,16 +24,16 @@ function Prisustva() {
   useEffect(() => {
     const today = new Date().toISOString().split("T")[0];
     setPrebarajDatum(today);
-  
+
     fetchVraboteni();
   }, []);
-  
+
   useEffect(() => {
     if (vraboteni.length > 0) {
-      fetchPrisustvo(); 
+      fetchPrisustvo();
     }
   }, [vraboteni]);
-  
+
 
   const fetchVraboteni = async () => {
     try {
@@ -56,8 +58,8 @@ function Prisustva() {
       setPrisustva([]);
     }
   };
-  
-  
+
+
 
   useEffect(() => {
     if (prisustva.length > 0) {
@@ -75,28 +77,28 @@ function Prisustva() {
   const Prebaraj = () => {
     let filtered = prisustva;
     //console.log("prisustva", prisustva);
-  
+
     if (prebarajIme) {
       const filteredVraboteni = vraboteni.filter(v =>
         v.ImePrezime.toLowerCase().includes(prebarajIme.toLowerCase())
       );
-  
+
       const matchingCardIDs = filteredVraboteni.map(v => v.CardID);
-  
+
       filtered = filtered.filter(record =>
         matchingCardIDs.includes(record.CardID)
       );
     }
-  
-  
+
+
     filtered = filtered.filter(record =>
       record.Vreme.startsWith(prebarajDatum)
     );
-  
+
     //console.log("filtered",filtered);
     setFilteredPrisustva(filtered);
   };
-  
+
 
 
   const calculateStats = (data) => {
@@ -132,39 +134,47 @@ function Prisustva() {
 
 
   return (
+
+
     <div>
       <header className="header">
         <h1>Преглед на присутност</h1>
       </header>
 
-      <div className="stats-container">
-        <div className="stat-card">
-          <h2>Број на вработени</h2>
-          <p>{vkupnoVraboteni}</p>
+      {localStorage_Aktiven === "1" &&
+
+        <div className="stats-container">
+          <div className="stat-card">
+            <h2>Број на вработени</h2>
+            <p>{vkupnoVraboteni}</p>
+          </div>
+          <div className="stat-card">
+            <h2>Присутни</h2>
+            <p>{prisutni}</p>
+          </div>
+          <div className="stat-card">
+            <h2>Отсуствa / приватни излези</h2>
+            <p>{otsutni}</p>
+          </div>
+          <div className="stat-card">
+            <h2>Вкупно приватни излези</h2>
+            <p>{pauza}</p>
+          </div>
         </div>
-        <div className="stat-card">
-          <h2>Присутни</h2>
-          <p>{prisutni}</p>
-        </div>
-        <div className="stat-card">
-          <h2>Отсуствa / приватни излези</h2>
-          <p>{otsutni}</p>
-        </div>
-        <div className="stat-card">
-          <h2>Вкупно приватни излези</h2>
-          <p>{pauza}</p>
-        </div>
-      </div>
+      }
 
       <div className="search">
-        <div className="search-container">
-          <input 
-            type="text" 
-            className="search-input" 
-            placeholder="Пребарај вработен"
-            value={prebarajIme} 
-            onChange={(e) => setPrebarajIme(e.target.value)}  />
-        </div>
+        {localStorage_Aktiven === "1" &&
+
+          <div className="search-container">
+            <input
+              type="text"
+              className="search-input"
+              placeholder="Пребарај вработен"
+              value={prebarajIme}
+              onChange={(e) => setPrebarajIme(e.target.value)} />
+          </div>
+        }
         <div className="date-range">
           <label htmlFor="date" className="date-label">Пребарај по датум </label>
           <input
@@ -176,6 +186,7 @@ function Prisustva() {
           />
         </div>
       </div>
+
 
       <table className="main-table">
         <thead>

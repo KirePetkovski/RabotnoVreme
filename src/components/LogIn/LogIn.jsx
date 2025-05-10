@@ -10,31 +10,40 @@ const Login = () => {
   const navigate = useNavigate(); 
 
   const login_api = "https://rabotnovreme.infinityfreeapp.com/php/login.php";
-  const handleLogin = async(e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post(login_api, {
         Lozinka,
         Email,
       });
-      if(response.data.success){
+
+      console.log("data", response.data.najaven);
+
+      console.log('SektorID', response.data.najaven.SektorID);
+      console.log('RasporedID', response.data.najaven.RasporedID);
+
+      if (response.data.success) {
         alert('Login successful!');
+        localStorage.setItem('ImePrezime', response.data.najaven.ImePrezime);
+        localStorage.setItem('Religija', response.data.najaven.Religija);
+        localStorage.setItem('Nacionalnost', response.data.najaven.Nacionalnost);
+        localStorage.setItem('SektorID', response.data.najaven.SektorID);  
+        localStorage.setItem('RasporedID', response.data.najaven.RasporedID);
+        localStorage.setItem('CardID', response.data.najaven.CardID);
+        localStorage.setItem('Aktiven', response.data.najaven.Aktiven);
+      //  localStorage.setItem('user', JSON.stringify(response.data.najaven.ImePrezime)); 
+        
         navigate('/home');
-      }else{
+      } else {
         setErrorMessage("Погрешен маил или лозинка");
       }
-      
+  
     } catch {
       alert("Sign up failed.");
     }
-
-    // if (email === 'admin' && lozinka === 'admin') {
-    //   alert('Login successful!');
-    //   navigate('/home'); 
-    // } else {
-    //   setErrorMessage('Invalid email or lozinka');
-    // }
   };
+  
 
   return (
     <div className="login-container">

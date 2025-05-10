@@ -57,10 +57,10 @@ const Izveshtai = () => {
           const raspored = rasporedData.find((r) => {
             return String(r.RasporedID) === String(emp.RasporedID); 
           });    
-          console.log("raspored", raspored);
-          console.log("todayName", todayName);
-          console.log("raspored[todayName]", raspored[todayName]);
-          console.log("raspored.RabotnoVreme",  raspored.RabotnoVreme)
+          // console.log("raspored", raspored);
+          // console.log("todayName", todayName);
+          // console.log("raspored[todayName]", raspored[todayName]);
+          // console.log("raspored.RabotnoVreme",  raspored.RabotnoVreme);
         
           let start_time = raspored[todayName];
           let end_time = RabotniSaatizaVraboten(raspored[todayName], raspored.RabotnoVreme);
@@ -209,16 +209,16 @@ const Izveshtai = () => {
     const RasporedPauzaKraj = new Date(`2025-01-01T${vrabotenRaspored.pauza_end}`);
   
   
-    console.log("Vraboten:", vraboten);
-    console.log("Datum:", date);
-    console.log("Dneven zapis:", pomZapis);
-    console.log("Vlegol:", VremeVlegol);
-    console.log("Izlegol:", VremeIzlegol);
-    console.log("Pauza Izlez:", VremePauzaIzlez);
-    console.log("Pauza Vlez:", VremePauzaVlez);
-    console.log("Raspored za vraboteniot:", vrabotenRaspored);
-    console.log("Pocetok:", vlegol);
-    console.log("Kraj:", izlegol);
+    // console.log("Vraboten:", vraboten);
+    // console.log("Datum:", date);
+    // console.log("Dneven zapis:", pomZapis);
+    // console.log("Vlegol:", VremeVlegol);
+    // console.log("Izlegol:", VremeIzlegol);
+    // console.log("Pauza Izlez:", VremePauzaIzlez);
+    // console.log("Pauza Vlez:", VremePauzaVlez);
+    // console.log("Raspored za vraboteniot:", vrabotenRaspored);
+    // console.log("Pocetok:", vlegol);
+    // console.log("Kraj:", izlegol);
   
     const timeParts = vrabotenRaspored.pauza_time 
     ? vrabotenRaspored.pauza_time.split(":") : ["0", "00"]; // ako nepostoi go stava 0

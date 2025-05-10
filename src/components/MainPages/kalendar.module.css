@@ -158,12 +158,12 @@
   color: white;
 }
 
-.cell.holiday {
+/* .cell.holiday {
   background-color: #ffffff;
   color: black;
-}
+} */
 
-.cell.holiday::before {
+.holiday::before {
   content: '';
   position: absolute;
   bottom: 0;  /* Position at the bottom of the cell */
@@ -171,6 +171,17 @@
   width: 100%;  /* Full width */
   height: 50%;  /* Cover the bottom half */
   background-color: #ff5733; /* Red color for bottom half */
+}
+
+.cell.absence::before {
+  content: '';
+  position: absolute;
+  bottom: 0;  /* Position at the bottom of the cell */
+  left: 0;
+  background-color: #a7ad02; 
+  width: 100%;  /* Full width */
+  height: 50%;  /* Cover the bottom half */
+
 }
 
 .dayHeader {
@@ -220,3 +231,4 @@
   padding: 10px;
   cursor: pointer;
 }
+
