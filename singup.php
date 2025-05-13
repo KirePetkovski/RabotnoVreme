@@ -18,14 +18,13 @@ if ($method === "GET") {
         $stmt = $conn->prepare("SELECT * FROM vraboteni WHERE CardID = ?");
         $stmt->execute([$cardID]);
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
-        $data['success'] = true;
-        echo json_encode($data);
 
-        // if ($data) {
-        //     echo json_encode(["success" => true, "data" => $data]);
-        // } else {
-        //     echo json_encode(["success" => false, "message" => "No employee found with that CardID"]);
-        // }
+        if ($data) {
+            $data['success'] = true;
+        } else {
+            $data['success'] = false;
+        }
+        echo json_encode($data);
     } else {
         echo json_encode(["success" => false, "message" => "No CardID provided"]);
     }

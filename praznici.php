@@ -11,14 +11,27 @@ $database = new DataBase();
 $conn = $database->getConnection();
 $method = $_SERVER["REQUEST_METHOD"];
 
-switch ($method) {
 
-    case "GET":
-    case "POST":
-    case "DELETE":
-    case "PUT":
-    default:
-        break;
+if ($method === "GET") {
+
+    $stmt = $conn->query("SELECT * FROM praznici");
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    echo json_encode($result);
+    exit;
+}
+
+if ($method === "POST") {
+    $data = json_decode(file_get_contents("php://input"), true);
+
+    try {
+        $stmt = $conn->prepare("INSERT INTO praznici (PraznikIme, Datum, TipPraznik) VALUES (?, ?, ?)");
+        $stmt->execute([$data["PraznikIme"], $data["Datum"], $data["TipPraznik"]]);
+        echo json_encode(["message" => "Praznik added successfully"]);
+    } catch (PDOException $e) {
+        echo json_encode(["error" => $e->getMessage()]);
+    }
+    
 }
 
 ?>

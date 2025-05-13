@@ -1,5 +1,5 @@
 <?php
-header("Access-Control-Allow-Origin: http://localhost:5173");
+header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Access-Control-Allow-Credentials: true");
@@ -10,6 +10,7 @@ require_once "db.php";
 $database = new DataBase();
 $conn = $database->getConnection();
 $method = $_SERVER["REQUEST_METHOD"];
+
 
 if ($method === "POST"){
     $input = json_decode(file_get_contents("php://input"), true);
@@ -25,7 +26,17 @@ if ($method === "POST"){
 
             if ($data) {
                 $data['success'] = true;
-                echo json_encode($data);
+
+                $CardID = $data['CardID'];
+                $stmt = $conn->prepare("SELECT * FROM vraboteni WHERE CardID = ?");
+                $stmt->execute([$CardID]);
+                $najaven = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                echo json_encode([
+                    'success' => true,
+                    'data' => $data,
+                    'najaven' => $najaven
+                ]);
             } else {
                 echo json_encode(['success' => false, 'message' => 'Погрешен емаил или лозинка']);
             }
@@ -36,4 +47,5 @@ if ($method === "POST"){
         echo json_encode(['success' => false, 'message' => 'Недостаток на податоци']);
     }
 }
+
 ?>
