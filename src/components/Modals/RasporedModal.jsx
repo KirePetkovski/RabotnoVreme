@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { sektori_api, raspored_api, prisustvo_api, praznici_api, vraboteni_api, kontroleri_api, korisnici_api, login_api, osustva_api, singup_api } from "../api";
+
 
 const RasporedModal = ({ isOpen, onClose, fetchRasporedi, raspored }) => {    
     const [formData, setFormData] = useState({
@@ -16,7 +18,7 @@ const RasporedModal = ({ isOpen, onClose, fetchRasporedi, raspored }) => {
         PauzaVreme: "",
     });
 
-    const raspored_api = "https://rabotnovreme.infinityfreeapp.com/php/raspored.php";
+//    const raspored_api = "https://rabotnovreme.infinityfreeapp.com/php/raspored.php";
 
     useEffect(() => {
         if (raspored) {

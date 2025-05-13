@@ -2,14 +2,16 @@ import React, { useState, useEffect } from "react";
 import "./MainPages.css";
 import OsustvaModal from '../Modals/OsustvoModal';
 import axios from "axios";
+import { sektori_api, raspored_api, prisustvo_api, praznici_api, vraboteni_api, kontroleri_api, korisnici_api, login_api, osustva_api, singup_api } from "../api";
+
 
 const osustva = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [osustvo, setOsustvo] = useState([]);
   const [vraboteni, setVraboteni] = useState([]);
 
-  const osustva_api = "https://rabotnovreme.infinityfreeapp.com/php/osustva.php";
-  const vraboteni_api = "https://rabotnovreme.infinityfreeapp.com/php/vraboteni.php";
+  //const osustva_api = "https://rabotnovreme.infinityfreeapp.com/php/osustva.php";
+  //const vraboteni_api = "https://rabotnovreme.infinityfreeapp.com/php/vraboteni.php";
   
   const localStorage_Aktiven = localStorage.getItem("Aktiven");
   const localStorage_CardID = localStorage.getItem("CardID");

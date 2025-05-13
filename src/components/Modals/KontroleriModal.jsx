@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { sektori_api, raspored_api, prisustvo_api, praznici_api, vraboteni_api, kontroleri_api, korisnici_api, login_api, osustva_api, singup_api } from "../api";
+
 
 const KontroleriModal = ({ isOpen, onClose }) => {
     const [IPAdress, setIPAdress] = useState("");
     const [Aktiven, setAktiven] = useState("");
     const [Ovozmozi, setOvozmozi] = useState("");
 
-    const kontroleri_api = "https://rabotnovreme.infinityfreeapp.com/php/kontroleri.php";
+    // const kontroleri_api = "https://rabotnovreme.infinityfreeapp.com/php/kontroleri.php";
 
     const handleDodadiKontroler = async (e) => {
         e.preventDefault();

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./MainPages.css";
+import { sektori_api, raspored_api, prisustvo_api, praznici_api, vraboteni_api, kontroleri_api, korisnici_api, login_api, osustva_api, singup_api } from "../api";
 
 const Izveshtai = () => {
   const [Zapisi, setZapisi] = useState([]);
@@ -8,10 +9,10 @@ const Izveshtai = () => {
   const [Sektori, setSektori] = useState([])
   const [showFilters, setShowFilters] = useState(true);
 
-  const sektori_api = "https://rabotnovreme.infinityfreeapp.com/php/sektori.php";
-  const vraboteni_api = "https://rabotnovreme.infinityfreeapp.com/php/vraboteni.php";
-  const raspored_api = "https://rabotnovreme.infinityfreeapp.com/php/raspored.php";
-  const prisustvo_api = "https://rabotnovreme.infinityfreeapp.com/php/prisustvo.php";
+  //const sektori_api = "https://rabotnovreme.infinityfreeapp.com/php/sektori.php";
+ // const vraboteni_api = "https://rabotnovreme.infinityfreeapp.com/php/vraboteni.php";
+  //const raspored_api = "https://rabotnovreme.infinityfreeapp.com/php/raspored.php";
+  //const prisustvo_api = "https://rabotnovreme.infinityfreeapp.com/php/prisustvo.php";
 
   useEffect(() => {
     const fetchAllData = async () => {

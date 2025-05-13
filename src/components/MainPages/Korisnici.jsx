@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./MainPages.css"
 import KorisniciModal from "../Modals/KorisniciModal";
 import axios from "axios";
+import { sektori_api, raspored_api, prisustvo_api, praznici_api, vraboteni_api, kontroleri_api, korisnici_api, login_api, osustva_api, singup_api } from "../api";
+
 
 
 const Korisnici = () => {
@@ -9,8 +11,8 @@ const Korisnici = () => {
   const [korisnici, setKorisnici] = useState([]);
   const [vraboteni, setVraboteni] = useState([]);
   const [id, setId] = useState();
-  const korisnici_api = "https://rabotnovreme.infinityfreeapp.com/php/korisnici.php";
-  const vraboteni_api = "https://rabotnovreme.infinityfreeapp.com/php/vraboteni.php"
+  //const korisnici_api = "https://rabotnovreme.infinityfreeapp.com/php/korisnici.php";
+  //const vraboteni_api = "https://rabotnovreme.infinityfreeapp.com/php/vraboteni.php"
 
 
   useEffect(() => {

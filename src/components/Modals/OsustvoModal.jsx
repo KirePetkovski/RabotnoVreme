@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { sektori_api, raspored_api, prisustvo_api, praznici_api, vraboteni_api, kontroleri_api, korisnici_api, login_api, osustva_api, singup_api } from "../api";
 
 const OsustvaModal = ({ isOpen, onClose, fetchOsustva, osustva }) => {
   const [OdDen, setOdDen] = useState("");
@@ -14,7 +15,7 @@ const OsustvaModal = ({ isOpen, onClose, fetchOsustva, osustva }) => {
   }, []);
   
 
-  const osustva_api = "https://rabotnovreme.infinityfreeapp.com/php/osustva.php";
+  //const osustva_api = "https://rabotnovreme.infinityfreeapp.com/php/osustva.php";
 
   // useEffect(() => {
   //     if (osustva) {

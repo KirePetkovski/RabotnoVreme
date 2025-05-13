@@ -5,6 +5,7 @@ import "./MainPages.css";
 import styles from './kalendar.module.css';
 import KalendarModal from "../Modals/KalendarModal";
 import axios from "axios";
+import { sektori_api, raspored_api, prisustvo_api, praznici_api, vraboteni_api, kontroleri_api, korisnici_api, login_api, osustva_api, singup_api } from "../api";
 
 
 const Kalendar = () => {
@@ -16,8 +17,8 @@ const Kalendar = () => {
   const localStorage_Aktiven = localStorage.getItem("Aktiven");
   const localStorage_CardID = localStorage.getItem("CardID");
 
-  const osustva_api = "https://rabotnovreme.infinityfreeapp.com/php/osustva.php";
-  const praznici_api = "https://rabotnovreme.infinityfreeapp.com/php/praznici.php";
+  // const osustva_api = "https://rabotnovreme.infinityfreeapp.com/php/osustva.php";
+  // const praznici_api = "https://rabotnovreme.infinityfreeapp.com/php/praznici.php";
   
   const openModal = () => {
     setIsModalOpen(true);

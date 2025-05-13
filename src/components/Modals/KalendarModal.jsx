@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { sektori_api, raspored_api, prisustvo_api, praznici_api, vraboteni_api, kontroleri_api, korisnici_api, login_api, osustva_api, singup_api } from "../api";
+
 
 const KalendarModal = ({ isOpen, onClose }) => {
     const [PraznikIme, setPraznikIme] = useState("");
     const [Datum, setDatum] = useState("");
     const [TipPraznik, setTipPraznik] = useState("");
 
-    const praznici_api = "https://rabotnovreme.infinityfreeapp.com/php/praznici.php";
+    //const praznici_api = "https://rabotnovreme.infinityfreeapp.com/php/praznici.php";
 
     const handleDodadiPraznik = async (e) => {
         e.preventDefault();

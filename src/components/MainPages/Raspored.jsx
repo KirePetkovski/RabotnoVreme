@@ -2,13 +2,15 @@ import React, { useState, useEffect } from "react";
 import "./MainPages.css";
 import RasporedModal from '../Modals/RasporedModal';
 import axios from "axios";
+import { sektori_api, raspored_api, prisustvo_api, praznici_api, vraboteni_api, kontroleri_api, korisnici_api, login_api, osustva_api, singup_api } from "../api";
+
 
 const raspored = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [IzmeniRaspored, setIzmeniRaspored] = useState(null);
   const [rasporedi, setRasporedi] = useState([]);
 
-  const raspored_api = "https://rabotnovreme.infinityfreeapp.com/php/raspored.php";
+  //const raspored_api = "https://rabotnovreme.infinityfreeapp.com/php/raspored.php";
 
   useEffect(() => {
     fetchRasporedi();

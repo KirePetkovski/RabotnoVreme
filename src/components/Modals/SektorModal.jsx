@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { sektori_api, raspored_api, prisustvo_api, praznici_api, vraboteni_api, kontroleri_api, korisnici_api, login_api, osustva_api, singup_api } from "../api";
+
 
 const SectorModal = ({ isOpen, onClose, fetchSektori, sektor }) => {
   const [SektorIme, setSektorIme] = useState("");
   const [Opis, setOpis] = useState("");
 
-  const sektori_api = "https://rabotnovreme.infinityfreeapp.com/php/sektori.php";
+  //const sektori_api = "https://rabotnovreme.infinityfreeapp.com/php/sektori.php";
   useEffect(() => {
     if (sektor) {
       setSektorIme(sektor.SektorIme || "");

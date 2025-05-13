@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { sektori_api, raspored_api, prisustvo_api, praznici_api, vraboteni_api, kontroleri_api, korisnici_api, login_api, osustva_api, singup_api } from "../api";
+
 
 const KorisniciModal = ({ isOpen, onClose, KorisnikID }) => {
     const [password, setPassword] = useState("");
     const [confirm, setConfirm] = useState("");
     const [error, setError] = useState("");
 
-    const korisnici_api = "https://rabotnovreme.infinityfreeapp.com/php/korisnici.php";
+    //const korisnici_api = "https://rabotnovreme.infinityfreeapp.com/php/korisnici.php";
 
     console.log(KorisnikID);
 

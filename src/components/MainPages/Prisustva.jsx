@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./MainPages.css";
+import { sektori_api, raspored_api, prisustvo_api, praznici_api, vraboteni_api, kontroleri_api, korisnici_api, login_api, osustva_api, singup_api } from "../api";
 
 
 function Prisustva() {
@@ -18,8 +19,8 @@ function Prisustva() {
   const [otsutni, setOsutni] = useState(0);
   const [pauza, setPauza] = useState(0);
 
-  const prisustvo_api = "https://rabotnovreme.infinityfreeapp.com/php/prisustvo.php";
-  const vraboteni_api = "https://rabotnovreme.infinityfreeapp.com/php/vraboteni.php"
+  //const prisustvo_api = "https://rabotnovreme.infinityfreeapp.com/php/prisustvo.php";
+  //const vraboteni_api = "https://rabotnovreme.infinityfreeapp.com/php/vraboteni.php"
 
   useEffect(() => {
     const today = new Date().toISOString().split("T")[0];

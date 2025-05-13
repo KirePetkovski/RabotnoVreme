@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { sektori_api, raspored_api, prisustvo_api, praznici_api, vraboteni_api, kontroleri_api, korisnici_api, login_api, osustva_api, singup_api } from "../api";
+
 
 const VraboteniModal = ({ isOpen, onClose, fetchVraboteni, sektori, rasporedi, vraboten }) => {
 
@@ -20,7 +22,7 @@ const VraboteniModal = ({ isOpen, onClose, fetchVraboteni, sektori, rasporedi, v
       setNovVraboten({});
   }
   }, [vraboten, isOpen]);
-  const vraboteni_api = "https://rabotnovreme.infinityfreeapp.com/php/vraboteni.php";
+ // const vraboteni_api = "https://rabotnovreme.infinityfreeapp.com/php/vraboteni.php";
 
   const handleChange = (e) => {
     setNovVraboten({ ...novVraboten, [e.target.name]: e.target.value || "" });
