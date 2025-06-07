@@ -49,3 +49,55 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
         exit();
     }
 }
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $data = json_decode(file_get_contents("php://input"), true);
+    $cardID = $data["CardID"];
+    $tipAkcija = $data["TipAkcija"];
+
+    if ($tipAkcija === "Vlez") {
+        // Determine the last exit action from the database
+        $stmt = $conn->prepare("SELECT TipAkcija FROM prisustvo WHERE CardID = ? ORDER BY Vreme DESC LIMIT 1");
+        $stmt->execute([$cardID]);
+        $lastAction = $stmt->fetchColumn();
+
+        if ($lastAction && str_ends_with($lastAction, "_Izlez")) {
+            // Convert the exit action to the corresponding Vlez
+            $tipAkcija = str_replace("_Izlez", "_Vlez", $lastAction);
+        } else {
+            // Default to generic Vlez if no previous exit found
+            $tipAkcija = "Vlez";
+        }
+    }
+
+    if ($tipAkcija === "Auto") {
+        // Get the last action from TODAY (using CURDATE())
+        $stmt = $conn->prepare("
+            SELECT TipAkcija 
+            FROM prisustvo 
+            WHERE CardID = ? AND DATE(Vreme) = CURDATE() 
+            ORDER BY Vreme DESC 
+            LIMIT 1
+        ");
+        $stmt->execute([$cardID]);
+        $lastAction = $stmt->fetchColumn();
+    
+        if (!$lastAction || str_ends_with($lastAction, "Izlez")) {
+            // No action yet today or last action was Izlez
+            $tipAkcija = "Vlez";
+        } else {
+            // Last action was Vlez
+            $tipAkcija = "Izlez";
+        }
+    }
+    
+    // Now get the current timestamp
+    $vreme = date("Y-m-d H:i:s");
+
+    // Insert the record
+    $stmt = $conn->prepare("INSERT INTO prisustvo (CardID, Vreme, TipAkcija) VALUES (?, ?, ?)");
+    $stmt->execute([$cardID, $vreme, $tipAkcija]);
+
+    echo json_encode(["message" => "Записот е успешно додаден!", "TipAkcija" => $tipAkcija]);
+}
+
+?>

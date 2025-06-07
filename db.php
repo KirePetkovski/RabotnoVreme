@@ -7,12 +7,16 @@ class DataBase
     private $password;
     private $dbname;
     private $conn;
+    // $dbname = "if0_38659657_rabotnovremephp",
+    //     $servername = "sql112.infinityfree.com",
+    //     $username = "if0_38659657",
+    //     $password = "e5C0VM2iV2OU"
 
     public function __construct(
-        $dbname = "if0_38659657_rabotnovremephp",
-        $servername = "sql112.infinityfree.com",
-        $username = "if0_38659657",
-        $password = "e5C0VM2iV2OU"
+        $dbname = "rabotnovremephp",
+        $servername = "localhost",
+        $username = "root",
+        $password = ""
     ) {
         $this->dbname = $dbname;
         $this->servername = $servername;
