@@ -1,6 +1,6 @@
-//const BASE_URL = "https://rabotnovreme.infinityfreeapp.com/php/";
+const BASE_URL = "https://rabotnovreme.infinityfreeapp.com/php/";
 
-const BASE_URL = "http://localhost/rabotnovremePHP/"
+//const BASE_URL = "http://localhost/rabotnovremePHP/"
 
 export const sektori_api = `${BASE_URL}sektori.php`;
 export const raspored_api = `${BASE_URL}raspored.php`;

@@ -120,7 +120,7 @@ const Vraboteni = () => {
             <th>#</th>
             <th>Име и Презиме</th>
             <th>Националност</th>
-            <th>Религија</th>
+            {/* <th>Религија</th> */}
             <th>Сектор</th>
             <th>Распоред</th>
             <th>Број на карта</th>
@@ -136,7 +136,7 @@ const Vraboteni = () => {
                 <td>{index + 1}</td>
                 <td>{vraboten.ImePrezime}</td>
                 <td>{vraboten.Nacionalnost}</td>
-                <td>{vraboten.Religija}</td>
+                {/* <td>{vraboten.Religija}</td> */}
                 <td>
                   {sektori.find(sektor => sektor.SektorID === vraboten.SektorID)?.SektorIme || "Неопределено"}
                 </td>

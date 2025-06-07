@@ -9,7 +9,7 @@ const VraboteniModal = ({ isOpen, onClose, fetchVraboteni, sektori, rasporedi, v
     CardID: "",
     ImePrezime: "",
     Nacionalnost: "",
-    Religija: "",
+    // Religija: "",
     Aktiven: true,
     SektorID: "",
     RasporedID: "",
@@ -48,7 +48,7 @@ const VraboteniModal = ({ isOpen, onClose, fetchVraboteni, sektori, rasporedi, v
         CardID: "",
         ImePrezime: "",
         Nacionalnost: "",
-        Religija: "",
+        // Religija: "",
         Aktiven: true,
         SektorID: "",
         RasporedID: "",
@@ -115,13 +115,13 @@ const VraboteniModal = ({ isOpen, onClose, fetchVraboteni, sektori, rasporedi, v
             value={novVraboten.Nacionalnost || ""}
             onChange={handleChange}
             required />
-          <input
+          {/* <input
             type="text"
             placeholder="Религија"
             name="Religija"
             value={novVraboten.Religija || ""}
             onChange={handleChange}
-            required />
+            required /> */}
           <input
             type="text"
             placeholder="Број на карта"

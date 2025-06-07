@@ -28,7 +28,7 @@ const Login = () => {
       if (response.data.success) {
         alert('Login successful!');
         localStorage.setItem('ImePrezime', response.data.najaven.ImePrezime);
-        localStorage.setItem('Religija', response.data.najaven.Religija);
+      //  localStorage.setItem('Religija', response.data.najaven.Religija);
         localStorage.setItem('Nacionalnost', response.data.najaven.Nacionalnost);
         localStorage.setItem('SektorID', response.data.najaven.SektorID);  
         localStorage.setItem('RasporedID', response.data.najaven.RasporedID);
@@ -42,7 +42,7 @@ const Login = () => {
       }
   
     } catch {
-      alert("Sign up failed.");
+      alert("Погрешен маил или лозинк");
     }
   };
   
@@ -69,7 +69,7 @@ const Login = () => {
             required
           />
         </div>
-        <button type="submit" className="login-button">Log In</button>
+        <button type="submit" className="login-button">Најави се</button>
         <a onClick={() => navigate('/SingUp')} >Направете регистрација</a>
       </form>
       {errorMessage && <p className="error-message">{errorMessage}</p>}
