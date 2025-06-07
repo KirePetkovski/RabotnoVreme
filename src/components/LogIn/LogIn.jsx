@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
 import axios from 'axios'; 
+import { sektori_api, raspored_api, prisustvo_api, praznici_api, vraboteni_api, kontroleri_api, korisnici_api, login_api, osustva_api, singup_api } from "../api";
+
 
 const Login = () => {
   const [Email, setEmail] = useState('');
@@ -9,7 +11,7 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate(); 
 
-  const login_api = "https://rabotnovreme.infinityfreeapp.com/php/login.php";
+ // const login_api = "https://rabotnovreme.infinityfreeapp.com/php/login.php";
   const handleLogin = async (e) => {
     e.preventDefault();
     try {

@@ -173,6 +173,15 @@ const Izveshtai = () => {
 
     };
 };
+const toMinutes = (timeStr) => {
+  
+const dateObj = new Date(timeStr);
+
+const hours = String(dateObj.getHours()).padStart(2, '0');
+const minutes = String(dateObj.getMinutes()).padStart(2, '0');
+
+return `${hours}:${minutes}`;
+};
   function RabotniSaatizaVraboten(pocnuva, zavrshuva){
 
     let [PocnuvaCasovi, PocnuvaMinuti] = pocnuva.split(":").map(Number);
@@ -213,8 +222,8 @@ const Izveshtai = () => {
     // console.log("Vraboten:", vraboten);
     // console.log("Datum:", date);
     // console.log("Dneven zapis:", pomZapis);
-    // console.log("Vlegol:", VremeVlegol);
-    // console.log("Izlegol:", VremeIzlegol);
+    // console.log("Vlegol:",toMinutes(String(VremeVlegol)));
+    // console.log("Izlegol:", toMinutes(String(VremeIzlegol)));
     // console.log("Pauza Izlez:", VremePauzaIzlez);
     // console.log("Pauza Vlez:", VremePauzaVlez);
     // console.log("Raspored za vraboteniot:", vrabotenRaspored);
@@ -223,48 +232,48 @@ const Izveshtai = () => {
   
     const timeParts = vrabotenRaspored.pauza_time 
     ? vrabotenRaspored.pauza_time.split(":") : ["0", "00"]; // ako nepostoi go stava 0
-    const dozvoleniMinitiPauza = parseInt(timeParts[0]) * 60 + parseInt(timeParts[1]);
+    const dozvoleniMinitiPauza = parseInt(timeParts[0]) + parseInt(timeParts[1]) / 60;  // ne promenuvaj 60 bidejkji se minuti
   
     let rabotniSaati = (VremeIzlegol - VremeVlegol) / (1000 * 60 * 60); // Convert ms to hours
     let vkupnoRabotniSaati = 0;
     let vkupnoPrekuvremeniSaati = 0;
   
-    if (VremeVlegol >= RasporedPocetok && VremeIzlegol <= RasporedKraj) {
-      vkupnoRabotniSaati = rabotniSaati;
-    } else {
-      vkupnoRabotniSaati = Math.min(rabotniSaati, (RasporedKraj - RasporedPocetok) / (1000 * 60 * 60));
-      vkupnoPrekuvremeniSaati = Math.max(0, rabotniSaati - (RasporedKraj - RasporedPocetok) / (1000 * 60 * 60));
-    }
+    if (VremeVlegol < RasporedPocetok) vkupnoPrekuvremeniSaati += (RasporedPocetok - VremeVlegol)/ (1000 *60*60);
+    if (VremeIzlegol > RasporedKraj) vkupnoPrekuvremeniSaati += (VremeIzlegol - RasporedKraj)/ (1000 *60*60);
   
-    let minutiPredVreme = 0, minutiPosleVreme = 0, minutiPauzaZakasneti = 0;
-    let pauza = (pauzaIzlez - pauzaVlez) / 60000;
-    if(!pauza){
-      pauza =0;
-      console.log("Vreme od Pauza", pauza);
-    }
-    if (pauzaIzlez && pauzaVlez) { 
+      // Work counted only within schedule limits
+      if (VremeVlegol >= RasporedPocetok && VremeIzlegol <= RasporedKraj) {
+        vkupnoRabotniSaati = rabotniSaati;
+      } else {
+        const overlapStart = Math.max(VremeVlegol, RasporedPocetok);
+        const overlapEnd = Math.min(VremeIzlegol, RasporedKraj);
+        vkupnoRabotniSaati = Math.max(0,(overlapEnd - overlapStart) / (1000 *60*60));
+      }
+  
+      let pauzaVoSati = (VremePauzaVlez - VremePauzaIzlez) / (1000 * 60 * 60);
+      pauzaVoSati = isNaN(pauzaVoSati) ? 0 : pauzaVoSati;
+      
+      
+      let minutiPredVreme = 0, minutiPosleVreme = 0;
       if (VremePauzaIzlez < RasporedPauzaPocetok) {
-        minutiPredVreme = Math.round((RasporedPauzaPocetok - VremePauzaIzlez) / (1000 * 60));
-        console.log(vraboten, "-minutiPredVreme: ", minutiPredVreme);
+        minutiPredVreme = (RasporedPauzaPocetok - VremePauzaIzlez) / (1000 * 60);
       }
-  
       if (VremePauzaVlez > RasporedPauzaKraj) {
-        minutiPosleVreme = Math.round((VremePauzaVlez - RasporedPauzaKraj) / (1000 * 60));
-        console.log(vraboten, "-minutiPosleVreme: ", minutiPosleVreme);
-  
+        minutiPosleVreme = (VremePauzaVlez - RasporedPauzaKraj) / (1000 * 60);
       }
-  
-      minutiPauzaZakasneti = Math.round((VremePauzaVlez - VremePauzaIzlez) / (1000 * 60));
-    }
-  
-    const povekjeMinutiodPauza = Math.max(0, pauza - dozvoleniMinitiPauza - minutiPosleVreme - minutiPredVreme);
-    //console.log(employee, "-povekjeMinutiodPauza: ", povekjeMinutiodPauza);
-  
-    let minutiPauza = minutiPredVreme + minutiPosleVreme + povekjeMinutiodPauza;
-  
-    vkupnoRabotniSaati -= minutiPauza / 60;
-  
-    vkupnoRabotniSaati = Math.max(0, vkupnoRabotniSaati); // Da se spreci negativen broj
+      
+      const earlyLateTogether = minutiPredVreme + minutiPosleVreme;
+      
+      const totalPauseMin = pauzaVoSati * 60;
+      const allowedPauseMin = dozvoleniMinitiPauza * 60;
+      
+      let ekstraPauzaMinuti = Math.max(0, totalPauseMin - allowedPauseMin);
+      
+      let dodatnoZaKazna = Math.max(0, ekstraPauzaMinuti - earlyLateTogether);
+      let minutiZaOdzemanje = earlyLateTogether + dodatnoZaKazna;
+      
+      vkupnoRabotniSaati = Math.max(0, vkupnoRabotniSaati - (minutiZaOdzemanje / 60));
+      
     
     const formatHours = (decimalHours) => {
       let hours = Math.floor(decimalHours);
