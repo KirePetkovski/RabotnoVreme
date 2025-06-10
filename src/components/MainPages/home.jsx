@@ -3,7 +3,8 @@ import { format, startOfWeek, addDays, endOfWeek, eachDayOfInterval } from 'date
 import { mk } from 'date-fns/locale';
 import axios from "axios";
 import "./MainPages.css";
-import { sektori_api, raspored_api, prisustvo_api, praznici_api, vraboteni_api, kontroleri_api, korisnici_api, login_api, osustva_api, singup_api } from "../api";
+import IzvestuvanjeModal from "../Modals/IzvestuvanjeModal";
+import {izvestuvanje_api, sektori_api, raspored_api, prisustvo_api, praznici_api, vraboteni_api, kontroleri_api, korisnici_api, login_api, osustva_api, singup_api } from "../api";
 
 
 
@@ -13,12 +14,20 @@ const HomePage = () => {
   const [Raspored, setRaspored] = useState([]);
   const [Prisustvo, setPrisustvo] = useState([]);
   const [DenSloboden, setDenSloboden] = useState([]);
+  const [izvestuvanja, setIzvestuvanja] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const notificationsPerPage = 5;
   const [brojIzraboteniCasovi, setbrojIzraboteniCasovi] = useState(0);
   const [nedelniSaati, setNedelniSaati] = useState([]);
   const [PrekuvremeniNedela, setPrekuvremeniNedela] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
 
   const days = ["Ponedelnik", "Vtornik", "Sreda", "Cetvrtok", "Petok", "Sabota", "Ponedelnik"];
   const utreshenDen = days[new Date().getDay()];
+  const deneshenDen = new Date().toISOString().split("T")[0];
+  const localStorage_ImePrezime = localStorage.getItem('ImePrezime');
+
 
   // const sektori_api = "https://rabotnovreme.infinityfreeapp.com/php/sektori.php";
   // const raspored_api = "https://rabotnovreme.infinityfreeapp.com/php/raspored.php";
@@ -36,17 +45,19 @@ const HomePage = () => {
 
 
     try {
-      const [prisustvoRes, sektoriRes, rasporedRes, prazniciRes] = await Promise.all([
+      const [prisustvoRes, sektoriRes, rasporedRes, prazniciRes, izvestRes] = await Promise.all([
         axios.get(prisustvo_api),
         axios.get(sektori_api),
         axios.get(raspored_api),
-        axios.get(praznici_api)
+        axios.get(praznici_api),
+        axios.get(izvestuvanje_api)
       ]);
 
       const prisustvoData = prisustvoRes.data || [];
       const sektoriData = sektoriRes.data || [];
       const rasporedData = rasporedRes.data || [];
       const prazniciData = prazniciRes.data || [];
+      const izvestData = izvestRes.data || [];
 
       // console.log("sektoriData", sektoriData);
       // console.log("localStorage_SektorID", localStorage_SektorID);
@@ -88,6 +99,8 @@ const HomePage = () => {
       const sledenDenSloboden = najdiSledenDenZaOdmor(prazniciData);
       setDenSloboden(sledenDenSloboden);
       NedelniCasovi(prazniciData);
+      setIzvestuvanja([...izvestData].reverse());
+
 
       //console.log("RASPORED", pom_raspored);
       const result = calculateWeeklyPresence(celoPrisustvo, pom_raspored);
@@ -273,87 +286,152 @@ const HomePage = () => {
   };
 
 
+  const indexOfLastNotification = currentPage * notificationsPerPage;
+  const indexOfFirstNotification = indexOfLastNotification - notificationsPerPage;
+  const currentNotifications = izvestuvanja.slice(indexOfFirstNotification, indexOfLastNotification);
 
 
   return (
+    <div>
+      <div className="stats-container">
+        <div className="stat-card">
+          <h2>Име Презиме</h2>
+          <h2>{localStorage.getItem('ImePrezime') || "Не сте најавени"}</h2>
+        </div>
+        <div className="stat-card">
+          <h2>Сектор</h2>
+          <h2>{Sektor?.SektorIme || "Не сте најавени"}</h2>
+        </div>
 
-    <div className="stats-container">
-      <div className="stat-card">
-        <h2>Име Презиме</h2>
-        <h2>{localStorage.getItem('ImePrezime') || "Не сте најавени"}</h2>
-      </div>
-      <div className="stat-card">
-        <h2>Сектор</h2>
-        <h2>{Sektor?.SektorIme || "Не сте најавени"}</h2>
-      </div>
+        <div className="stat-card">
+          <h2>Влез</h2>
+          <h2>{Prisustvo["Vlez"]?.Vreme?.split("T")[0]?.slice(10, 16) || "Нема податок"}</h2>
+        </div>
+        <div className="stat-card">
+          <h2>Излез</h2>
+          <h2>{Prisustvo["Izlez"]?.Vreme?.split("T")[0]?.slice(10, 16) || "Нема податок"}</h2>
+        </div>
+        <div className="stat-card">
+          <h2>Пауза излез</h2>
+          <h2>{Prisustvo["Pauza_Izlez"]?.Vreme?.split("T")[0]?.slice(10, 16) || "Нема податок"}</h2>
+        </div>
+        <div className="stat-card">
+          <h2>Пауза влез</h2>
+          <h2>{Prisustvo["Pauza_Vlez"]?.Vreme?.split("T")[0]?.slice(10, 16) || "Нема податок"}</h2>
+        </div>
+        <div className="stat-card">
+          <h2>Пауза</h2>
+          <h2>{PresmetajPauza(
+            Prisustvo["Pauza_Izlez"]?.Vreme?.split("T")[0]?.slice(10, 16),
+            Prisustvo["Pauza_Vlez"]?.Vreme?.split("T")[0]?.slice(10, 16)
+          ) || "Нема податок"}</h2>
+        </div>
+        <div></div>
+        <div className="stat-card">
+          <h2>Приватен излез</h2>
+          <h2>{Prisustvo["Privaten_Izlez"]?.Vreme?.split("T")[0]?.slice(10, 16) || "Нема податок"}</h2>
+        </div>
+        <div className="stat-card">
+          <h2>Приватен влез</h2>
+          <h2>{Prisustvo["Privaten_Vlez"]?.Vreme?.split("T")[0]?.slice(10, 16) || "Нема податок"}</h2>
+        </div>
+        <div className="stat-card">
+          <h2>Службен излез</h2>
+          <h2>{Prisustvo["Sluzben_Izlez"]?.Vreme?.split("T")[0]?.slice(10, 16) || "Нема податок"}</h2>
+        </div>
+        <div className="stat-card">
+          <h2>Службен влез</h2>
+          <h2>{Prisustvo["Sluzben_Vlez"]?.Vreme?.split("T")[0]?.slice(10, 16) || "Нема податок"}</h2>
+        </div>
+        <div className="stat-card">
+          <h2>Работни часови за тековна недела</h2>
+          <p>{nedelniSaati}</p>
+        </div>
+        <div className="stat-card">
+          <h2>Прекувремени часови за тековна недела</h2>
+          <p>{PrekuvremeniNedela}</p>
+        </div>
 
-      <div className="stat-card">
-        <h2>Влез</h2>
-        <h2>{Prisustvo["Vlez"]?.Vreme?.split("T")[0]?.slice(10, 16) || "Нема податок"}</h2>
-      </div>
-      <div className="stat-card">
-        <h2>Излез</h2>
-        <h2>{Prisustvo["Izlez"]?.Vreme?.split("T")[0]?.slice(10, 16) || "Нема податок"}</h2>
-      </div>
-      <div className="stat-card">
-        <h2>Пауза излез</h2>
-        <h2>{Prisustvo["Pauza_Izlez"]?.Vreme?.split("T")[0]?.slice(10, 16) || "Нема податок"}</h2>
-      </div>
-      <div className="stat-card">
-        <h2>Пауза влез</h2>
-        <h2>{Prisustvo["Pauza_Vlez"]?.Vreme?.split("T")[0]?.slice(10, 16) || "Нема податок"}</h2>
-      </div>
-      <div className="stat-card">
-        <h2>Пауза</h2>
-        <h2>{PresmetajPauza(
-          Prisustvo["Pauza_Izlez"]?.Vreme?.split("T")[0]?.slice(10, 16),
-          Prisustvo["Pauza_Vlez"]?.Vreme?.split("T")[0]?.slice(10, 16)
-        ) || "Нема податок"}</h2>
-      </div>
-      <div></div>
-      <div className="stat-card">
-        <h2>Приватен излез</h2>
-        <h2>{Prisustvo["Privaten_Izlez"]?.Vreme?.split("T")[0]?.slice(10, 16) || "Нема податок"}</h2>
-      </div>
-      <div className="stat-card">
-        <h2>Приватен влез</h2>
-        <h2>{Prisustvo["Privaten_Vlez"]?.Vreme?.split("T")[0]?.slice(10, 16) || "Нема податок"}</h2>
-      </div>
-      <div className="stat-card">
-        <h2>Службен излез</h2>
-        <h2>{Prisustvo["Sluzben_Izlez"]?.Vreme?.split("T")[0]?.slice(10, 16) || "Нема податок"}</h2>
-      </div>
-      <div className="stat-card">
-        <h2>Службен влез</h2>
-        <h2>{Prisustvo["Sluzben_Vlez"]?.Vreme?.split("T")[0]?.slice(10, 16) || "Нема податок"}</h2>
-      </div>
-      <div className="stat-card">
-        <h2>Работни часови за тековна недела</h2>
-        <p>{nedelniSaati}</p>
-      </div>
-      <div className="stat-card">
-        <h2>Прекувремени часови за тековна недела</h2>
-        <p>{PrekuvremeniNedela}</p>
-      </div>
-
-      <div className="stat-card">
-        <h2>Следен неработен ден</h2>
-        <p>
-          {DenSloboden instanceof Date
-            ? format(DenSloboden, 'eeee, d LLLL yyyy', { locale: mk })
-            : DenSloboden}
-        </p>
-      </div>
+        <div className="stat-card">
+          <h2>Следен неработен ден</h2>
+          <p>
+            {DenSloboden instanceof Date
+              ? format(DenSloboden, 'eeee, d LLLL yyyy', { locale: mk })
+              : DenSloboden}
+          </p>
+        </div>
 
 
-      <div className="stat-card">
-        <h2>Утре почнувате во</h2>
-        <h2>{Raspored?.[utreshenDen] || "Не сте најавени"}</h2>
+        <div className="stat-card">
+          <h2>Утре почнувате во</h2>
+          <h2>{Raspored?.[utreshenDen] || "Не сте најавени"}</h2>
+        </div>
       </div>
-      <div>
-        <h2>Нотификации</h2>
-        <p>{""}</p>
+      <div className="stat-card-big">
+        <div className="header">
+          <h1>Известувања</h1>
+          <button className="btn-add" onClick={() => { setIsModalOpen(true); }}>
+              Додај известување
+            </button>
+          <div className="Buttons-Izvestuvanja">
+            <button
+              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+            >
+              Предходни
+            </button>
+            <i>
+            Страна {currentPage} од {Math.ceil(izvestuvanja.length / notificationsPerPage)}
+            </i>
+            <button
+              onClick={() => setCurrentPage(prev => {
+                const totalPages = Math.ceil(izvestuvanja.length / notificationsPerPage);
+                return Math.min(prev + 1, totalPages);
+              })}
+              disabled={currentPage === Math.ceil(izvestuvanja.length / notificationsPerPage)}
+            >
+              Следни
+            </button>
+          </div>
+        </div>
+        <table className="main-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Испратено од</th>
+            <th>Известување</th>
+            <th>Датум</th>
+          </tr>
+        </thead>
+        <tbody>
+
+        {currentNotifications.length > 0 ? (
+          currentNotifications.map((izv, index) => (
+            <tr key={izv.IzvetuvanjeID ?? `fallback-${index}`}>
+                <td>{index + 1}</td>
+                <td>{izv.PratenoOd}</td>
+                <td>{izv.Sodrzina}</td>
+                <td>{izv.Datum}</td>
+            
+            </tr>
+          ))
+        ) : (
+          <tr>
+          <td colSpan="4">Нема податоци</td>
+        </tr>
+        )}
+
+</tbody>
+</table>
+
+       
       </div>
+      <IzvestuvanjeModal 
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        PratenoOd = {localStorage_ImePrezime}
+      />
+
     </div>
 
 
