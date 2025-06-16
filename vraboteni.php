@@ -32,12 +32,11 @@ if ($method === "POST") {
     switch ($action) {
         case "create":
         try{
-            $stmt = $conn->prepare("INSERT INTO vraboteni (CardID, ImePrezime, Nacionalnost, Religija, Aktiven, RasporedID, SektorID) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            $stmt = $conn->prepare("INSERT INTO vraboteni (CardID, ImePrezime, Nacionalnost, Aktiven, RasporedID, SektorID) VALUES (?, ?, ?, ?, ?, ?)");
             $stmt->execute([
                 $input['CardID'],
                 $input['ImePrezime'],
                 $input['Nacionalnost'],
-                $input['Religija'],
                 $input['Aktiven'],
                 $input['RasporedID'],
                 $input['SektorID']
@@ -59,13 +58,12 @@ if ($method === "POST") {
                 break;
             }
 
-            $sql3 = "UPDATE vraboteni SET CardID = ?, ImePrezime = ?, Nacionalnost = ?, Religija = ?, RasporedID = ?, SektorID = ? WHERE VrabotenID = ?";
+            $sql3 = "UPDATE vraboteni SET CardID = ?, ImePrezime = ?, Nacionalnost = ?, RasporedID = ?, SektorID = ? WHERE VrabotenID = ?";
             $stmt3 = $conn->prepare($sql3);
             $stmt3->execute([
                 $input['CardID'],
                 $input['ImePrezime'],
                 $input['Nacionalnost'],
-                $input['Religija'],
                 $input['RasporedID'],
                 $input['SektorID'],
                 $input["VrabotenID"]

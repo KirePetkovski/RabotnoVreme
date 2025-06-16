@@ -7,7 +7,7 @@ class DataBase
     private $password;
     private $dbname;
     private $conn;
-    // $dbname = "if0_38659657_rabotnovremephp",
+    //     $dbname = "if0_38659657_rabotnovremephp",
     //     $servername = "sql112.infinityfree.com",
     //     $username = "if0_38659657",
     //     $password = "e5C0VM2iV2OU"
@@ -52,7 +52,7 @@ class DataBase
             "vraboteni" => "
                 CREATE TABLE IF NOT EXISTS vraboteni (
                     VrabotenID INT AUTO_INCREMENT PRIMARY KEY,
-                    CardID INT UNIQUE,
+                    CardID INT,
                     ImePrezime VARCHAR(100) NOT NULL,
                     Nacionalnost VARCHAR(100),
                     Religija VARCHAR(100),
@@ -109,7 +109,7 @@ class DataBase
                     Cetvrtok VARCHAR(50),
                     Petok VARCHAR(50),
                     Sabota VARCHAR(50),
-                    RabotaVreme VARCHAR(50)
+                    RabotaVreme VARCHAR(50),
                     PauzaPocetok VARCHAR(50),
                     PauzaKraj VARCHAR(50),
                     PauzaVreme VARCHAR(50)
@@ -125,6 +125,14 @@ class DataBase
                     CardID INT,
                     FOREIGN KEY (VrabotenID) REFERENCES vraboteni(VrabotenID) ON DELETE CASCADE,
                     FOREIGN KEY (CardID) REFERENCES vraboteni(CardID) ON DELETE CASCADE
+                )",
+            "izvestuvanje" => "
+               CREATE TABLE IF NOT EXISTS izvestuvanje (
+                    IzvestuvanjeID  INT AUTO_INCREMENT PRIMARY KEY,
+                    CardID TEXT NOT NULL,
+                    Sodrzina TEXT,
+                    Datum Date NOT NULL,
+                    PratenoOd TEXT NOT NULL
                 )"
         ];
 

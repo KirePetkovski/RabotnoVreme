@@ -6995,3 +6995,283 @@
 2025-06-03 23:19:58 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
                     PauzaKraj VARCHAR(50),
                     P...' at line 11
+2025-06-07 23:14:29 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:14:33 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:14:37 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:14:37 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:14:37 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:14:37 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:14:41 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:14:41 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:14:41 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:14:41 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:21:43 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:21:43 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:21:43 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:21:43 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:21:44 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:21:44 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:21:44 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:21:49 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:21:49 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:21:49 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:21:49 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:24:52 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:24:52 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:24:56 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:24:56 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:24:56 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:25:00 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:25:06 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:25:08 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:25:10 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:25:13 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:25:13 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:25:42 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:25:42 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:25:42 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:25:42 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:25:46 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:25:46 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:25:46 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:25:46 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:26:42 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:26:42 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:26:46 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:26:46 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:27:21 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:27:21 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:27:21 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:27:21 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:27:26 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:27:26 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:27:26 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:27:26 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:30:34 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:30:34 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:30:34 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:30:34 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:30:38 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:30:38 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:30:38 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:30:38 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:34:16 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:34:16 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:34:16 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:34:20 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:34:20 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:34:20 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:35:36 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:35:36 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:35:36 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:35:36 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:35:38 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:35:38 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:35:38 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:35:38 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:35:42 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:35:42 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:35:42 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:36:03 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:36:03 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:36:03 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:36:03 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:36:07 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:36:07 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:36:07 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:36:07 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:37:44 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:37:44 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:37:44 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:37:48 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:37:48 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:37:49 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-07 23:37:49 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'VARCHAR(50),
+                    PauzaKraj VARCHAR(50),
+                    P...' at line 11
+2025-06-08 23:14:32 - SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+2025-06-08 23:14:32 - SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+2025-06-08 23:14:32 - SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+2025-06-15 23:17:18 - SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it

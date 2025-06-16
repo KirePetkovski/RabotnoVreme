@@ -26,8 +26,8 @@ if ($method === "POST") {
         case "create":
 
             try {
-                $stmt = $conn->prepare("INSERT INTO kontroleri (IPAdress, Aktiven, Ovozmozi) VALUES (?, ?, ?)");
-                $stmt->execute([$data["IPAdress"], $data["Aktiven"], $data["Ovozmozi"]]);
+                $stmt = $conn->prepare("INSERT INTO kontroleri (IPAdress, Aktiven) VALUES (?, ?)");
+                $stmt->execute([$data["IPAdress"], $data["Aktiven"]]);
                 echo json_encode(["message" => "Kontroler added successfully"]);
             } catch (PDOException $e) {
                 echo json_encode(["error" => $e->getMessage()]);
@@ -35,13 +35,13 @@ if ($method === "POST") {
             
 
             break;
-        case "update":
+        // case "update":
             
-            $stmt = $conn->prepare("UPDATE kontroleri SET Ovozmozi = ? WHERE KontrolerID = ?");
-            $stmt->execute([$data["Ovozmozi"], $data["KontrolerID"]]);
+        //     $stmt = $conn->prepare("UPDATE kontroleri SET Ovozmozi = ? WHERE KontrolerID = ?");
+        //     $stmt->execute([$data["Ovozmozi"], $data["KontrolerID"]]);
             
-            echo json_encode(["message" => "Kontroler updated successfully"]);
-            break;
+        //     echo json_encode(["message" => "Kontroler updated successfully"]);
+        //     break;
 
 
         default:
