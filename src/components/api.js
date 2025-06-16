@@ -13,3 +13,4 @@ export const login_api = `${BASE_URL}login.php`;
 export const osustva_api = `${BASE_URL}osustva.php`;
 export const singup_api = `${BASE_URL}singup.php`;
 export const izvestuvanje_api = `${BASE_URL}izvestuvanje.php`;
+export const pingKontroler_api =  `${BASE_URL}pingKontroler.php`;

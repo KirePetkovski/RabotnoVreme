@@ -241,6 +241,71 @@ h1, h2, h3, p, i, label {
     box-sizing: border-box;
   }
 
+  .modal-content-Select {
+    width: 280px;
+    margin-bottom: 15px;
+  }
+  
+  /* Main input box */
+  .modal-content-Select .rs__control {
+    background-color: #333;
+    border: 1px solid rgb(212, 209, 209);
+    border-radius: 8px;
+    min-height: 42px;
+    font-size: 14px;
+    padding: 4px 8px;
+    box-shadow: none;
+    color: white;
+  }
+  
+  /* Placeholder */
+  .modal-content-Select .rs__placeholder {
+    color: #bbb;
+  }
+  
+  /* Selected value */
+  .modal-content-Select .rs__single-value {
+    color: white;
+  }
+  
+  /* Dropdown menu background */
+  .modal-content-Select .rs__menu {
+    background-color: #333;
+    color: white;
+    border-radius: 8px;
+    z-index: 9999;
+  }
+  
+  /* Dropdown option */
+  .modal-content-Select .rs__option {
+    padding: 10px;
+    font-size: 14px;
+    color: white;
+    background-color: #333;
+    cursor: pointer;
+  }
+  
+  /* Hovered option */
+  .modal-content-Select .rs__option--is-focused {
+    background-color: #444;
+  }
+  
+  /* Selected option */
+  .modal-content-Select .rs__option--is-selected {
+    background-color: #007bff;
+    color: white;
+  }
+
+  .modal-content-Select .rs__menu {
+    background-color: #333;
+    color: white;
+    border-radius: 8px;
+    z-index: 9999;
+    max-height: 200px;
+    overflow-y: auto; 
+  }
+  
+
   .modal-content .btn-delete{
     float: right;
     margin-right:15px;

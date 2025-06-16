@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./MainPages.css";
 import KontroleriModal from "../Modals/KontroleriModal";
 import axios from "axios";
-import { sektori_api, raspored_api, prisustvo_api, praznici_api, vraboteni_api, kontroleri_api, korisnici_api, login_api, osustva_api, singup_api } from "../api";
+import { pingKontroler_api, sektori_api, raspored_api, prisustvo_api, praznici_api, vraboteni_api, kontroleri_api, korisnici_api, login_api, osustva_api, singup_api } from "../api";
 
 
 const Kontroleri = () => {
@@ -11,9 +11,21 @@ const Kontroleri = () => {
   
    //const kontroleri_api = "https://rabotnovreme.infinityfreeapp.com/php/kontroleri.php";
 
-   useEffect(() => {
+  //  useEffect(() => {
+  //   fetchKontroleri();
+ // }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchKontroleri();
+      axios.get(pingKontroler_api);
+      console.log("Aktiven = 0");
+    }, 30000); // every 1 min
+
     fetchKontroleri();
+    return () => clearInterval(interval);
   }, []);
+  
 
   const fetchKontroleri = async () => {
     try {
@@ -24,25 +36,25 @@ const Kontroleri = () => {
     }
   };
 
-  const handleOvozmozi = async (KontrolerID, Ovozmozi) => {
-    try {
+  // const handleOvozmozi = async (KontrolerID, Ovozmozi) => {
+  //   try {
     
-      const newStatus = Number(Ovozmozi) === 1 ? 0 : 1;
-      await axios.post(
-        kontroleri_api,
-        {
-          action: "update",
-          KontrolerID: KontrolerID, 
-          Ovozmozi: newStatus, 
-        },
-        {
-          headers: { "Content-Type": "application/json" }
-        });
-      fetchKontroleri();
-    } catch (error) {
-      console.error("Error updating kontroler status:", error);
-    }
-  };
+  //     const newStatus = Number(Ovozmozi) === 1 ? 0 : 1;
+  //     await axios.post(
+  //       kontroleri_api,
+  //       {
+  //         action: "update",
+  //         KontrolerID: KontrolerID, 
+  //         Ovozmozi: newStatus, 
+  //       },
+  //       {
+  //         headers: { "Content-Type": "application/json" }
+  //       });
+  //     fetchKontroleri();
+  //   } catch (error) {
+  //     console.error("Error updating kontroler status:", error);
+  //   }
+  // };
 
 
       const openModal = () => {
@@ -64,7 +76,7 @@ const Kontroleri = () => {
             <th>#</th>
             <th>IP Адреса</th>
             <th>Активен</th>
-            <th>Овозможен</th>
+            {/* <th>Овозможен</th> */}
             <th>Избриши</th>
           </tr>
         </thead>
@@ -75,19 +87,30 @@ const Kontroleri = () => {
                  <td>{index + 1}</td>
                  <td>{kontroler.IPAdress}</td>
                  <td
-                    style={{
-                      //ostaj dve zagradi
-                      width: "60%",
-                      // height: "20px",
-                      backgroundColor: kontroler.Aktiven ? "green" : "red",
-                      borderRadius: "3px",
-                      margin: "0 auto",
-                    }}
-                    >
-                 </td>
-                 <td>
+                    // style={{
+                    //   //ostaj dve zagradi
+                    //   width: "60%",
+                    //   // height: "20px",
+                    //   backgroundColor: kontroler.Aktiven ? "green" : "red",
+                    //   borderRadius: "3px",
+                    //   margin: "0 auto",
+                    // }}
+
+                    
+  style={{
+    backgroundColor: kontroler.Aktiven ? "green" : "red",
+    color: "white",
+    borderRadius: "5px",
+    padding: "5px 10px",
+    textAlign: "center",
+    fontWeight: "bold",
+  }}>
+  {kontroler.Aktiven ? "Активен" : "Неактивен"}
+</td>
+
+                 {/* <td>
                       <button className="btn-edit" onClick={() => handleOvozmozi(kontroler.KontrolerID, kontroler.Ovozmozi)}>Измени</button>
-                 </td>
+                 </td> */}
                  <td>
                     <button className="btn-delete" >
                        Избриши
@@ -98,7 +121,7 @@ const Kontroleri = () => {
 
           ) : (
             <tr>
-              <td colSpan="5">Нема податоци</td>
+              <td colSpan="4">Нема податоци</td>
             </tr>
           )}
           

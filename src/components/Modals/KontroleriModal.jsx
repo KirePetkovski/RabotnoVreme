@@ -6,7 +6,7 @@ import { sektori_api, raspored_api, prisustvo_api, praznici_api, vraboteni_api, 
 const KontroleriModal = ({ isOpen, onClose }) => {
     const [IPAdress, setIPAdress] = useState("");
     const [Aktiven, setAktiven] = useState("");
-    const [Ovozmozi, setOvozmozi] = useState("");
+   // const [Ovozmozi, setOvozmozi] = useState("");
 
     // const kontroleri_api = "https://rabotnovreme.infinityfreeapp.com/php/kontroleri.php";
 
@@ -14,7 +14,7 @@ const KontroleriModal = ({ isOpen, onClose }) => {
         e.preventDefault();
         
         try {
-            console.log(IPAdress, Aktiven, Ovozmozi);
+            //console.log(IPAdress, Aktiven, Ovozmozi);
 
           const response = await axios.post(
             kontroleri_api,
@@ -22,7 +22,7 @@ const KontroleriModal = ({ isOpen, onClose }) => {
               action: "create",
               IPAdress,
               Aktiven,
-              Ovozmozi
+              //Ovozmozi
             },
             {
               headers: { "Content-Type": "application/json" } 
@@ -57,10 +57,10 @@ const KontroleriModal = ({ isOpen, onClose }) => {
                         <option value="1">Активен</option>
                         <option value="0">Неактивен</option>
                     </select>
-                    <select name="Ovozmozi" value={Ovozmozi} onChange={(e) => setOvozmozi(e.target.value)}>
+                    {/* <select name="Ovozmozi" value={Ovozmozi} onChange={(e) => setOvozmozi(e.target.value)}>
                         <option value="1">Овозможен</option>
                         <option value="0">Оневозможен</option>
-                    </select>
+                    </select> */}
                     <div>
                         <button type="button" className="btn-add" onClick={handleDodadiKontroler}>
                             Зачувај

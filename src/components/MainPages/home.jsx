@@ -4,7 +4,7 @@ import { mk } from 'date-fns/locale';
 import axios from "axios";
 import "./MainPages.css";
 import IzvestuvanjeModal from "../Modals/IzvestuvanjeModal";
-import {izvestuvanje_api, sektori_api, raspored_api, prisustvo_api, praznici_api, vraboteni_api, kontroleri_api, korisnici_api, login_api, osustva_api, singup_api } from "../api";
+import { izvestuvanje_api, sektori_api, raspored_api, prisustvo_api, praznici_api, vraboteni_api, kontroleri_api, korisnici_api, login_api, osustva_api, singup_api } from "../api";
 
 
 
@@ -54,6 +54,7 @@ const HomePage = () => {
       ]);
 
       const prisustvoData = prisustvoRes.data || [];
+      //console.log(prisustvoData, "prisustvoData");
       const sektoriData = sektoriRes.data || [];
       const rasporedData = rasporedRes.data || [];
       const prazniciData = prazniciRes.data || [];
@@ -76,9 +77,13 @@ const HomePage = () => {
         return String(p.CardID) === String(localStorage_CardID) && p.Vreme.startsWith(today);
       });
 
+      //console.log("userPrisustvo", userPrisustvo);
+
       const celoPrisustvo = prisustvoData.filter(p => {
         return String(p.CardID) === String(localStorage_CardID);
       });
+
+      //console.log("CeloPrisustvo", celoPrisustvo);
 
       const pom_prisustvo = {};
       userPrisustvo.forEach((entry) => {
@@ -96,6 +101,7 @@ const HomePage = () => {
       setSektor(pom_sektor);
       setRaspored(pom_raspored);
       setPrisustvo(pom_prisustvo);
+      //console.log("pom_prisustvo",pom_prisustvo);
       const sledenDenSloboden = najdiSledenDenZaOdmor(prazniciData);
       setDenSloboden(sledenDenSloboden);
       NedelniCasovi(prazniciData);
@@ -207,13 +213,31 @@ const HomePage = () => {
 
     days.forEach(day => {
       const dateKey = format(day, 'yyyy-MM-dd');
-      const recordsForDay = Prisustvo.filter(p => p.Vreme.startsWith(dateKey));
+      const recordsForDay = Prisustvo.filter(p => {
+        const pDate = format(new Date(p.Vreme), 'yyyy-MM-dd');
+        return pDate === dateKey;
+      });
 
-      const getTime = (type) =>
-        recordsForDay.find(p => p.TipAkcija === type)?.Vreme?.split(' ')[1] || null;
+      const getTime = (type) => {
+        const record = recordsForDay.find(p => p.TipAkcija === type);
+        if (!record) {
+          //console.log(`No record found for type: ${type}`);
+          return null;
+        }
+        const timePart = record.Vreme.split(' ')[1]; // "07:55:09"
+        const [hh, mm] = timePart.split(':');
+        //console.log(`${hh}:${mm}`);
+        return `${hh}:${mm}`; // Only return "07:55"
+      };
 
-      const vlegol = getTime('Vlez');
-      const izlegol = getTime('Izlez');
+
+      // console.log("recordsForDay", recordsForDay.map(p => p.Vreme));
+
+      const vlegol = getTime("Vlez");
+      //console.log("Vlegol",vlegol);
+      const izlegol = getTime("Izlez");
+      //console.log("Izlegol",izlegol);
+
       const pauzaIzlez = getTime('Pauza_Izlez');
       const pauzaVlez = getTime('Pauza_Vlez');
 
@@ -231,8 +255,11 @@ const HomePage = () => {
       const daySchedule = getScheduleForDay(dayOfWeek);
       if (!daySchedule) return;
 
+      //console.log("daySchedule",daySchedule);
       const [rasporedStartStr] = daySchedule.split("-");
       const RasporedPocetok = toMinutes(rasporedStartStr);
+      //console.log("RasporedPocetok",RasporedPocetok);
+
 
       const [workH, workM] = Raspored.RabotnoVreme.split(":").map(Number);
       const RasporedKraj = RasporedPocetok + (workH * 60 + workM);
@@ -240,8 +267,10 @@ const HomePage = () => {
 
 
       const minVlegol = toMinutes(vlegol);
-      console.log(minVlegol);
+      //console.log("minVlegol",minVlegol);
       const minIzlegol = toMinutes(izlegol);
+      //console.log("minIzlegol", minIzlegol);
+
 
       if (minVlegol < RasporedPocetok)
         vkupnoPrekuvremeniSaati += RasporedPocetok - minVlegol;
@@ -253,27 +282,35 @@ const HomePage = () => {
       let overlapEnd = Math.min(minIzlegol, RasporedKraj);
       let vkupnoRabotniSaati = Math.max(0, overlapEnd - overlapStart);
 
-      let pauzaVoMin = toMinutes(pauzaVlez) - toMinutes(pauzaIzlez);
-      pauzaVoMin = isNaN(pauzaVoMin) ? 0 : pauzaVoMin;
+      let minutiZaOdzemanje = 0;
 
-      const dozvoleniMinitiPauza = toMinutes(Raspored.PauzaVreme);
-      const RasporedPauzaPocetokMin = toMinutes(Raspored.PauzaPocetok);
-      const RasporedPauzaKrajMin = toMinutes(Raspored.PauzaKraj);
+      if (pauzaIzlez && pauzaVlez) {
+        let pauzaVoMin = toMinutes(pauzaVlez) - toMinutes(pauzaIzlez);
+        pauzaVoMin = isNaN(pauzaVoMin) ? 0 : pauzaVoMin;
 
-      let minutiPredVreme = 0, minutiPosleVreme = 0;
-      if (toMinutes(pauzaIzlez) < RasporedPauzaPocetokMin)
-        minutiPredVreme = RasporedPauzaPocetokMin - toMinutes(pauzaIzlez);
+        const dozvoleniMinitiPauza = toMinutes(Raspored.PauzaVreme);
+        const RasporedPauzaPocetokMin = toMinutes(Raspored.PauzaPocetok);
+        const RasporedPauzaKrajMin = toMinutes(Raspored.PauzaKraj);
 
-      if (toMinutes(pauzaVlez) > RasporedPauzaKrajMin)
-        minutiPosleVreme = toMinutes(pauzaVlez) - RasporedPauzaKrajMin;
+        let minutiPredVreme = 0, minutiPosleVreme = 0;
+        if (toMinutes(pauzaIzlez) < RasporedPauzaPocetokMin)
+          minutiPredVreme = RasporedPauzaPocetokMin - toMinutes(pauzaIzlez);
 
-      const earlyLateTogether = minutiPredVreme + minutiPosleVreme;
-      const ekstraPauzaMinuti = Math.max(0, pauzaVoMin - dozvoleniMinitiPauza);
-      const dodatnoZaKazna = Math.max(0, ekstraPauzaMinuti - earlyLateTogether);
-      const minutiZaOdzemanje = earlyLateTogether + dodatnoZaKazna;
+        if (toMinutes(pauzaVlez) > RasporedPauzaKrajMin)
+          minutiPosleVreme = toMinutes(pauzaVlez) - RasporedPauzaKrajMin;
+
+        const earlyLateTogether = minutiPredVreme + minutiPosleVreme;
+        const ekstraPauzaMinuti = Math.max(0, pauzaVoMin - dozvoleniMinitiPauza);
+        const dodatnoZaKazna = Math.max(0, ekstraPauzaMinuti - earlyLateTogether);
+        minutiZaOdzemanje = earlyLateTogether + dodatnoZaKazna;
+      }
+
 
       const effectiveMinutes = Math.max(0, vkupnoRabotniSaati - minutiZaOdzemanje);
       totalMinutesWorked += effectiveMinutes;
+
+
+
 
     });
 
@@ -371,8 +408,8 @@ const HomePage = () => {
         <div className="header">
           <h1>Известувања</h1>
           <button className="btn-add" onClick={() => { setIsModalOpen(true); }}>
-              Додај известување
-            </button>
+            Додај известување
+          </button>
           <div className="Buttons-Izvestuvanja">
             <button
               onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
@@ -381,7 +418,7 @@ const HomePage = () => {
               Предходни
             </button>
             <i>
-            Страна {currentPage} од {Math.ceil(izvestuvanja.length / notificationsPerPage)}
+              Страна {currentPage} од {Math.ceil(izvestuvanja.length / notificationsPerPage)}
             </i>
             <button
               onClick={() => setCurrentPage(prev => {
@@ -395,41 +432,41 @@ const HomePage = () => {
           </div>
         </div>
         <table className="main-table">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Испратено од</th>
-            <th>Известување</th>
-            <th>Датум</th>
-          </tr>
-        </thead>
-        <tbody>
-
-        {currentNotifications.length > 0 ? (
-          currentNotifications.map((izv, index) => (
-            <tr key={izv.IzvetuvanjeID ?? `fallback-${index}`}>
-                <td>{index + 1}</td>
-                <td>{izv.PratenoOd}</td>
-                <td>{izv.Sodrzina}</td>
-                <td>{izv.Datum}</td>
-            
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Испратено од</th>
+              <th>Известување</th>
+              <th>Датум</th>
             </tr>
-          ))
-        ) : (
-          <tr>
-          <td colSpan="4">Нема податоци</td>
-        </tr>
-        )}
+          </thead>
+          <tbody>
 
-</tbody>
-</table>
+            {currentNotifications.length > 0 ? (
+              currentNotifications.map((izv, index) => (
+                <tr key={izv.IzvetuvanjeID ?? `fallback-${index}`}>
+                  <td>{index + 1}</td>
+                  <td>{izv.PratenoOd}</td>
+                  <td>{izv.Sodrzina}</td>
+                  <td>{izv.Datum}</td>
 
-       
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="4">Нема податоци</td>
+              </tr>
+            )}
+
+          </tbody>
+        </table>
+
+
       </div>
-      <IzvestuvanjeModal 
+      <IzvestuvanjeModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        PratenoOd = {localStorage_ImePrezime}
+        PratenoOd={localStorage_ImePrezime}
       />
 
     </div>
