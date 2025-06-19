@@ -20,13 +20,12 @@ const Login = () => {
         Email,
       });
 
-      console.log("data", response.data.najaven);
-
-      console.log('SektorID', response.data.najaven.SektorID);
-      console.log('RasporedID', response.data.najaven.RasporedID);
+      //console.log("data", response.data.najaven);
+      //console.log('SektorID', response.data.najaven.SektorID);
+      //console.log('RasporedID', response.data.najaven.RasporedID);
 
       if (response.data.success) {
-        alert('Login successful!');
+       // alert('Успешна најава');
         localStorage.setItem('ImePrezime', response.data.najaven.ImePrezime);
       //  localStorage.setItem('Religija', response.data.najaven.Religija);
         localStorage.setItem('Nacionalnost', response.data.najaven.Nacionalnost);
@@ -49,10 +48,10 @@ const Login = () => {
 
   return (
     <div className="login-container">
-      <h2 className="login-title">Login</h2>
+      <h2 className="login-title">Најава</h2>
       <form onSubmit={handleLogin}>
         <div className="form-group">
-          <label>Email</label>
+          <label>Е-маил</label>
           <input
             type="text"
             value={Email}

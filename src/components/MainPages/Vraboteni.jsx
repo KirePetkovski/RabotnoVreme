@@ -104,12 +104,12 @@ const Vraboteni = () => {
           <p>{vraboteni.length}</p>
         </div>
         <div className="stat-card">
-          <h2>Активни</h2>
-          <p>{vraboteni.filter((v) => !v.Aktiven).length}</p>
+          <h2>Активни админи</h2>
+          <p>{vraboteni.filter((v) => v.Aktiven).length}</p>
         </div>
         <div className="stat-card">
-          <h2>Деактивирани</h2>
-          <p>{vraboteni.filter((v) => v.Aktiven).length}</p>
+          <h2>Број на сектори</h2>
+          <p>{sektori.length}</p>
         </div>
 
       </div>
@@ -124,7 +124,7 @@ const Vraboteni = () => {
             <th>Сектор</th>
             <th>Распоред</th>
             <th>Број на карта</th>
-            <th>Деактивирај</th>
+            <th>Админ</th>
             <th>Измени</th>
             <th>Избриши</th>
           </tr>

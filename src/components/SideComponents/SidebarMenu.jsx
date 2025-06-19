@@ -25,11 +25,11 @@ const SidebarMenu = () => {
                 <a href="/#/home">
                     <li>Преглед</li>
                 </a>
-
-                <a href="/#/prisustva">
-                    <li>Присуства</li>
-                </a>
-
+                {localStorage_Aktiven === "0" &&
+                    <a href="/#/prisustva">
+                        <li>Присуства</li>
+                    </a>
+                }
                 {localStorage_Aktiven === "1" &&
                     <a href="/#/vraboteni">
                         <li>Вработени</li>
@@ -66,10 +66,10 @@ const SidebarMenu = () => {
                         <li>Корисници</li>
                     </a>
                 }
-                <h2>
-                    {localStorage.getItem('ImePrezime')}
+                <div className='userInfo'>
+                    <h2>{localStorage.getItem('ImePrezime')}</h2>
                     <button onClick={LogOut}>Одјавете се</button>
-                </h2>
+                </div>
             </ul>
         </div>
     );

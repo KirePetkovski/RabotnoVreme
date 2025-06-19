@@ -10,8 +10,9 @@
   color: white;
   display: flex;
   flex-direction: column;
-  height: 100%; 
-  padding: 20px;
+  height: auto;
+  width: 90%;
+  padding: 15px;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -26,9 +27,9 @@
 }
 
 .sidebar-menu ul li {
-  margin-bottom: 15px;
+  /* margin-bottom: 15px; */
   cursor: pointer;
-  padding: 10px;
+  padding: 13px;
   border-radius: 5px;
   transition: background-color 0.2s ease;
 }
@@ -43,7 +44,29 @@
   overflow-y: auto;
 }
 
+.sidebar-menu button{
+  display: block;
+  border-radius: 13px;
+  border: 1px solid transparent;
+  font-size: 20px;
+  font-weight: 100;
+  padding: 15px;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
 
+.userInfo {
+  padding-left: 15px;
+  margin-top: 40%;
+  color: white;
+  font-weight: normal;
+}
+.userInfo h2 {
+
+  color: white;
+  font-weight: normal;
+}
 
 
 

@@ -104,14 +104,15 @@ const RasporedModal = ({ isOpen, onClose, fetchRasporedi, raspored }) => {
                         <tbody>
                             <tr>
                                 <td><label>Име на распоред:</label></td>
-                                <td>
+                                <td colSpan="3">
                                     <input
-                                        style={{width: 150 + "px", float: "right"}}
+                                        style={{width: 250 + "px", alignItems: "center" }}
                                         type="text"
                                         name="RasporedIme"
                                         placeholder="Име на Распоред"
                                         value={formData.RasporedIme || ""}
                                         onChange={handleChange}
+                                        
                                         required
                                     />
                                 </td>
@@ -127,8 +128,7 @@ const RasporedModal = ({ isOpen, onClose, fetchRasporedi, raspored }) => {
                                         onChange={handleChange}
                                     />
                                 </td>
-                            </tr>
-                            <tr>
+                            
                                 <td><label>Вторник: </label></td>
                                 <td>
                                     <input
@@ -151,8 +151,7 @@ const RasporedModal = ({ isOpen, onClose, fetchRasporedi, raspored }) => {
                                         onChange={handleChange}
                                     />
                                 </td>
-                            </tr>
-                            <tr>
+                           
                                 <td><label>Четврток: </label></td>
                                 <td>
                                     <input
@@ -175,8 +174,7 @@ const RasporedModal = ({ isOpen, onClose, fetchRasporedi, raspored }) => {
                                         onChange={handleChange}
                                     />
                                 </td>
-                            </tr>
-                            <tr>
+                            
                                 <td><label>Сабота: </label></td>
                                 <td>
                                     <input
@@ -191,9 +189,9 @@ const RasporedModal = ({ isOpen, onClose, fetchRasporedi, raspored }) => {
 
                             <tr>
                                 <td><label>Работно време</label></td>
-                                <td>
+                                <td colSpan="3">
                                     <input
-                                        style={{width: 100 + "px", float: "right"}}
+                                        style={{width: 100 + "px", float: "left"}}
                                         type="time"
                                         name="RabotnoVreme"
                                         value={formData.RabotnoVreme || ""}
@@ -201,7 +199,7 @@ const RasporedModal = ({ isOpen, onClose, fetchRasporedi, raspored }) => {
                                     />
                                 </td>
                             </tr>
-                            <tr>
+                            <tr className="trDel">
                                 <td><label>Почеток на пауза:</label></td>
                                 <td>
                                     <input
@@ -212,8 +210,7 @@ const RasporedModal = ({ isOpen, onClose, fetchRasporedi, raspored }) => {
                                         onChange={handleChange}
                                     />
                                 </td>
-                            </tr>
-                            <tr>
+                           
                                 <td><label>Крај на пауза:</label></td>
                                 <td>
                                     <input
@@ -225,11 +222,11 @@ const RasporedModal = ({ isOpen, onClose, fetchRasporedi, raspored }) => {
                                     />
                                 </td>
                             </tr>
-                            <tr>
+                            <tr >
                                 <td><label>Време на пауза:</label></td>
-                                <td>
+                                <td colSpan="3">
                                     <input
-                                        style={{width: 100 + "px", float: "right"}}
+                                        style={{width: 100 + "px", float: "left"}}
                                         type="time"
                                         name="PauzaVreme"
                                         value={formData.PauzaVreme|| ""}

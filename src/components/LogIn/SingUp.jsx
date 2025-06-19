@@ -30,7 +30,7 @@ const SingUp = () => {
       prodolzi= response.data.prodolzi;
 
     }catch {
-      setError("Something went wrong. Please try again.");
+      setError("Ве молам обидете се повторно.");
     }
    if(!prodolzi){
     setFound(false);
@@ -50,7 +50,7 @@ const SingUp = () => {
         setError("CardID не е внесена во системот");
       }
     } catch {
-      setError("Something went wrong. Please try again.");
+      setError("Ве молам обидете се повторно.");
     }
   }
   

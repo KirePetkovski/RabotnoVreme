@@ -6,6 +6,7 @@ import { sektori_api, raspored_api, prisustvo_api, praznici_api, vraboteni_api, 
 const Izveshtai = () => {
   const [Zapisi, setZapisi] = useState([]);
   const [FiltriraniZapisi, setFiltriraniZapisi] = useState([]); // Vkupnite filtrirani zapisi
+  const [vraboteni, setVraboteni] = useState([])
   const [Sektori, setSektori] = useState([])
   const [showFilters, setShowFilters] = useState(true);
 
@@ -36,7 +37,7 @@ const Izveshtai = () => {
         //Vo bazata za Raspored nemam za Nedela pa aplikacijata nema da raboti u nedela
         const days = ["Ponedelnik", "Ponedelnik", "Vtornik", "Sreda", "Cetvrtok", "Petok", "Sabota"];
         const todayName = days[new Date().getDay()];
-
+        setVraboteni(vraboteniData);
         const merged = prisustvoData.map((p) => {
           const emp = vraboteniData.find((e) => e.CardID === p.CardID);
           if (!emp) {
@@ -125,35 +126,37 @@ const Izveshtai = () => {
 
 
     Zapisi.forEach((record) => {
-    
       if (filters.sektor) {
         if (parseInt(record.SektorID, 10) !== parseInt(filters.sektor, 10)) {
-          return; 
+          return;
         }
       }
-      if (
-        filters.vraboten &&
-        !record.CardID.includes(filters.vraboten)
-      ) {
-        return; 
+    
+      const vrabotenObj = vraboteni.find(v => String(v.CardID) === String(record.CardID));
+      const fullName = vrabotenObj?.ImePrezime || "";
+    
+      if (filters.vraboten && !fullName.toLowerCase().includes(filters.vraboten.toLowerCase())) {
+        return;
       }
+    
       const datePart = record.Vreme.split(" ")[0]; 
       if (datePart < filters.startDate || datePart > filters.endDate) {
         return;
       }
-
+    
       const id = record.CardID;
       const time = new Date(record.Vreme).toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit",
       });
-
+    
       if (!groupedData[id]) groupedData[id] = {};
       if (!groupedData[id][datePart]) groupedData[id][datePart] = {};
-      //console.log("TIPAKCIJA = >", record.TipAkcija);
+    
       groupedData[id][datePart][record.TipAkcija] = time;
     });
-
+    
+    
     setFiltriraniZapisi({ groupedData, dateList });
   };
 
@@ -385,7 +388,7 @@ return `${hours}:${minutes}`;
       <td colSpan="3">
         <input
           type="text"
-          name="employee"
+          name="vraboten"
           value={filters.vraboten}
           placeholder="Име на вработен"
           onChange={handleFilterChange} />
@@ -482,7 +485,7 @@ return `${hours}:${minutes}`;
 
                   return (
                     <tr key={`${pom}-${date}`}>
-                      {index === 0 && <td rowSpan={pomData.length}>{pom}</td>}
+                      {index === 0 && <td rowSpan={pomData.length}>{vraboteni.find((e) => String(e.CardID) === String(pom))?.ImePrezime || "Unknown"}</td>}
                       <td>{date}</td>
                       <td>{pomZapis[date]?.Vlez || "—"}</td>
                       {showBrakeOut && (

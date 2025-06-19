@@ -102,35 +102,35 @@ function Prisustva() {
 
 
 
-  const calculateStats = (data) => {
-    let BrojVraboteni = new Set();
-    let prisutniVraboteni = new Set();
-    let osutniVraboteni = new Set();
-    let pauzaVraboteni = new Set();
-    //let SluzbenoVraboteni = new Set();
+  // const calculateStats = (data) => {
+  //   let BrojVraboteni = new Set();
+  //   let prisutniVraboteni = new Set();
+  //   let osutniVraboteni = new Set();
+  //   let pauzaVraboteni = new Set();
+  //   //let SluzbenoVraboteni = new Set();
 
-    data.forEach(record => {
-      const { VrabotenID, TipAkcija } = record;
+  //   data.forEach(record => {
+  //     const { VrabotenID, TipAkcija } = record;
 
-      BrojVraboteni.add(VrabotenID);
-      if (TipAkcija === "Vlez") {
-        prisutniVraboteni.add(VrabotenID);
-      }
-      if (TipAkcija === "Privaten_Izlez" && !prisutniVraboteni.has(VrabotenID)) {
-        osutniVraboteni.add(VrabotenID);
-      }
-      if (TipAkcija === "Pauza_Izlez") {
-        pauzaVraboteni.add(VrabotenID);
-      }
-      // if (TipAkcija === "Sluzben_Izlez") {
-      //   SluzbenoVraboteni.add(VrabotenID);
-      // }
-    });
-    setVkupnoVraboteni(BrojVraboteni.size);
-    setPrisutni(prisutniVraboteni.size);
-    setOsutni(osutniVraboteni.size);
-    setPauza(pauzaVraboteni.size);
-  };
+  //     BrojVraboteni.add(VrabotenID);
+  //     if (TipAkcija === "Vlez") {
+  //       prisutniVraboteni.add(VrabotenID);
+  //     }
+  //     if (TipAkcija === "Privaten_Izlez" && !prisutniVraboteni.has(VrabotenID)) {
+  //       osutniVraboteni.add(VrabotenID);
+  //     }
+  //     if (TipAkcija === "Pauza_Izlez") {
+  //       pauzaVraboteni.add(VrabotenID);
+  //     }
+  //     // if (TipAkcija === "Sluzben_Izlez") {
+  //     //   SluzbenoVraboteni.add(VrabotenID);
+  //     // }
+  //   });
+  //   setVkupnoVraboteni(BrojVraboteni.size);
+  //   setPrisutni(prisutniVraboteni.size);
+  //   setOsutni(osutniVraboteni.size);
+  //   setPauza(pauzaVraboteni.size);
+  // };
 
 
 
@@ -142,7 +142,7 @@ function Prisustva() {
         <h1>Преглед на присутност</h1>
       </header>
 
-      {localStorage_Aktiven === "1" &&
+      {/* {localStorage_Aktiven === "1" &&
 
         <div className="stats-container">
           <div className="stat-card">
@@ -186,7 +186,7 @@ function Prisustva() {
             onChange={(e) => setPrebarajDatum(e.target.value)}
           />
         </div>
-      </div>
+      </div> */}
 
 
       <table className="main-table">
