@@ -17,7 +17,7 @@ const osustva = () => {
   const localStorage_CardID = localStorage.getItem("CardID");
 
 
-  console.log("localStorage_Aktiven", localStorage_Aktiven);
+  //console.log("localStorage_Aktiven", localStorage_Aktiven);
   useEffect(() => {
     fetchOsustva();
     fetchVraboteni();
@@ -42,6 +42,8 @@ const osustva = () => {
   };
 
   const updateStatus = async (id, status) => {
+    console.log("Status = ", status);
+    console.log("id = ", id)
     try {
       await axios.post(osustva_api, {
         action: "update",
@@ -79,7 +81,7 @@ const osustva = () => {
   };
 
   const OdgovorStatus = (status) => {
-    console.log("Status = ", status)
+    //console.log("Status = ", status)
     if (String(status) === "1"){
       return "Прифатено";
     } else {
@@ -124,8 +126,6 @@ const osustva = () => {
             </tr>
           </thead>
           <tbody>
-            {console.log("OSUSTVO",osustvo)}
-          {console.log("localStorage_CardID",localStorage_CardID)}
           {osustvo.length > 0 ? (
   osustvo
     .filter(osus => localStorage_Aktiven === "1" || String(osus.CardID) === String(localStorage_CardID))

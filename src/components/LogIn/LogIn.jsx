@@ -33,6 +33,7 @@ const Login = () => {
         localStorage.setItem('RasporedID', response.data.najaven.RasporedID);
         localStorage.setItem('CardID', response.data.najaven.CardID);
         localStorage.setItem('Aktiven', response.data.najaven.Aktiven);
+        localStorage.setItem('VrabotenID', response.data.najaven.VrabotenID);
       //  localStorage.setItem('user', JSON.stringify(response.data.najaven.ImePrezime)); 
         
         navigate('/home');

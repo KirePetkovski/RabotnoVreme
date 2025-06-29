@@ -11,6 +11,9 @@ function Prisustva() {
   const [prebarajIme, setPrebarajIme] = useState("");
   const [prebarajDatum, setPrebarajDatum] = useState("");
   const localStorage_Aktiven = localStorage.getItem("Aktiven");
+  const localStorage_CardID = localStorage.getItem("CardID");
+  const localStorage_ImePrezime = localStorage.getItem("ImePrezime");
+
 
 
   // Stats za momentalnata sostojba
@@ -68,7 +71,7 @@ function Prisustva() {
         datum.Vreme.startsWith(prebarajDatum)
       );
 
-      calculateStats(filtered);
+      //calculateStats(filtered);
       //console.log("filtered pred Prebaraj", filtered)
     }
 
@@ -176,6 +179,8 @@ function Prisustva() {
               onChange={(e) => setPrebarajIme(e.target.value)} />
           </div>
         }
+      </div>
+      */}
         <div className="date-range">
           <label htmlFor="date" className="date-label">Пребарај по датум </label>
           <input
@@ -186,7 +191,8 @@ function Prisustva() {
             onChange={(e) => setPrebarajDatum(e.target.value)}
           />
         </div>
-      </div> */}
+      <br/>
+      <br/>
 
 
       <table className="main-table">
@@ -212,22 +218,32 @@ function Prisustva() {
           </tr>
         </thead>
         <tbody>
-          {Object.values(
-            filteredPrisustva.reduce((acc, record) => {
-              //console.log("Vraboteni", vraboteni)
-              const vraboten = vraboteni.find(v => v.CardID === record.CardID);
-              const name = vraboten ? vraboten.ImePrezime : "Непознат";
+        {
+        
+        filteredPrisustva.length > 0 ? (
+        Object.values(
+    filteredPrisustva.reduce((acc, record) => {
+      if (String(localStorage_CardID) === String(record.CardID)) {
+        const vraboten = vraboteni.find(v => v.CardID === record.CardID);
+        const name = vraboten ? vraboten.ImePrezime : "Непознат";
 
-              if (!acc[name]) {
-                acc[name] = { ImePrezime: name };
-              }
+        if (!acc[name]) {
+          acc[name] = { ImePrezime: name };
+        }
 
-              acc[name][record.TipAkcija] = new Date(record.Vreme).toLocaleTimeString([], {
-                hour: '2-digit', minute: '2-digit', hour12: false
-              });
+        acc[name][record.TipAkcija] = new Date(record.Vreme).toLocaleTimeString([], {
+          hour: '2-digit', minute: '2-digit', hour12: false
+        });
+      }else{
+        const name = localStorage_ImePrezime ? localStorage_ImePrezime: "Непознат";
 
-              return acc;
-            }, {})
+        if (!acc[name]) {
+          acc[name] = { ImePrezime: name };
+        }
+      }
+
+      return acc; 
+    }, {})
           ).map((record, index) => (
             <tr key={index}>
               <td>{record.ImePrezime || ""}</td>
@@ -240,7 +256,11 @@ function Prisustva() {
               <td>{record.Privaten_Vlez || ""}</td>
               <td>{record.Izlez || ""}</td>
             </tr>
-          ))}
+          )) ) : (
+            <tr>
+                <td colSpan="9">Нема податоци</td>
+              </tr>
+          )}
 
         </tbody>
 

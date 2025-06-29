@@ -22,11 +22,12 @@ const HomePage = () => {
   const [PrekuvremeniNedela, setPrekuvremeniNedela] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-
   const days = ["Ponedelnik", "Vtornik", "Sreda", "Cetvrtok", "Petok", "Sabota", "Ponedelnik"];
   const utreshenDen = days[new Date().getDay()];
   const deneshenDen = new Date().toISOString().split("T")[0];
   const localStorage_ImePrezime = localStorage.getItem('ImePrezime');
+  const localStorage_Aktiven = localStorage.getItem("Aktiven");
+
 
 
   // const sektori_api = "https://rabotnovreme.infinityfreeapp.com/php/sektori.php";
@@ -105,7 +106,13 @@ const HomePage = () => {
       const sledenDenSloboden = najdiSledenDenZaOdmor(prazniciData);
       setDenSloboden(sledenDenSloboden);
       NedelniCasovi(prazniciData);
-      setIzvestuvanja([...izvestData].reverse());
+
+
+      const filteredIzvestuvanja = localStorage_Aktiven === "1"
+        ? [...izvestData] 
+        : izvestData.filter(i => String(i.CardID) === String(localStorage_CardID)); 
+
+      setIzvestuvanja(filteredIzvestuvanja.reverse());
 
 
       //console.log("RASPORED", pom_raspored);
@@ -390,12 +397,12 @@ const HomePage = () => {
         </div>
 
         <div className="stat-card">
-          <h2>Следен неработен ден</h2>
-          <p>
+          <h2>Следен не работен ден</h2>
+          <h2>
             {DenSloboden instanceof Date
               ? format(DenSloboden, 'eeee, d LLLL yyyy', { locale: mk })
               : DenSloboden}
-          </p>
+          </h2>
         </div>
 
 
@@ -407,9 +414,11 @@ const HomePage = () => {
       <div className="stat-card-big">
         <div className="header">
           <h1>Известувања</h1>
-          <button className="btn-add" onClick={() => { setIsModalOpen(true); }}>
-            Додај известување
-          </button>
+          {localStorage_Aktiven === "1" &&
+            <button className="btn-add" onClick={() => { setIsModalOpen(true); }}>
+              Додај известување
+            </button>
+          }
           <div className="Buttons-Izvestuvanja">
             <button
               onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}

@@ -25,7 +25,7 @@ const SidebarMenu = () => {
                 <a href="/#/home">
                     <li>Преглед</li>
                 </a>
-                {localStorage_Aktiven === "0" &&
+                {(localStorage_Aktiven === "0" || localStorage_Aktiven === "null") &&
                     <a href="/#/prisustva">
                         <li>Присуства</li>
                     </a>

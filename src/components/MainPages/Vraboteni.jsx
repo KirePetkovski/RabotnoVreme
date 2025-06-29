@@ -100,7 +100,7 @@ const Vraboteni = () => {
 
       <div className="stats-container">
         <div className="stat-card">
-          <h2>Вкупен број</h2>
+          <h2>Вкупен број на вработени</h2>
           <p>{vraboteni.length}</p>
         </div>
         <div className="stat-card">

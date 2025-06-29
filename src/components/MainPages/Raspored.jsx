@@ -9,6 +9,7 @@ const raspored = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [IzmeniRaspored, setIzmeniRaspored] = useState(null);
   const [rasporedi, setRasporedi] = useState([]);
+  
 
   //const raspored_api = "https://rabotnovreme.infinityfreeapp.com/php/raspored.php";
 
@@ -32,6 +33,7 @@ const raspored = () => {
 
  const deleteRaspored = async (id) => {
   if (!window.confirm("Дали сте сигурни дека сакате да го избришете овој распоред?")) return;
+  console.log(id);
     
   try {
     await axios.post(raspored_api, {

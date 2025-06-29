@@ -105,7 +105,7 @@ const Kontroleri = () => {
     textAlign: "center",
     fontWeight: "bold",
   }}>
-  {kontroler.Aktiven ? "Активен" : "Неактивен"}
+  {kontroler.Aktiven ? "Активен" : "Не активен"}
 </td>
 
                  {/* <td>

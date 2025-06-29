@@ -35,13 +35,22 @@ const OsustvaModal = ({ isOpen, onClose, fetchOsustva, osustva }) => {
     e.preventDefault();
     
     try {
+      console.log("VrabotenID",VrabotenID);
+      console.log("CardID",CardID);
       const response = await axios.post(
         osustva_api,
-        { OdDen, DoDen, Pricina, VrabotenID, CardID},
-        { headers: { "Content-Type": "application/json" } }
-      );
+        {
+          action: "create",
+          OdDen: OdDen,
+          DoDen: DoDen,
+          Pricina: Pricina,
+          VrabotenID: VrabotenID,
+          CardID: CardID
+        }, {
+          headers: { "Content-Type": "application/json" }
+        });
 
-      console.log(response.data);
+      //console.log(response.data);
       fetchOsustva();
       onClose(); 
     } catch (error) {
