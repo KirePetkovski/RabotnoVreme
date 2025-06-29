@@ -38,7 +38,7 @@ if ($method === "POST") {
             $hashedPassword = password_hash($data["Lozinka"], PASSWORD_DEFAULT);
             $stmt->execute([$hashedPassword, $data["VrabotenID"]]);
             
-            echo json_encode(["message" => "Kontroler updated successfully"]);
+            echo json_encode(["message" => "Корисникот е додаден"]);
 
         }catch (PDOException $e) {
             echo json_encode(["error" => $e->getMessage()]);

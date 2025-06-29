@@ -17,7 +17,7 @@ if ($method === "POST") {
         $stmt = $conn->prepare("UPDATE kontroleri SET Aktiven = 1, Azuriran = NOW() WHERE IPAdress = ?");
         $stmt->execute([$data["IPAddress"]]);
 
-        echo json_encode(["message" => "Kontrolerot e aktiven"]);
+        echo json_encode(["message" => "Контролерот е активен"]);
     } else {
         echo json_encode(["error" => "Missing IPAddress"]);
     }

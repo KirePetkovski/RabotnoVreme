@@ -29,7 +29,7 @@ if ($method === "GET"){
             $data = json_decode(file_get_contents("php://input"), true);
         
             if (!$data || !isset($data['action'])) {
-                echo json_encode(["error" => "No data or action provided"]);
+                echo json_encode(["error" => "Не се најдени податоци"]);
                 exit;
             }
         
@@ -51,9 +51,9 @@ if ($method === "GET"){
             $data['PauzaKraj'],
             $data['PauzaVreme']
         ]);
-        echo json_encode(["message" => "Record created successfully"]);
+        echo json_encode(["message" => "Рапоредот е додаден"]);
     } catch (PDOException $e) {
-        http_response_code(500); // let the browser know it's a server error
+        http_response_code(500); 
         echo json_encode(["error" => $e->getMessage()]);
     }
     break;
@@ -79,18 +79,18 @@ if ($method === "GET"){
                         $data['PauzaVreme'],
                         $data['RasporedID']
                     ]);
-                    echo json_encode(["message" => "Record updated successfully"]);
+                    echo json_encode(["message" => "Распоредот е ажуриран"]);
                     break;
         
                 case "delete":
-                    if (!isset($data['id'])) {
+                    if (!isset($data['RasporedID'])) {
                         echo json_encode(["error" => "ID is required for deletion"]);
                         exit;
                     }
-                    $id = intval($data['id']);
+                    $id = intval($data['RasporedID']);
                     $stmt = $conn->prepare("DELETE FROM raspored WHERE RasporedID = ?");
                     $stmt->execute([$id]);
-                    echo json_encode(["message" => "Record deleted successfully"]);
+                    echo json_encode(["message" => "Распоредот е остранет"]);
                     break;
         
                 default:

@@ -28,7 +28,7 @@ if ($method === "POST") {
             try {
                 $stmt = $conn->prepare("INSERT INTO kontroleri (IPAdress, Aktiven) VALUES (?, ?)");
                 $stmt->execute([$data["IPAdress"], $data["Aktiven"]]);
-                echo json_encode(["message" => "Kontroler added successfully"]);
+                echo json_encode(["message" => "Контролероте додаден"]);
             } catch (PDOException $e) {
                 echo json_encode(["error" => $e->getMessage()]);
             }

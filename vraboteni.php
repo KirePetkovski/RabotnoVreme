@@ -46,7 +46,7 @@ if ($method === "POST") {
         http_response_code(500); // let the browser know it's a server error
         echo json_encode(["error" => $e->getMessage()]);
     }
-            echo json_encode(["message" => "Employee added successfully"]);
+            echo json_encode(["message" => "Вработениот е додаден"]);
             break;
 
         case "update":
@@ -54,7 +54,7 @@ if ($method === "POST") {
                 $sql = "UPDATE vraboteni SET Aktiven = ? WHERE VrabotenID = ?";
                 $stmt = $conn->prepare($sql);
                 $stmt->execute([$input["Aktiven"], $input["VrabotenID"]]);
-                echo json_encode(["message" => "Employee status updated successfully"]);
+                echo json_encode(["message" => "Вработениот е ажуриран"]);
                 break;
             }
 
@@ -68,7 +68,7 @@ if ($method === "POST") {
                 $input['SektorID'],
                 $input["VrabotenID"]
             ]);
-            echo json_encode(["message" => "Employee updated successfully"]);
+            echo json_encode(["message" => "Вработениот е ажуриран"]);
             break;
 
         case "delete":
@@ -79,7 +79,7 @@ if ($method === "POST") {
             $id = intval($input["VrabotenID"]);
             $stmt = $conn->prepare("DELETE FROM vraboteni WHERE VrabotenID = ?");
             $stmt->execute([$id]);
-            echo json_encode(["message" => "Employee deleted successfully"]);
+            echo json_encode(["message" => "Вработениот е избришен"]);
             break;
 
         default:

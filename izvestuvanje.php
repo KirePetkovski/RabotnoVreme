@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $data["PratenoOd"]
     ]);
 
-    echo json_encode(["message" => "Notification added successfully"]);
+    echo json_encode(["message" => "Известувањето е додадено"]);
 
     $Sodrzina = isset($data["Sodrzina"]) ? $data["Sodrzina"] : null;
     $PratenoOd = isset($data["PratenoOd"]) ? $data["PratenoOd"] : null;

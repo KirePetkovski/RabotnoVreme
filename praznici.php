@@ -27,7 +27,7 @@ if ($method === "POST") {
     try {
         $stmt = $conn->prepare("INSERT INTO praznici (PraznikIme, Datum, TipPraznik) VALUES (?, ?, ?)");
         $stmt->execute([$data["PraznikIme"], $data["Datum"], $data["TipPraznik"]]);
-        echo json_encode(["message" => "Praznik added successfully"]);
+        echo json_encode(["message" => "Празникот е додаден"]);
     } catch (PDOException $e) {
         echo json_encode(["error" => $e->getMessage()]);
     }

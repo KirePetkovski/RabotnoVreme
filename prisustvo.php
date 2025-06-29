@@ -55,22 +55,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $tipAkcija = $data["TipAkcija"];
 
     if ($tipAkcija === "Vlez") {
-        // Determine the last exit action from the database
         $stmt = $conn->prepare("SELECT TipAkcija FROM prisustvo WHERE CardID = ? ORDER BY Vreme DESC LIMIT 1");
         $stmt->execute([$cardID]);
         $lastAction = $stmt->fetchColumn();
 
         if ($lastAction && str_ends_with($lastAction, "_Izlez")) {
-            // Convert the exit action to the corresponding Vlez
-            $tipAkcija = str_replace("_Izlez", "_Vlez", $lastAction);
+            $tipAkcija = str_replace("Izlez", "Vlez", $lastAction);
         } else {
-            // Default to generic Vlez if no previous exit found
             $tipAkcija = "Vlez";
         }
     }
 
     if ($tipAkcija === "Auto") {
-        // Get the last action from TODAY (using CURDATE())
         $stmt = $conn->prepare("
             SELECT TipAkcija 
             FROM prisustvo 
@@ -81,19 +77,27 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $stmt->execute([$cardID]);
         $lastAction = $stmt->fetchColumn();
     
-        if (!$lastAction || str_ends_with($lastAction, "Izlez")) {
-            // No action yet today or last action was Izlez
+        if (!$lastAction) {
             $tipAkcija = "Vlez";
         } else {
-            // Last action was Vlez
-            $tipAkcija = "Izlez";
+            // Split prefix (e.g., "Sluzben") and type ("Izlez" or "Vlez")
+            if (str_ends_with($lastAction, "_Izlez")) {
+                $tipAkcija = str_replace("_Izlez", "_Vlez", $lastAction);
+            } else if (str_ends_with($lastAction, "_Vlez")) {
+                $tipAkcija = str_replace("_Vlez", "_Izlez", $lastAction);
+            } else if ($lastAction === "Izlez") {
+                $tipAkcija = "Vlez";
+            } else if ($lastAction === "Vlez") {
+                $tipAkcija = "Izlez";
+            } else {
+                // fallback if unrecognized
+                $tipAkcija = "Vlez";
+            }
         }
     }
     
-    // Now get the current timestamp
+    
     $vreme = date("Y-m-d H:i:s");
-
-    // Insert the record
     $stmt = $conn->prepare("INSERT INTO prisustvo (CardID, Vreme, TipAkcija) VALUES (?, ?, ?)");
     $stmt->execute([$cardID, $vreme, $tipAkcija]);
 

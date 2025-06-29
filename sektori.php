@@ -38,7 +38,7 @@ if ($method === "POST") {
             }
             $stmt = $conn->prepare("INSERT INTO sektori (SektorIme, Opis) VALUES (?, ?)");
             $stmt->execute([$data["SektorIme"], $data["Opis"] ?? null]);
-            echo json_encode(["message" => "Department added successfully"]);
+            echo json_encode(["message" => "Секторот е додаден"]);
             break;
 
         case "update":
@@ -48,7 +48,7 @@ if ($method === "POST") {
             }
             $stmt = $conn->prepare("UPDATE sektori SET SektorIme = ?, Opis = ? WHERE SektorID = ?");
             $stmt->execute([$data["SektorIme"], $data["Opis"] ?? null, $data["SektorID"]]);
-            echo json_encode(["message" => "Department updated successfully"]);
+            echo json_encode(["message" => "Секторот е ажуриран"]);
             break;
 
         case "delete":
@@ -58,7 +58,7 @@ if ($method === "POST") {
             }
             $stmt = $conn->prepare("DELETE FROM sektori WHERE SektorID = ?");
             $stmt->execute([$data["SektorID"]]);
-            echo json_encode(["message" => "Department deleted successfully"]);
+            echo json_encode(["message" => "Секторот е остранет"]);
             break;
 
         default:

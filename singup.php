@@ -48,7 +48,7 @@ if ($method === "POST") {
             $input['CardID']
         ]);
 
-        echo json_encode(["success" => true, "message" => "User added successfully"]);
+        echo json_encode(["success" => true, "message" => "Успешна регистрација"]);
     } catch (PDOException $e) {
         echo json_encode(["success" => false, "message" => $e->getMessage()]);
     }

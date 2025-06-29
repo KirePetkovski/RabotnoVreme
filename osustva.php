@@ -18,9 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 
-switch ($method) {
 
-    case 'GET':
+    if ($method === "GET"){
         if (isset($_GET['id'])) {
             $stmt = $conn->prepare("SELECT * FROM osustvo WHERE OsustvoID = ?");
             $stmt->execute([$_GET['id']]);
@@ -29,62 +28,61 @@ switch ($method) {
             $stmt = $conn->query("SELECT * FROM osustvo");
             echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
         }
-        break;
+    }
 
-    case 'POST':
-        $data = json_decode(file_get_contents("php://input"), true);
-
-        if (isset($data['action']) && $data['action'] === 'update') {
-            // update (replaces PUT)
-            $stmt = $conn->prepare("UPDATE osustvo SET Status = ? WHERE OsustvoID = ?");
-            $stmt->execute([$data['Status'], $data['OsustvoID']]);
-            echo json_encode(["message" => "Статусот е ажуриран."]);
-        } elseif (isset($data['action']) && $data['action'] === 'delete') {
-            // delete (replaces DELETE)
-            $stmt = $conn->prepare("DELETE FROM osustvo WHERE OsustvoID = ?");
-            $stmt->execute([$data['OsustvoID']]);
-            echo json_encode(['message' => 'Deleted successfully']);
-        } else {
-            //Normalen Put 
-            $stmt = $conn->prepare("INSERT INTO osustvo (OdDen, DoDen, Pricina, VrabotenID) VALUES (?, ?, ?, ?)");
-            $stmt->execute([
-                $data['OdDen'],
-                $data['DoDen'],
-                $data['Pricina'],
-                $data['VrabotenID'],
-            ]);
-            echo json_encode(['message' => 'Created successfully']);
+    if ($method === "POST"){
+            $data = json_decode(file_get_contents("php://input"), true);
+        
+            if (!isset($data['action'])) {
+                echo json_encode(['error' => 'Недостасува action параметар.']);
+                http_response_code(400);
+                
+            }
+        
+            if ($data['action'] === "update") {
+                if (!isset($data['Status'], $data['OsustvoID'])) {
+                    echo json_encode(['error' => 'Недостасуваат полиња за ажурирање.']);
+                    http_response_code(400);
+                
+                }
+        
+                $stmt = $conn->prepare("UPDATE osustvo SET Status = ? WHERE OsustvoID = ?");
+                $stmt->execute([$data['Status'], $data['OsustvoID']]);
+                echo json_encode(["message" => "Статусот е ажуриран."]);
+            
+            } 
+            if ($data['action'] === 'delete') {
+                // if (!isset($data['OsustvoID'])) {
+                //     echo json_encode(['error' => 'Недостасува OsustvoID за бришење.']);
+                //     http_response_code(400);
+                //     break;
+                // }
+        
+                $stmt = $conn->prepare("DELETE FROM osustvo WHERE OsustvoID = ?");
+                $stmt->execute([$data['OsustvoID']]);
+                echo json_encode(['message' => 'Осуството е успешно избришано.']);
+        
+            } 
+            if ($data['action'] === 'create') {
+                // if (!isset($data['OdDen'], $data['DoDen'], $data['Pricina'], $data['VrabotenID'], $data['CardID'])) {
+                //     echo json_encode(['error' => 'Недостасуваат полиња за креирање.']);
+                //     http_response_code(400);
+                //     break;
+                // }
+        
+                $stmt = $conn->prepare("INSERT INTO osustvo (OdDen, DoDen, Pricina, VrabotenID, CardID) VALUES (?, ?, ?, ?, ?)");
+                $stmt->execute([
+                    $data['OdDen'],
+                    $data['DoDen'],
+                    $data['Pricina'],
+                    $data['VrabotenID'],
+                    $data['CardID'],
+                ]);
+                http_response_code(201);
+                echo json_encode(['message' => 'Осуството е додадено.']);
+            } 
         }
-        break;
-
-    // case 'PUT':
-    //     $data = json_decode(file_get_contents("php://input"), true);
     
-    //     $stmt = $conn->prepare("UPDATE osustvo SET Status = ? WHERE OsustvoID=?");
-    //     $stmt->execute([$data["Status"], $data["OsustvoID"]]);
-    
-    //     if ($stmt->execute()) {
-    //         echo json_encode(["message" => "Статусот е ажуриран."]);
-    //     } else {
-    //         http_response_code(500);
-    //         echo json_encode(["message" => "Грешка при ажурирање."]);
-    //     }
-    //     break;
-
-    // case 'DELETE':
-    //     if (!isset($_GET["id"])) {
-    //         echo json_encode(["error" => "Missing SektorID"]);
-    //         exit;
-    //     }
-    //     $id = intval($_GET["id"]);
-    //     $stmt = $conn->prepare("DELETE FROM osustvo WHERE OsustvoID = ?");
-    //     $stmt->execute([$data['id']]);
-    //     echo json_encode(['message' => 'Deleted successfully']);
-    //     break;
-
-    default:
-        echo json_encode(['error' => 'Method not allowed']);
-        break;
-}
+        
 
 ?>
